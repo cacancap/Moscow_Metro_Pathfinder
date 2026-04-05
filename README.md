@@ -4,7 +4,7 @@
 git clone https://github.com/cacancap/Moscow_Metro_Pathfinder.git  
 cd Moscow_Metro_Pathfinder
 
-**Bước 2:** Tạo và kích hoạt môi trường ảo
+**Bước 2:** Tạo và kích hoạt môi trường ảo  
 Mở Terminal trong thư mục dự án  
 python -m venv venv  
 venv\Scripts\activate   # (Dùng source venv/Scripts/activate nếu dùng Git Bash)
