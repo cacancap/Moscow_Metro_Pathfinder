@@ -1,3 +1,11 @@
 - Giải thích hàm clean_geojson_data (phân tích file data từ OSM và làm sạch):
     + Đối với các Points: thuần cắt gọt dữ liệu
     + Đối với các ways: duyệt từng đoạn trong linestring và tạo cạnh
+
+
+- File clean_geojson_data02:
+
+    + Duyệt các points (nodes) để tạo danh sách ga trước
+    # Lưu ý: có vẻ như toạ độ của ga không nằm trùng khớp với bất kỳ toạ độ nào trên geometry của way.
+    + Duyệt các ways: qua từng geometry, gọi find_nearest_point để tìm ga gần nhất => Tạo cạnh nếu phát hiện các cặp ga liền kề.
+    + phân cụm trung chuyển: duyệt O(n^2) qua toàn bộ khoảng cách giữa các ga => Tạo cạnh đi bộ (transfer) nếu distance < 200m.
