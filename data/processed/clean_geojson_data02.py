@@ -205,7 +205,7 @@ if __name__ == "__main__":
         print(f"\n=== BẢNG 2: ĐOẠN ĐƯỜNG RAY & ĐI BỘ ===")
         print(f"Tổng số Cạnh: {len(edges_table)} (Bao gồm {transfer_count} lối đi bộ chuyển tuyến)")
         
-        output_path = os.path.normpath(os.path.join(current_dir, 'clean_graph.json'))
+        output_path = os.path.normpath(os.path.join(current_dir, 'clean_graph02.json'))
         with open(output_path, 'w', encoding='utf-8') as outfile:
             json.dump({'nodes': nodes_table, 'edges': edges_table}, outfile, ensure_ascii=False, indent=2)
             
