@@ -1,6 +1,6 @@
 import json
 import math
-from haversine import calculate_haversine_distance
+from data.processed.programs.haversine import calculate_haversine_distance
 
 def cluster_transfer_stations(graph_data, max_transfer_distance=200):
     vertices = graph_data['vertices']
