@@ -3,7 +3,6 @@ import os
 from haversine import calculate_haversine_distance
 from transferstation_clustering import cluster_transfer_stations
 
-test_nodes = []
 test_nodeId = 6937381514
 
 def clean_geojson_data(filepath):
@@ -59,7 +58,6 @@ def clean_geojson_data(filepath):
                 # tạo đỉnh tạm để giữ liên kết mảng
                 if u_id not in vertices:
                     vertices[u_id] = {'lon': u_lon, 'lat': u_lat, 'name': 'Shape Point', 'station': 'no'}
-                    test_nodes.append(u_id)
                 
                 if v_id not in vertices:
                     vertices[v_id] = {'lon': v_lon, 'lat': v_lat, 'name': 'Shape Point', 'station': 'no'}
@@ -76,12 +74,15 @@ def clean_geojson_data(filepath):
                 if cleaned_tags.get('oneway') != 'yes':
                     edges.append({'source': v_id, 'target': u_id, 'attributes': edge_attributes})
 
+            
     return vertices, edges
+
 
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    raw_data_path = os.path.normpath(os.path.join(current_dir, '..', 'raw', 'subway_nodes-edges.geojson'))
+    # FIX: từ programs/ lên 2 cấp (processed/ -> data/) rồi vào raw/
+    raw_data_path = os.path.normpath(os.path.join(current_dir, '..', '..', 'raw', 'subway_nodes-edges.geojson'))
     
     print(f"Đang đọc dữ liệu từ: {raw_data_path}")
     
@@ -99,8 +100,8 @@ if __name__ == "__main__":
         print(f"Tổng số Cạnh (Đoạn đường ray + Lối đi bộ): {len(final_graph['edges'])}")
         print(f"Số lượng Cạnh chuyển tuyến (Đi bộ) được thêm vào: {transfer_count}")
 
-        # 4. LƯU ĐÚNG FINAL_GRAPH VÀO FILE
-        output_path = os.path.normpath(os.path.join(current_dir, 'clean_graph.json'))
+        # 4. FIX: Lưu vào thư mục outputs/ thay vì cạnh file
+        output_path = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'clean_graph.json'))
         with open(output_path, 'w', encoding='utf-8') as outfile:
             json.dump(final_graph, outfile, ensure_ascii=False, indent=2)
             
@@ -109,6 +110,5 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print(f"\nLỖI: Không tìm thấy file. Vui lòng kiểm tra lại file tại {raw_data_path}")
     
-    print("Số lượng nodes ga không nằm trên đường: ", len(test_nodes))
-    for i in range(5):
-        print(test_nodes[i])
+    # FIX: Biến test_nodes không tồn tại, đã comment lại
+    # print("Số lượng nodes ga nằm trên đường: ", len(test_nodes))

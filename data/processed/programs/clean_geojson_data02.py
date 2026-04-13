@@ -193,8 +193,9 @@ def clean_geojson_data(filepath, relation_filepath):
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    raw_data_path = os.path.normpath(os.path.join(current_dir, '..', 'raw', 'subway_nodes-edges.geojson'))
-    relation_data_path = os.path.normpath(os.path.join(current_dir, '..', 'raw', 'subway_relations.json'))
+    # FIX: từ programs/ lên 2 cấp (processed/ -> data/) rồi vào raw/
+    raw_data_path = os.path.normpath(os.path.join(current_dir, '..', '..', 'raw', 'subway_nodes-edges.geojson'))
+    relation_data_path = os.path.normpath(os.path.join(current_dir, '..', '..', 'raw', 'subway_relations.json'))
     
     try:
         nodes_table, edges_table, transfer_count = clean_geojson_data(raw_data_path, relation_data_path)
@@ -205,7 +206,8 @@ if __name__ == "__main__":
         print(f"\n=== BẢNG 2: ĐOẠN ĐƯỜNG RAY & ĐI BỘ ===")
         print(f"Tổng số Cạnh: {len(edges_table)} (Bao gồm {transfer_count} lối đi bộ chuyển tuyến)")
         
-        output_path = os.path.normpath(os.path.join(current_dir, 'clean_graph02.json'))
+        # FIX: Lưu vào thư mục outputs/ thay vì cạnh file
+        output_path = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'clean_graph02.json'))
         with open(output_path, 'w', encoding='utf-8') as outfile:
             json.dump({'nodes': nodes_table, 'edges': edges_table}, outfile, ensure_ascii=False, indent=2)
             

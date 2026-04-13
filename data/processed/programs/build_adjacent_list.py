@@ -52,8 +52,9 @@ def build_adjacency_map(graph_filepath):
 
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    input_path = os.path.normpath(os.path.join(current_dir, 'clean_graph02.json'))
-    output_path = os.path.normpath(os.path.join(current_dir, 'adjacency_list.json'))
+    # FIX: đọc và ghi vào thư mục outputs/ thay vì cạnh file
+    input_path = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'clean_graph02.json'))
+    output_path = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'adjacency_list.json'))
     
     print(f"Đang tiến hành đọc dữ liệu từ: {input_path}")
     
