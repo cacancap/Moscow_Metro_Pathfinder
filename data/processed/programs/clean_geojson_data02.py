@@ -1,3 +1,4 @@
+from pathlib import Path
 import json
 import os
 from haversine import calculate_haversine_distance
@@ -5,6 +6,16 @@ from haversine import calculate_haversine_distance
 # ==========================================
 # CÁC HÀM PHỤ TRỢ (HELPERS)
 # ==========================================
+current_file = Path(__file__).resolve()
+# thư mục chứa file (processed)
+current_dir = current_file.parent
+project_root = current_dir.parent.parent.parent
+output_dir = project_root / "data" / "processed" / "outputs"
+output_way_line_path = os.path.join(output_dir, "way_to_line.json")
+relation_kh_path = project_root / "data" / "raw" / "subway_relation_kh.json"
+
+test_edge = []
+sus_edges = []
 def load_way_lines(relation_filepath):
     """Ánh xạ Way ID sang Line ID từ OSM Relations"""
     way_to_line = {}
@@ -19,21 +30,53 @@ def load_way_lines(relation_filepath):
     for el in elements:
         if el.get('type') == 'relation' and el.get('tags', {}).get('route') == 'subway':
             tags = el.get('tags', {})
-            line_id = tags.get('ref', tags.get('name:en', tags.get('name', 'Unknown')))
+            line_id = tags.get('ref')
             for member in el.get('members', []):
                 if member.get('type') == 'way':
                     way_to_line[str(member.get('ref'))] = line_id
+    
+    with open(output_way_line_path, 'w', encoding='utf-8') as f:
+        json.dump(way_to_line, f, ensure_ascii=False, indent=2)
+    print(f"Exported to {output_way_line_path}")
+    
     return way_to_line
 
-def find_nearest_station(lon, lat, stations_list, max_distance=80):
-    """Tìm nhà ga gần nhất trong bán kính quy định (Snapping)"""
+# [HÀM MỚI ĐƯỢC THÊM VÀO THEO Ý TƯỞNG CỦA BẠN]
+def assign_lines_to_stations_spatially(nodes_table, features, way_lines_mapping):
+    """Quét toàn bộ đường ray để tìm điểm gần nhất cho từng ga -> Gán line_id"""
+    for station in nodes_table:
+        min_dist = float('inf')
+        closest_line_id = "unknown"
+        
+        for feature in features:
+            if feature.get('geometry', {}).get('type') == 'LineString':
+                raw_way_id = feature.get('id', '')
+                osm_way_id = raw_way_id.split('/')[-1] if '/' in raw_way_id else raw_way_id
+                props = feature.get('properties', {})
+                line_id = way_lines_mapping.get(osm_way_id, props.get('ref', props.get('name', 'unknown')))
+                
+                # Tìm khoảng cách từ ga tới từng điểm trên đường ray
+                for lon, lat in feature.get('geometry').get('coordinates'):
+                    dist = calculate_haversine_distance(lon, lat, station['lon'], station['lat'])
+                    if dist < min_dist:
+                        min_dist = dist
+                        closest_line_id = line_id
+                        
+        station['line_id'] = closest_line_id
+
+
+# [ĐÃ SỬA LẠI HÀM NÀY: Thêm điều kiện track_line_id]
+def find_nearest_station(lon, lat, stations_list, track_line_id, max_distance=200):
+    """Tìm nhà ga gần nhất CÙNG TUYẾN trong bán kính quy định (Tăng lên 200m)"""
     nearest = None
     min_dist = max_distance
     for st in stations_list:
-        dist = calculate_haversine_distance(lon, lat, st['lon'], st['lat'])
-        if dist < min_dist:
-            min_dist = dist
-            nearest = st
+        # BẮT BUỘC: Ga phải có line_id trùng với đường ray đang quét
+        if st.get('line_id') == track_line_id:
+            dist = calculate_haversine_distance(lon, lat, st['lon'], st['lat'])
+            if dist < min_dist:
+                min_dist = dist
+                nearest = st
     return nearest
 
 # ==========================================
@@ -50,13 +93,11 @@ def clean_geojson_data(filepath, relation_filepath):
     # === BẢNG 1: NODES (DANH SÁCH GA) ===
     nodes_table = []   
 
-    # VÒNG 1: QUÉT GA TÀU
     for feature in features:
         if feature.get('geometry', {}).get('type') == 'Point':
             props = feature.get('properties', {})
             if props.get('station') == 'subway' or props.get('railway') == 'station':
                 lon, lat = feature.get('geometry').get('coordinates')
-                
                 raw_id = feature.get('id', '')
                 node_id = raw_id.split('/')[-1] if '/' in raw_id else raw_id
 
@@ -68,11 +109,14 @@ def clean_geojson_data(filepath, relation_filepath):
                     'is_active': True
                 })
 
+    # [GỌI HÀM MỚI Ở ĐÂY: Gán line_id cho tất cả các Ga trước khi trượt đường ray]
+    assign_lines_to_stations_spatially(nodes_table, features, way_lines_mapping)
+
+
     # === BẢNG 2: EDGES (CẠNH NỐI GA-GA) ===
     edges_table = []
     edge_counter = 1
 
-    # VÒNG 2: TRƯỢT DỌC ĐƯỜNG RAY (SỬ DỤNG SNAPPING)
     for feature in features:
         if feature.get('geometry', {}).get('type') == 'LineString':
             coords = feature.get('geometry', {}).get('coordinates')
@@ -86,31 +130,32 @@ def clean_geojson_data(filepath, relation_filepath):
             current_geometry = []
             current_distance = 0.0
 
+            station_in_way = 0
             for i in range(len(coords)):
                 lon, lat = coords[i]
                 
-                # Tích lũy hình học và khoảng cách
                 current_geometry.append([lon, lat])
                 if i > 0:
                     prev_lon, prev_lat = coords[i-1]
                     current_distance += calculate_haversine_distance(prev_lon, prev_lat, lon, lat)
 
-                # BẮT ĐIỂM: Tìm ga trong bán kính 80m
-                this_station = find_nearest_station(lon, lat, nodes_table, max_distance=80)
+                # [ĐÃ SỬA] BẮT ĐIỂM: Truyền thêm line_id và tăng max_distance lên 200m
+                this_station = find_nearest_station(lon, lat, nodes_table, line_id, max_distance=200)
 
                 if this_station is not None:
+        
                     if current_start_station is None:
-                        # Lần đầu tiên đường ray này chạm vào một nhà ga
                         current_start_station = this_station
-                        current_geometry = [[lon, lat]]  # Reset để chuẩn bị vẽ đoạn tiếp theo
+                        current_geometry = [[lon, lat]]  
                         current_distance = 0.0
                     
                     elif current_start_station['node_id'] != this_station['node_id']:
-                        # Đường ray đã chạm đến nhà ga tiếp theo -> Chốt cạnh!
-                        weight_seconds = int(current_distance / 11.11) # Vận tốc ~40km/h
+                        station_in_way += 1
+                        test_edge.append(osm_way_id)
+                        weight = current_distance 
 
                         base_edge = {
-                            'weight': weight_seconds,
+                            'weight': weight,
                             'edge_type': 'rail',
                             'line_id': line_id,
                             'status': 'open'
@@ -126,7 +171,7 @@ def clean_geojson_data(filepath, relation_filepath):
                         })
                         edge_counter += 1
 
-                        # Chiều về (Ép buộc 2 chiều theo chiến lược mới)
+                        # Chiều về
                         edges_table.append({
                             'edge_id': f"e_{edge_counter}",
                             'source_node': this_station['node_id'],
@@ -136,20 +181,15 @@ def clean_geojson_data(filepath, relation_filepath):
                         })
                         edge_counter += 1
 
-                        # Chốt ga hiện tại làm điểm khởi hành cho chặng kế tiếp
                         current_start_station = this_station
                         current_geometry = [[lon, lat]]
                         current_distance = 0.0
-                    else:
-                        # Điểm này vẫn đang nằm quanh quẩn ở ga xuất phát, 
-                        # bỏ qua để hình học tiếp tục được tích lũy
-                        pass
+            if (station_in_way <= 1):
+                sus_edges.append(osm_way_id)
 
-    # ==========================================
-    # BƯỚC 3: CLUSTERING (TRANSFER EDGES)
-    # ==========================================
-    WALKING_SPEED_MPS = 1.4  
-    TRANSFER_PENALTY_SEC = 300 
+
+    # === BƯỚC 3: CLUSTERING (TRANSFER EDGES) ===
+    TRANSFER_PENALTY_DIST = 500 
     MAX_TRANSFER_DIST = 200 
 
     transfer_count = 0
@@ -158,13 +198,17 @@ def clean_geojson_data(filepath, relation_filepath):
             node_A = nodes_table[i]
             node_B = nodes_table[j]
             
+            # [ĐÃ THÊM LƯỚI BẢO VỆ] Tránh tạo đường đi bộ giữa 2 ga trên cùng 1 tuyến
+            if node_A.get('line_id') == node_B.get('line_id'):
+                continue
+                
             dist = calculate_haversine_distance(node_A['lon'], node_A['lat'], node_B['lon'], node_B['lat'])
             
             if 0 < dist <= MAX_TRANSFER_DIST:
-                weight_seconds = int((dist / WALKING_SPEED_MPS) + TRANSFER_PENALTY_SEC)
+                weight = dist + TRANSFER_PENALTY_DIST
                 
                 transfer_base = {
-                    'weight': weight_seconds,
+                    'weight': weight,
                     'edge_type': 'transfer',
                     'line_id': 'walk',
                     'status': 'open'
@@ -191,22 +235,30 @@ def clean_geojson_data(filepath, relation_filepath):
 
     return nodes_table, edges_table, transfer_count
 
+
+
 if __name__ == "__main__":
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    # FIX: từ programs/ lên 2 cấp (processed/ -> data/) rồi vào raw/
     raw_data_path = os.path.normpath(os.path.join(current_dir, '..', '..', 'raw', 'subway_nodes-edges.geojson'))
     relation_data_path = os.path.normpath(os.path.join(current_dir, '..', '..', 'raw', 'subway_relations.json'))
+    
     
     try:
         nodes_table, edges_table, transfer_count = clean_geojson_data(raw_data_path, relation_data_path)
         
+        isolated_edges = ['110887910', '133636829', '27339586', '27807410', '191476959']
+        for edge_id in isolated_edges:
+            if edge_id in sus_edges:
+                print(edge_id, ": yes")        
+        
+        print(f"way with <= 1 stations: ", len(sus_edges))
+        print(sus_edges[:10])
         print(f"=== BẢNG 1: GA TÀU ===")
         print(f"Tổng số Ga: {len(nodes_table)}")
         
         print(f"\n=== BẢNG 2: ĐOẠN ĐƯỜNG RAY & ĐI BỘ ===")
         print(f"Tổng số Cạnh: {len(edges_table)} (Bao gồm {transfer_count} lối đi bộ chuyển tuyến)")
         
-        # FIX: Lưu vào thư mục outputs/ thay vì cạnh file
         output_path = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'clean_graph02.json'))
         with open(output_path, 'w', encoding='utf-8') as outfile:
             json.dump({'nodes': nodes_table, 'edges': edges_table}, outfile, ensure_ascii=False, indent=2)
