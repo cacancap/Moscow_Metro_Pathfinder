@@ -1,7 +1,7 @@
 from pathlib import Path
 import json
 import os
-from haversine import calculate_haversine_distance
+from data.processed.programs.haversine import calculate_haversine_distance
 
 # ==========================================
 # CÁC HÀM PHỤ TRỢ (HELPERS)
