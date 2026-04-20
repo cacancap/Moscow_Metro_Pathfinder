@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moscow Metro Pathfinder</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <div id="controls">
+        <h3>🗺️ Moscow Metro</h3>
+        
+        <div class="control-group">
+            <label> Station Search:</label>
+            <input type="text" id="stationSearch" placeholder="Enter station name..." oninput="searchStation()">
+            <div id="searchResults"></div>
+        </div>
+
+        <div class="control-group">
+            <label>📊 Statistics:</label>
+            <div id="stats"></div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-primary" onclick="centerMap()">🧭 Center Map</button>
+            <button class="btn-secondary" onclick="toggleStations()">👁️ Toggle Stations</button>
+            <button class="btn-danger" onclick="clearMap()">🗑️ Clear Map</button>
+        </div>
+    </div>
+
+    <div id="stationInfo" class="station-panel">
+        <span class="close-btn" onclick="closeStationPanel()">×</span>
+        <h4 id="stationName"></h4>
+        <p><strong>Russian:</strong> <span id="stationNameRu"></span></p>
+        <p><strong>Type:</strong> <span id="stationType"></span></p>
+        <p><strong>Coordinates:</strong> <span id="stationCoords"></span></p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

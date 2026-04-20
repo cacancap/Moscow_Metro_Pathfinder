@@ -28,7 +28,7 @@ def create_transfer_hubs(input_dir, output_dir):
     # 2. Pure Distance-based Clustering (Single Linkage)
     # Threshold 200m: a station joins a cluster if it is near ANY member.
     clusters = [] 
-    DIST_THRESHOLD = 0.2 # 200 meters
+    DIST_THRESHOLD = 0.3 # 300 meters
 
     for station in stations:
         matched_cluster_indices = []
