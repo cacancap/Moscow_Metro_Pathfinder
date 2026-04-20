@@ -3,30 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moscow_Metro_Pathfinder</title>
+    <title>Moscow Metro Pathfinder</title>
     
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />  
-
-    <link rel="stylesheet" href="style.css" /> 
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
     <div id="map"></div>
-    
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script> // Thêm thư viện Leaflet
-    <script src="script.js"></script>   // Thêm file JavaScript của bạn
-    <script src="location.js"></script> // Thêm file JavaScript để xử lý API định vị
-    <script src="draw_path.js"></script> // Thêm file JavaScript để xử lý việc vẽ đường đi
 
     <div id="controls">
-        <button class="btn-location" onclick="getLocation()"> Vị trí hiện tại</button>
-        <button class="btn-path" onclick="enablePathfindingMode()"> Vẽ đường đi mẫu</button>
-        <button class="btn-clear" onclick="clearPathfinding()"> Xóa bản đồ</button>
-    </div>
-    <div id="myLocation"></div>
-</div>
+        <h3>🗺️ Moscow Metro</h3>
+        
+        <div class="control-group">
+            <label> Station Search:</label>
+            <input type="text" id="stationSearch" placeholder="Enter station name..." oninput="searchStation()">
+            <div id="searchResults"></div>
+        </div>
 
+        <div class="control-group">
+            <label>📊 Statistics:</label>
+            <div id="stats"></div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-primary" onclick="centerMap()">🧭 Center Map</button>
+            <button class="btn-secondary" onclick="toggleStations()">👁️ Toggle Stations</button>
+            <button class="btn-danger" onclick="clearMap()">🗑️ Clear Map</button>
+        </div>
+    </div>
+
+    <div id="stationInfo" class="station-panel">
+        <span class="close-btn" onclick="closeStationPanel()">×</span>
+        <h4 id="stationName"></h4>
+        <p><strong>Russian:</strong> <span id="stationNameRu"></span></p>
+        <p><strong>Type:</strong> <span id="stationType"></span></p>
+        <p><strong>Coordinates:</strong> <span id="stationCoords"></span></p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
