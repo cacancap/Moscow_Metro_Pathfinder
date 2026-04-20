@@ -71,29 +71,27 @@ def build_stop_dicts():
             
 # Creating an edge
 
-def create_edge(way_id, source_id, dest_id, weight, edge_type, line_id, geometry):
+def create_edge(source_id, dest_id, weight, line_id, edge_type, colour, geometry):
     global edge_counter
     
     edge_counter += 1
-    indicated_way = way_dict_id.get(way_id)
-    if (indicated_way == None):
-        print("Error in create_edge func")
-        return
-    colour = indicated_way.get('colour')    
-    
     new_edge = {
         'edge_id': f"e_{edge_counter}",
         'source_id': source_id,
         'dest_id': dest_id,
         'weight': weight,
+        'line_id': line_id,
         'edge_type': edge_type,
         'colour': colour,
         'geometry': geometry.copy()
     }
     
+    if (new_edge in edge_list):
+        print("something went wrong in create_edge!")
+        return
+    
     edge_list.append(new_edge)
        
-
 
 
 # Build the way_dict_id.json file for indexing ways with id only
@@ -174,15 +172,32 @@ def build_way_dict():
                 if (stop_dict_coord.get(cur_key) != None):  # Found a node
                     cur_node = stop_dict_coord[cur_key]
                     if (prev_node != None and prev_node != cur_node):   # Found a prev node => add 
-                        create_edge(clean_id, prev_node.get('id'), cur_node.get('id'), current_distance, 'subway', line_id, current_geometry)
+                        create_edge(prev_node.get('id'), cur_node.get('id'), current_distance, line_id, 'subway', colour, current_geometry)
                         current_geometry = [cur_coord]
                         current_distance = 0
                     
                     prev_node = cur_node
                     cur_node = None
                     
-                
-                
+# clustering: create walkways for transferring line       
+def stop_clustering(max_distance, transfer_penalty):
+    transfer_count = 0
+    stop_list = list(stop_dict_id.values())
+    
+    for i in range(len(stop_list)):
+        for j in range(i + 1, len(stop_list)):
+            stop_A = stop_list[i]
+            stop_B = stop_list[j]
+            coord_A = [stop_A.get('lon'), stop_A.get('lat')]
+            coord_B = [stop_B.get('lon'), stop_B.get('lat')]
+            
+            
+            distance = calculate_haversine_distance(coord_A[0], coord_A[1], coord_B[0], coord_B[1])
+            if (distance < max_distance and (stop_A.get('line_id') != stop_B.get('line_id'))):
+                create_edge(stop_A['id'], stop_B['id'], distance + transfer_penalty, 'walk', 'transfer', 'purple', [coord_A, coord_B])
+                create_edge(stop_B['id'], stop_A['id'], distance + transfer_penalty, 'walk', 'transfer', 'purple', [coord_B, coord_A])
+                transfer_count += 2
+    return transfer_count
                     
 
 
@@ -270,6 +285,7 @@ def investigate_way():
 if __name__ == "__main__":
     build_stop_dicts()
     build_way_dict()
+    transfer_count = stop_clustering(200, 500)
     way_morethan_1relation = investigate_way()
     
     output_path_01 = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'stop_dict_id.json'))
@@ -292,3 +308,4 @@ if __name__ == "__main__":
         json.dump(edge_list, outfile, ensure_ascii=False, indent=2)
     print(f"\nĐã xuất dữ liệu thành công ra file: {output_path_04}")
     
+    print("total transfer: ", transfer_count)
