@@ -119,6 +119,7 @@ def build_way_dict():
                 'id': clean_id, 
                 'name': name,
                 'colour': colour,
+                'line_id': line_id,
                 'geometry': coords
             }
             
