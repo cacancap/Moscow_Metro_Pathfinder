@@ -10,7 +10,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // 3. Thêm Marker (điểm đánh dấu)
-let marker = L.marker([55.7558, 37.6173]).addTo(map);
+let marker = L.marker([55.788503,37.7509929]).addTo(map);
 marker.bindPopup("<b>Chào bạn!</b><br>Đây là Moscow.").openPopup();
 
 map.on('click', function(e) {
