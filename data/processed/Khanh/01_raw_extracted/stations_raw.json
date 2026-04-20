@@ -1,0 +1,2712 @@
+[
+  {
+    "id": "node/60660466",
+    "name_ru": "Медведково",
+    "name_en": "Medvedkovo",
+    "colour": "orange",
+    "coords": [
+      37.66155,
+      55.8871767
+    ]
+  },
+  {
+    "id": "node/60660469",
+    "name_ru": "Бабушкинская",
+    "name_en": "Babushkinskaya",
+    "colour": "orange",
+    "coords": [
+      37.6641097,
+      55.8696342
+    ]
+  },
+  {
+    "id": "node/68916801",
+    "name_ru": "Партизанская",
+    "name_en": "Partizanskaya",
+    "colour": "blue",
+    "coords": [
+      37.7509929,
+      55.788503
+    ]
+  },
+  {
+    "id": "node/68937012",
+    "name_ru": "Семёновская",
+    "name_en": "Semyonovskaya",
+    "colour": "blue",
+    "coords": [
+      37.7212818,
+      55.7833072
+    ]
+  },
+  {
+    "id": "node/241158259",
+    "name_ru": "Филёвский парк",
+    "name_en": "Filyovsky Park",
+    "colour": "lightblue",
+    "coords": [
+      37.4833717,
+      55.7395085
+    ]
+  },
+  {
+    "id": "node/241158281",
+    "name_ru": "Багратионовская",
+    "name_en": "Bagrationovskaya",
+    "colour": "lightblue",
+    "coords": [
+      37.497737,
+      55.7437316
+    ]
+  },
+  {
+    "id": "node/241158327",
+    "name_ru": "Фили",
+    "name_en": "Fili",
+    "colour": "lightblue",
+    "coords": [
+      37.5148273,
+      55.7461266
+    ]
+  },
+  {
+    "id": "node/241158369",
+    "name_ru": "Кутузовская",
+    "name_en": "Kutuzovskaya",
+    "colour": "lightblue",
+    "coords": [
+      37.5343862,
+      55.7399906
+    ]
+  },
+  {
+    "id": "node/241158415",
+    "name_ru": "Студенческая",
+    "name_en": "Studencheskaya",
+    "colour": "lightblue",
+    "coords": [
+      37.5484101,
+      55.7388299
+    ]
+  },
+  {
+    "id": "node/242546355",
+    "name_ru": "Электрозаводская",
+    "name_en": "Elektrozavodskaya",
+    "colour": "blue",
+    "coords": [
+      37.7037878,
+      55.7817132
+    ]
+  },
+  {
+    "id": "node/242546356",
+    "name_ru": "Бауманская",
+    "name_en": "Baumanskaya",
+    "colour": "blue",
+    "coords": [
+      37.6805494,
+      55.7730392
+    ]
+  },
+  {
+    "id": "node/242546475",
+    "name_ru": "Площадь Революции",
+    "name_en": "Revolution Square",
+    "colour": "blue",
+    "coords": [
+      37.6217842,
+      55.7566512
+    ]
+  },
+  {
+    "id": "node/242546476",
+    "name_ru": "Арбатская",
+    "name_en": "Arbatskaya",
+    "colour": "blue",
+    "coords": [
+      37.6069779,
+      55.752095
+    ]
+  },
+  {
+    "id": "node/244036228",
+    "name_ru": "Молодёжная",
+    "name_en": "Molodyozhnaya",
+    "colour": "blue",
+    "coords": [
+      37.4169385,
+      55.7407572
+    ]
+  },
+  {
+    "id": "node/244036856",
+    "name_ru": "Пионерская",
+    "name_en": "Pionerskaya",
+    "colour": "lightblue",
+    "coords": [
+      37.4671358,
+      55.7359875
+    ]
+  },
+  {
+    "id": "node/252828224",
+    "name_ru": "Смоленская",
+    "name_en": "Smolenskaya",
+    "colour": "blue",
+    "coords": [
+      37.5818245,
+      55.747394
+    ]
+  },
+  {
+    "id": "node/252934400",
+    "name_ru": "Кузнецкий Мост",
+    "name_en": "Kuznetsky Most",
+    "colour": "violet",
+    "coords": [
+      37.6261429,
+      55.7607508
+    ]
+  },
+  {
+    "id": "node/253016890",
+    "name_ru": "Таганская",
+    "name_en": "Taganskaya",
+    "colour": "violet",
+    "coords": [
+      37.6518996,
+      55.740465
+    ]
+  },
+  {
+    "id": "node/253016891",
+    "name_ru": "Пролетарская",
+    "name_en": "Proletarskaya",
+    "colour": "violet",
+    "coords": [
+      37.6658787,
+      55.731857
+    ]
+  },
+  {
+    "id": "node/253016892",
+    "name_ru": "Волгоградский проспект",
+    "name_en": "Volgogradsky Prospekt",
+    "colour": "violet",
+    "coords": [
+      37.6868906,
+      55.7252386
+    ]
+  },
+  {
+    "id": "node/253016893",
+    "name_ru": "Текстильщики",
+    "name_en": "Tekstilshchiki",
+    "colour": "violet",
+    "coords": [
+      37.7315039,
+      55.7088138
+    ]
+  },
+  {
+    "id": "node/253016894",
+    "name_ru": "Кузьминки",
+    "name_en": "Kuzminki",
+    "colour": "violet",
+    "coords": [
+      37.7657844,
+      55.7056021
+    ]
+  },
+  {
+    "id": "node/253016895",
+    "name_ru": "Выхино",
+    "name_en": "Vykhino",
+    "colour": "violet",
+    "coords": [
+      37.8179229,
+      55.7156444
+    ]
+  },
+  {
+    "id": "node/253017004",
+    "name_ru": "Рязанский проспект",
+    "name_en": "Ryazansky Prospekt",
+    "colour": "violet",
+    "coords": [
+      37.7933151,
+      55.716947
+    ]
+  },
+  {
+    "id": "node/253043175",
+    "name_ru": "Арбатская",
+    "name_en": "Arbatskaya",
+    "colour": "lightblue",
+    "coords": [
+      37.6006567,
+      55.7518523
+    ]
+  },
+  {
+    "id": "node/253045735",
+    "name_ru": "Деловой центр",
+    "name_en": "Delovoy Center",
+    "colour": "lightblue",
+    "coords": [
+      37.5413666,
+      55.7500874
+    ]
+  },
+  {
+    "id": "node/253228506",
+    "name_ru": "Александровский сад",
+    "name_en": "Alexander Garden",
+    "colour": "lightblue",
+    "coords": [
+      37.6086825,
+      55.7524027
+    ]
+  },
+  {
+    "id": "node/253375111",
+    "name_ru": "Киевская",
+    "name_en": "Kiyevskaya",
+    "colour": "lightblue",
+    "coords": [
+      37.5656452,
+      55.7436835
+    ]
+  },
+  {
+    "id": "node/253780238",
+    "name_ru": "Славянский бульвар",
+    "name_en": "Slavyansky Bulvar",
+    "colour": "blue",
+    "coords": [
+      37.4707878,
+      55.7295963
+    ]
+  },
+  {
+    "id": "node/255744331",
+    "name_ru": "Новогиреево",
+    "name_en": "Novogireyevo",
+    "colour": "yellow",
+    "coords": [
+      37.8167454,
+      55.751769
+    ]
+  },
+  {
+    "id": "node/255744332",
+    "name_ru": "Перово",
+    "name_en": "Perovo",
+    "colour": "yellow",
+    "coords": [
+      37.7864823,
+      55.7511973
+    ]
+  },
+  {
+    "id": "node/255744578",
+    "name_ru": "Шоссе Энтузиастов",
+    "name_en": "Shosse Entuziastov",
+    "colour": "yellow",
+    "coords": [
+      37.7494868,
+      55.7575686
+    ]
+  },
+  {
+    "id": "node/255856078",
+    "name_ru": "Москва-Сити",
+    "name_en": "Moscow-City",
+    "colour": "lightblue",
+    "coords": [
+      37.5342309,
+      55.7483053
+    ]
+  },
+  {
+    "id": "node/259785706",
+    "name_ru": "Тёплый Стан",
+    "name_en": "Tyoply Stan",
+    "colour": "orange",
+    "coords": [
+      37.5082183,
+      55.6188619
+    ]
+  },
+  {
+    "id": "node/259786804",
+    "name_ru": "Калужская",
+    "name_en": "Kaluzhskaya",
+    "colour": "orange",
+    "coords": [
+      37.5405263,
+      55.657091
+    ]
+  },
+  {
+    "id": "node/259786806",
+    "name_ru": "Новые Черёмушки",
+    "name_en": "Novye Cheryomushki",
+    "colour": "orange",
+    "coords": [
+      37.5546984,
+      55.6702787
+    ]
+  },
+  {
+    "id": "node/264162888",
+    "name_ru": "Ясенево",
+    "name_en": "Yasenevo",
+    "colour": "orange",
+    "coords": [
+      37.533407,
+      55.6063062
+    ]
+  },
+  {
+    "id": "node/265949954",
+    "name_ru": "Бульвар Рокоссовского",
+    "name_en": "Bul'var Rokossovskogo",
+    "colour": "red",
+    "coords": [
+      37.73434,
+      55.8146824
+    ]
+  },
+  {
+    "id": "node/265949956",
+    "name_ru": "Черкизовская",
+    "name_en": "Cherkizovskaya",
+    "colour": "red",
+    "coords": [
+      37.7450321,
+      55.8038807
+    ]
+  },
+  {
+    "id": "node/265949958",
+    "name_ru": "Преображенская площадь",
+    "name_en": "Preobrazhenskaya Ploshchad",
+    "colour": "red",
+    "coords": [
+      37.7153466,
+      55.7963698
+    ]
+  },
+  {
+    "id": "node/266835841",
+    "name_ru": "Речной вокзал",
+    "name_en": "Rechnoy Vokzal",
+    "colour": "green",
+    "coords": [
+      37.4762129,
+      55.8550132
+    ]
+  },
+  {
+    "id": "node/266835844",
+    "name_ru": "Водный стадион",
+    "name_en": "Vodny Stadion",
+    "colour": "green",
+    "coords": [
+      37.4867105,
+      55.8400589
+    ]
+  },
+  {
+    "id": "node/266835845",
+    "name_ru": "Войковская",
+    "name_en": "Voykovskaya",
+    "colour": "green",
+    "coords": [
+      37.4980181,
+      55.819052
+    ]
+  },
+  {
+    "id": "node/266835847",
+    "name_ru": "Аэропорт",
+    "name_en": "Aeroport",
+    "colour": "green",
+    "coords": [
+      37.5331501,
+      55.8003966
+    ]
+  },
+  {
+    "id": "node/266835848",
+    "name_ru": "Динамо",
+    "name_en": "Dinamo",
+    "colour": "green",
+    "coords": [
+      37.558208,
+      55.7897397
+    ]
+  },
+  {
+    "id": "node/267334996",
+    "name_ru": "Сокольники",
+    "name_en": "Sokolniki",
+    "colour": "red",
+    "coords": [
+      37.6802525,
+      55.7888168
+    ]
+  },
+  {
+    "id": "node/267335088",
+    "name_ru": "Комсомольская",
+    "name_en": "Komsomolskaya",
+    "colour": "red",
+    "coords": [
+      37.6560339,
+      55.7752083
+    ]
+  },
+  {
+    "id": "node/267335089",
+    "name_ru": "Красносельская",
+    "name_en": "Krasnoselskaya",
+    "colour": "red",
+    "coords": [
+      37.6676557,
+      55.780356
+    ]
+  },
+  {
+    "id": "node/267335315",
+    "name_ru": "Охотный Ряд",
+    "name_en": "Okhotny Ryad",
+    "colour": "red",
+    "coords": [
+      37.6165101,
+      55.7577723
+    ]
+  },
+  {
+    "id": "node/267335316",
+    "name_ru": "Лубянка",
+    "name_en": "Lubyanka",
+    "colour": "red",
+    "coords": [
+      37.6278554,
+      55.7598728
+    ]
+  },
+  {
+    "id": "node/267335317",
+    "name_ru": "Чистые пруды",
+    "name_en": "Chistye Prudy",
+    "colour": "red",
+    "coords": [
+      37.639028,
+      55.7658711
+    ]
+  },
+  {
+    "id": "node/268521588",
+    "name_ru": "Свиблово",
+    "name_en": "Sviblovo",
+    "colour": "orange",
+    "coords": [
+      37.652706,
+      55.8552129
+    ]
+  },
+  {
+    "id": "node/268521591",
+    "name_ru": "Ботанический сад",
+    "name_en": "Botanical Garden",
+    "colour": "orange",
+    "coords": [
+      37.6382462,
+      55.8448445
+    ]
+  },
+  {
+    "id": "node/276191013",
+    "name_ru": "Авиамоторная",
+    "name_en": "Aviamotornaya",
+    "colour": "yellow",
+    "coords": [
+      37.7200631,
+      55.7525349
+    ]
+  },
+  {
+    "id": "node/276191299",
+    "name_ru": "Площадь Ильича",
+    "name_en": "Ploshchad Ilyicha",
+    "colour": "yellow",
+    "coords": [
+      37.6831971,
+      55.7471964
+    ]
+  },
+  {
+    "id": "node/276191577",
+    "name_ru": "Марксистская",
+    "name_en": "Marksistskaya",
+    "colour": "yellow",
+    "coords": [
+      37.6535345,
+      55.7413164
+    ]
+  },
+  {
+    "id": "node/277499099",
+    "name_ru": "Рижская",
+    "name_en": "Rizhskaya",
+    "colour": "orange",
+    "coords": [
+      37.6364976,
+      55.7937015
+    ]
+  },
+  {
+    "id": "node/277499848",
+    "name_ru": "Проспект Мира",
+    "name_en": "Prospekt Mira",
+    "colour": "orange",
+    "coords": [
+      37.6319812,
+      55.7808506
+    ]
+  },
+  {
+    "id": "node/277499849",
+    "name_ru": "Сухаревская",
+    "name_en": "Sukharevskaya",
+    "colour": "orange",
+    "coords": [
+      37.6312038,
+      55.7729551
+    ]
+  },
+  {
+    "id": "node/277499850",
+    "name_ru": "Тургеневская",
+    "name_en": "Turgenevskaya",
+    "colour": "orange",
+    "coords": [
+      37.637467,
+      55.766492
+    ]
+  },
+  {
+    "id": "node/277499852",
+    "name_ru": "Третьяковская",
+    "name_en": "Tretyakovskaya",
+    "colour": "orange",
+    "coords": [
+      37.6273436,
+      55.7409166
+    ]
+  },
+  {
+    "id": "node/277499853",
+    "name_ru": "Октябрьская",
+    "name_en": "Oktyabrskaya",
+    "colour": "orange",
+    "coords": [
+      37.6109093,
+      55.7304961
+    ]
+  },
+  {
+    "id": "node/277499854",
+    "name_ru": "Шаболовская",
+    "name_en": "Shabolovskaya",
+    "colour": "orange",
+    "coords": [
+      37.6076956,
+      55.7199872
+    ]
+  },
+  {
+    "id": "node/278692957",
+    "name_ru": "Кропоткинская",
+    "name_en": "Kropotkinskaya",
+    "colour": "red",
+    "coords": [
+      37.603807,
+      55.7454302
+    ]
+  },
+  {
+    "id": "node/278692958",
+    "name_ru": "Библиотека имени Ленина",
+    "name_en": "Lenin Library",
+    "colour": "red",
+    "coords": [
+      37.6101708,
+      55.7512323
+    ]
+  },
+  {
+    "id": "node/278693055",
+    "name_ru": "Спортивная",
+    "name_en": "Sportivnaya",
+    "colour": "red",
+    "coords": [
+      37.5642133,
+      55.7233833
+    ]
+  },
+  {
+    "id": "node/278693056",
+    "name_ru": "Фрунзенская",
+    "name_en": "Frunzenskaya",
+    "colour": "red",
+    "coords": [
+      37.57833,
+      55.7268793
+    ]
+  },
+  {
+    "id": "node/282411334",
+    "name_ru": "Ленинский проспект",
+    "name_en": "Leninsky Prospekt",
+    "colour": "orange",
+    "coords": [
+      37.5862116,
+      55.7076167
+    ]
+  },
+  {
+    "id": "node/282413851",
+    "name_ru": "Академическая",
+    "name_en": "Akademicheskaya",
+    "colour": "orange",
+    "coords": [
+      37.5735148,
+      55.6878077
+    ]
+  },
+  {
+    "id": "node/282414382",
+    "name_ru": "Профсоюзная",
+    "name_en": "Profsoyuznaya",
+    "colour": "orange",
+    "coords": [
+      37.5629043,
+      55.6779304
+    ]
+  },
+  {
+    "id": "node/282416839",
+    "name_ru": "Беляево",
+    "name_en": "Belyayevo",
+    "colour": "orange",
+    "coords": [
+      37.5256804,
+      55.6427774
+    ]
+  },
+  {
+    "id": "node/291686079",
+    "name_ru": "Парк Культуры",
+    "name_en": "Park Kultury",
+    "colour": "brown",
+    "coords": [
+      37.5913019,
+      55.735811
+    ]
+  },
+  {
+    "id": "node/291686160",
+    "name_ru": "Октябрьская",
+    "name_en": "Oktyabrskaya",
+    "colour": "brown",
+    "coords": [
+      37.6093994,
+      55.7297787
+    ]
+  },
+  {
+    "id": "node/291687197",
+    "name_ru": "Смоленская",
+    "name_en": "Smolenskaya",
+    "colour": "lightblue",
+    "coords": [
+      37.5827207,
+      55.7488081
+    ]
+  },
+  {
+    "id": "node/291687455",
+    "name_ru": "Маяковская",
+    "name_en": "Mayakovskaya",
+    "colour": "green",
+    "coords": [
+      37.5950872,
+      55.7701709
+    ]
+  },
+  {
+    "id": "node/291689166",
+    "name_ru": "Цветной бульвар",
+    "name_en": "Tsvetnoy Bulvar",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6179101,
+      55.7708721
+    ]
+  },
+  {
+    "id": "node/291712231",
+    "name_ru": "Новоясеневская",
+    "name_en": "Novoyasenevskaya",
+    "colour": "orange",
+    "coords": [
+      37.554139,
+      55.6009942
+    ]
+  },
+  {
+    "id": "node/292019726",
+    "name_ru": "Павелецкая",
+    "name_en": "Paveletskaya",
+    "colour": "green",
+    "coords": [
+      37.6378407,
+      55.7304982
+    ]
+  },
+  {
+    "id": "node/292019996",
+    "name_ru": "Павелецкая",
+    "name_en": "Paveletskaya",
+    "colour": "brown",
+    "coords": [
+      37.6381483,
+      55.7323172
+    ]
+  },
+  {
+    "id": "node/292143794",
+    "name_ru": "Театральная",
+    "name_en": "Teatralnaya",
+    "colour": "green",
+    "coords": [
+      37.6191912,
+      55.7575071
+    ]
+  },
+  {
+    "id": "node/292143796",
+    "name_ru": "Новокузнецкая",
+    "name_en": "Novokuznetskaya",
+    "colour": "green",
+    "coords": [
+      37.6292018,
+      55.7414344
+    ]
+  },
+  {
+    "id": "node/292144111",
+    "name_ru": "Тверская",
+    "name_en": "Tverskaya",
+    "colour": "green",
+    "coords": [
+      37.606313,
+      55.7648953
+    ]
+  },
+  {
+    "id": "node/292146578",
+    "name_ru": "Автозаводская",
+    "name_en": "Avtozavodskaya",
+    "colour": "green",
+    "coords": [
+      37.6577684,
+      55.7073446
+    ]
+  },
+  {
+    "id": "node/292147581",
+    "name_ru": "Коломенская",
+    "name_en": "Kolomenskaya",
+    "colour": "green",
+    "coords": [
+      37.6639248,
+      55.6784809
+    ]
+  },
+  {
+    "id": "node/292148161",
+    "name_ru": "Технопарк",
+    "name_en": null,
+    "colour": "green",
+    "coords": [
+      37.6644353,
+      55.6936232
+    ]
+  },
+  {
+    "id": "node/293799708",
+    "name_ru": "Проспект Мира",
+    "name_en": "Prospekt Mira",
+    "colour": "brown",
+    "coords": [
+      37.6317532,
+      55.7796332
+    ]
+  },
+  {
+    "id": "node/294024698",
+    "name_ru": "Добрынинская",
+    "name_en": "Dobryninskaya",
+    "colour": "brown",
+    "coords": [
+      37.6244196,
+      55.7291072
+    ]
+  },
+  {
+    "id": "node/296045315",
+    "name_ru": "Таганская",
+    "name_en": "Taganskaya",
+    "colour": "brown",
+    "coords": [
+      37.6513234,
+      55.741665
+    ]
+  },
+  {
+    "id": "node/296932663",
+    "name_ru": "Улица Скобелевская",
+    "name_en": "Ulitsa Skobelevskaya",
+    "colour": "#bac8e8",
+    "coords": [
+      37.5546254,
+      55.5481082
+    ]
+  },
+  {
+    "id": "node/296932668",
+    "name_ru": "Бульвар Адмирала Ушакова",
+    "name_en": "Bulvar Admirala Ushakova",
+    "colour": "#bac8e8",
+    "coords": [
+      37.5432114,
+      55.5454337
+    ]
+  },
+  {
+    "id": "node/296932670",
+    "name_ru": "Улица Горчакова",
+    "name_en": "Ulitsa Gorchakova",
+    "colour": "#bac8e8",
+    "coords": [
+      37.530718,
+      55.5416949
+    ]
+  },
+  {
+    "id": "node/296932673",
+    "name_ru": "Бунинская аллея",
+    "name_en": "Buninskaya Alleya",
+    "colour": "#bac8e8",
+    "coords": [
+      37.5165467,
+      55.5381467
+    ]
+  },
+  {
+    "id": "node/296944258",
+    "name_ru": "Трубная",
+    "name_en": "Trubnaya",
+    "colour": "#b4d445",
+    "coords": [
+      37.6195511,
+      55.7691136
+    ]
+  },
+  {
+    "id": "node/296947177",
+    "name_ru": "Римская",
+    "name_en": "Rimskaya",
+    "colour": "#b4d445",
+    "coords": [
+      37.683251,
+      55.7463418
+    ]
+  },
+  {
+    "id": "node/296947185",
+    "name_ru": "Дубровка",
+    "name_en": "Dubrovka",
+    "colour": "#b4d445",
+    "coords": [
+      37.6755406,
+      55.7192085
+    ]
+  },
+  {
+    "id": "node/296949274",
+    "name_ru": "Кожуховская",
+    "name_en": "Kozhukhovskaya",
+    "colour": "#b4d445",
+    "coords": [
+      37.6846176,
+      55.7075865
+    ]
+  },
+  {
+    "id": "node/296949278",
+    "name_ru": "Печатники",
+    "name_en": "Pechatniki",
+    "colour": "#b4d445",
+    "coords": [
+      37.726952,
+      55.6934907
+    ]
+  },
+  {
+    "id": "node/296949283",
+    "name_ru": "Волжская",
+    "name_en": "Volzhskaya",
+    "colour": "#b4d445",
+    "coords": [
+      37.7531007,
+      55.6908257
+    ]
+  },
+  {
+    "id": "node/296949285",
+    "name_ru": "Люблино",
+    "name_en": "Lyublino",
+    "colour": "#b4d445",
+    "coords": [
+      37.7619581,
+      55.6757211
+    ]
+  },
+  {
+    "id": "node/296949290",
+    "name_ru": "Марьино",
+    "name_en": "Maryino",
+    "colour": "#b4d445",
+    "coords": [
+      37.7431467,
+      55.6500158
+    ]
+  },
+  {
+    "id": "node/296953126",
+    "name_ru": "Чеховская",
+    "name_en": "Chekhovskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.609087,
+      55.7648327
+    ]
+  },
+  {
+    "id": "node/296953128",
+    "name_ru": "Боровицкая",
+    "name_en": "Borovitskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.607057,
+      55.7509718
+    ]
+  },
+  {
+    "id": "node/296953130",
+    "name_ru": "Серпуховская",
+    "name_en": "Serpukhovskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6248289,
+      55.7279529
+    ]
+  },
+  {
+    "id": "node/296953131",
+    "name_ru": "Тульская",
+    "name_en": "Tulskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6228172,
+      55.7086649
+    ]
+  },
+  {
+    "id": "node/296953132",
+    "name_ru": "Нагатинская",
+    "name_en": "Nagatinskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6224144,
+      55.6829727
+    ]
+  },
+  {
+    "id": "node/296953133",
+    "name_ru": "Нагорная",
+    "name_en": "Nagornaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6102741,
+      55.6719433
+    ]
+  },
+  {
+    "id": "node/296953134",
+    "name_ru": "Нахимовский проспект",
+    "name_en": "Nakhimovsky Prospekt",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6056223,
+      55.6626511
+    ]
+  },
+  {
+    "id": "node/296953135",
+    "name_ru": "Севастопольская",
+    "name_en": "Sevastopolskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.598434,
+      55.6526736
+    ]
+  },
+  {
+    "id": "node/296953136",
+    "name_ru": "Чертановская",
+    "name_en": "Chertanovskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.60669,
+      55.640455
+    ]
+  },
+  {
+    "id": "node/296953137",
+    "name_ru": "Южная",
+    "name_en": "Yuzhnaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6092188,
+      55.622256
+    ]
+  },
+  {
+    "id": "node/296953138",
+    "name_ru": "Пражская",
+    "name_en": "Prazhskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6045238,
+      55.6123741
+    ]
+  },
+  {
+    "id": "node/296953139",
+    "name_ru": "Улица Академика Янгеля",
+    "name_en": "Ulitsa Akademika Yangelya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6004358,
+      55.5949862
+    ]
+  },
+  {
+    "id": "node/296953140",
+    "name_ru": "Аннино",
+    "name_en": "Annino",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.5965311,
+      55.5825315
+    ]
+  },
+  {
+    "id": "node/296956167",
+    "name_ru": "Тимирязевская",
+    "name_en": "Timiryazevskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.5763885,
+      55.8171256
+    ]
+  },
+  {
+    "id": "node/296956168",
+    "name_ru": "Дмитровская",
+    "name_en": "Dmitrovskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.5819074,
+      55.8065606
+    ]
+  },
+  {
+    "id": "node/296956169",
+    "name_ru": "Савёловская",
+    "name_en": "Savyolovskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.5888159,
+      55.7924879
+    ]
+  },
+  {
+    "id": "node/296956170",
+    "name_ru": "Менделеевская",
+    "name_en": "Mendeleyevskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.601981,
+      55.7809613
+    ]
+  },
+  {
+    "id": "node/296957238",
+    "name_ru": "Алтуфьево",
+    "name_en": "Altufyevo",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.5873584,
+      55.8979224
+    ]
+  },
+  {
+    "id": "node/296957239",
+    "name_ru": "Бибирево",
+    "name_en": "Bibirevo",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6035539,
+      55.8838707
+    ]
+  },
+  {
+    "id": "node/296957241",
+    "name_ru": "Отрадное",
+    "name_en": "Otradnoye",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6046508,
+      55.8631775
+    ]
+  },
+  {
+    "id": "node/296959502",
+    "name_ru": "Планерная",
+    "name_en": "Planernaya",
+    "colour": "violet",
+    "coords": [
+      37.4365264,
+      55.8606544
+    ]
+  },
+  {
+    "id": "node/296959504",
+    "name_ru": "Тушинская",
+    "name_en": "Tushinskaya",
+    "colour": "violet",
+    "coords": [
+      37.4369761,
+      55.8265293
+    ]
+  },
+  {
+    "id": "node/296959505",
+    "name_ru": "Щукинская",
+    "name_en": "Shchukinskaya",
+    "colour": "violet",
+    "coords": [
+      37.4647008,
+      55.8084608
+    ]
+  },
+  {
+    "id": "node/296959507",
+    "name_ru": "Полежаевская",
+    "name_en": "Polezhayevskaya",
+    "colour": "violet",
+    "coords": [
+      37.5192899,
+      55.7775087
+    ]
+  },
+  {
+    "id": "node/296959508",
+    "name_ru": "Беговая",
+    "name_en": "Begovaya",
+    "colour": "violet",
+    "coords": [
+      37.5466565,
+      55.7737161
+    ]
+  },
+  {
+    "id": "node/296959509",
+    "name_ru": "Улица 1905 года",
+    "name_en": "Ulitsa 1905 Goda",
+    "colour": "violet",
+    "coords": [
+      37.5613413,
+      55.7648611
+    ]
+  },
+  {
+    "id": "node/296959510",
+    "name_ru": "Баррикадная",
+    "name_en": "Barrikadnaya",
+    "colour": "violet",
+    "coords": [
+      37.5793093,
+      55.7611309
+    ]
+  },
+  {
+    "id": "node/297148038",
+    "name_ru": "Комсомольская",
+    "name_en": "Komsomolskaya",
+    "colour": "brown",
+    "coords": [
+      37.6544906,
+      55.7745807
+    ]
+  },
+  {
+    "id": "node/297291268",
+    "name_ru": "Владыкино",
+    "name_en": "Vladykino",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.5899119,
+      55.8471808
+    ]
+  },
+  {
+    "id": "node/297335182",
+    "name_ru": "Воробьёвы горы",
+    "name_en": "Vorobyovy Gory",
+    "colour": "red",
+    "coords": [
+      37.559289,
+      55.7103322
+    ]
+  },
+  {
+    "id": "node/297366493",
+    "name_ru": "Новослободская",
+    "name_en": "Novoslobodskaya",
+    "colour": "brown",
+    "coords": [
+      37.6034748,
+      55.7798525
+    ]
+  },
+  {
+    "id": "node/297773322",
+    "name_ru": "Крестьянская Застава",
+    "name_en": "Krestyanskaya Zastava",
+    "colour": "#b4d445",
+    "coords": [
+      37.6674776,
+      55.7331695
+    ]
+  },
+  {
+    "id": "node/300120212",
+    "name_ru": "Красногвардейская",
+    "name_en": "Krasnogvardeyskaya",
+    "colour": "green",
+    "coords": [
+      37.7444351,
+      55.613694
+    ]
+  },
+  {
+    "id": "node/305486163",
+    "name_ru": "Домодедовская",
+    "name_en": "Domodedovskaya",
+    "colour": "green",
+    "coords": [
+      37.7187413,
+      55.6108547
+    ]
+  },
+  {
+    "id": "node/308993125",
+    "name_ru": "Орехово",
+    "name_en": "Orekhovo",
+    "colour": "green",
+    "coords": [
+      37.6949724,
+      55.6131433
+    ]
+  },
+  {
+    "id": "node/308993196",
+    "name_ru": "Царицыно",
+    "name_en": "Tsaritsyno",
+    "colour": "green",
+    "coords": [
+      37.669238,
+      55.6214814
+    ]
+  },
+  {
+    "id": "node/308993566",
+    "name_ru": "Кантемировская",
+    "name_en": "Kantemirovskaya",
+    "colour": "green",
+    "coords": [
+      37.6565408,
+      55.6357353
+    ]
+  },
+  {
+    "id": "node/309741697",
+    "name_ru": "Бульвар Дмитрия Донского",
+    "name_en": "Bulvar Dmitriya Donskogo",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.5768693,
+      55.5692452
+    ]
+  },
+  {
+    "id": "node/309741829",
+    "name_ru": "Улица Старокачаловская",
+    "name_en": "Ulitsa Starokachalovskaya",
+    "colour": "#bac8e8",
+    "coords": [
+      37.5766521,
+      55.5689553
+    ]
+  },
+  {
+    "id": "node/309744779",
+    "name_ru": "Краснопресненская",
+    "name_en": "Krasnopresnenskaya",
+    "colour": "brown",
+    "coords": [
+      37.577329,
+      55.761185
+    ]
+  },
+  {
+    "id": "node/309745114",
+    "name_ru": "Киевская",
+    "name_en": "Kiyevskaya",
+    "colour": "brown",
+    "coords": [
+      37.565506,
+      55.7447266
+    ]
+  },
+  {
+    "id": "node/309748905",
+    "name_ru": "Октябрьское Поле",
+    "name_en": "Oktyabrskoye Pole",
+    "colour": "violet",
+    "coords": [
+      37.4938123,
+      55.7933663
+    ]
+  },
+  {
+    "id": "node/309750154",
+    "name_ru": "Сходненская",
+    "name_en": "Skhodnenskaya",
+    "colour": "violet",
+    "coords": [
+      37.4397738,
+      55.8504805
+    ]
+  },
+  {
+    "id": "node/309752486",
+    "name_ru": "Юго-Западная",
+    "name_en": "Yugo-Zapadnaya",
+    "colour": "red",
+    "coords": [
+      37.4832189,
+      55.6636469
+    ]
+  },
+  {
+    "id": "node/309752494",
+    "name_ru": "Университет",
+    "name_en": "Universitet",
+    "colour": "red",
+    "coords": [
+      37.5332847,
+      55.6926632
+    ]
+  },
+  {
+    "id": "node/312816773",
+    "name_ru": "Полянка",
+    "name_en": "Polyanka",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.6171996,
+      55.7381678
+    ]
+  },
+  {
+    "id": "node/314679443",
+    "name_ru": "Каховская",
+    "name_en": "Kakhovskaya",
+    "colour": "#82C0C0",
+    "coords": [
+      37.5984294,
+      55.6529025
+    ]
+  },
+  {
+    "id": "node/333159878",
+    "name_ru": "Братиславская",
+    "name_en": "Bratislavskaya",
+    "colour": "#b4d445",
+    "coords": [
+      37.7506688,
+      55.659739
+    ]
+  },
+  {
+    "id": "node/349930322",
+    "name_ru": "Проспект Вернадского",
+    "name_en": "Prospekt Vernadskogo",
+    "colour": "red",
+    "coords": [
+      37.5060642,
+      55.6772263
+    ]
+  },
+  {
+    "id": "node/362156015",
+    "name_ru": "Пушкинская",
+    "name_en": "Pushkinskaya",
+    "colour": "violet",
+    "coords": [
+      37.6074165,
+      55.7654281
+    ]
+  },
+  {
+    "id": "node/493292529",
+    "name_ru": "Третьяковская",
+    "name_en": "Tretyakovskaya",
+    "colour": "yellow",
+    "coords": [
+      37.6273084,
+      55.7412838
+    ]
+  },
+  {
+    "id": "node/596129560",
+    "name_ru": "Митино",
+    "name_en": "Mitino",
+    "colour": "blue",
+    "coords": [
+      37.3622259,
+      55.8457543
+    ]
+  },
+  {
+    "id": "node/666528523",
+    "name_ru": "Сретенский бульвар",
+    "name_en": "Sretensky Bulvar",
+    "colour": "#b4d445",
+    "coords": [
+      37.6400865,
+      55.7669878
+    ]
+  },
+  {
+    "id": "node/773136965",
+    "name_ru": "Марьина Роща",
+    "name_en": "Maryina Roshcha",
+    "colour": "#b4d445",
+    "coords": [
+      37.6163058,
+      55.7955236
+    ]
+  },
+  {
+    "id": "node/773136972",
+    "name_ru": "Достоевская",
+    "name_en": "Dostoyevskaya",
+    "colour": "#b4d445",
+    "coords": [
+      37.6150741,
+      55.7814612
+    ]
+  },
+  {
+    "id": "node/1123660474",
+    "name_ru": "Курская",
+    "name_en": "Kurskaya",
+    "colour": "brown",
+    "coords": [
+      37.6593319,
+      55.7571978
+    ]
+  },
+  {
+    "id": "node/1157975976",
+    "name_ru": "Белорусская",
+    "name_en": "Belorusskaya",
+    "colour": "green",
+    "coords": [
+      37.583575,
+      55.776702
+    ]
+  },
+  {
+    "id": "node/1158396469",
+    "name_ru": "Белорусская",
+    "name_en": "Belorusskaya",
+    "colour": "brown",
+    "coords": [
+      37.5840675,
+      55.7761384
+    ]
+  },
+  {
+    "id": "node/1221839292",
+    "name_ru": "Коньково",
+    "name_en": "Konkovo",
+    "colour": "orange",
+    "coords": [
+      37.5189769,
+      55.6331469
+    ]
+  },
+  {
+    "id": "node/1527999919",
+    "name_ru": "Борисово",
+    "name_en": "Borisovo",
+    "colour": "#b4d445",
+    "coords": [
+      37.7437524,
+      55.6333039
+    ]
+  },
+  {
+    "id": "node/1527999927",
+    "name_ru": "Зябликово",
+    "name_en": "Zyablikovo",
+    "colour": "#b4d445",
+    "coords": [
+      37.745179,
+      55.6122352
+    ]
+  },
+  {
+    "id": "node/1527999934",
+    "name_ru": "Шипиловская",
+    "name_en": "Shipilovskaya",
+    "colour": "#b4d445",
+    "coords": [
+      37.7436392,
+      55.6210274
+    ]
+  },
+  {
+    "id": "node/1890426555",
+    "name_ru": "Новокосино",
+    "name_en": "Novokosino",
+    "colour": "yellow",
+    "coords": [
+      37.8637729,
+      55.7450867
+    ]
+  },
+  {
+    "id": "node/2080924763",
+    "name_ru": "Алма-Атинская",
+    "name_en": "Alma-Atinskaya",
+    "colour": "green",
+    "coords": [
+      37.765935,
+      55.6327995
+    ]
+  },
+  {
+    "id": "node/2101832212",
+    "name_ru": "Пятницкое шоссе",
+    "name_en": "Pyatnitskoye Shosse",
+    "colour": "blue",
+    "coords": [
+      37.3542024,
+      55.856143
+    ]
+  },
+  {
+    "id": "node/2525101862",
+    "name_ru": "Жулебино",
+    "name_en": "Zhulebino",
+    "colour": "violet",
+    "coords": [
+      37.8562939,
+      55.685438
+    ]
+  },
+  {
+    "id": "node/2525101863",
+    "name_ru": "Лермонтовский проспект",
+    "name_en": "Lermontovsky prospekt",
+    "colour": "violet",
+    "coords": [
+      37.8519732,
+      55.7016254
+    ]
+  },
+  {
+    "id": "node/2591395115",
+    "name_ru": "Лесопарковая",
+    "name_en": "Lesoparkovaya",
+    "colour": "#bac8e8",
+    "coords": [
+      37.5768918,
+      55.5820975
+    ]
+  },
+  {
+    "id": "node/2591402980",
+    "name_ru": "Битцевский парк",
+    "name_en": "Bitsevskiy park",
+    "colour": "#bac8e8",
+    "coords": [
+      37.5563789,
+      55.6002393
+    ]
+  },
+  {
+    "id": "node/2692857848",
+    "name_ru": "Измайловская",
+    "name_en": "Izmaylovskaya",
+    "colour": "blue",
+    "coords": [
+      37.7816023,
+      55.7877328
+    ]
+  },
+  {
+    "id": "node/2692882978",
+    "name_ru": "Первомайская",
+    "name_en": "Pervomayskaya",
+    "colour": "blue",
+    "coords": [
+      37.7993959,
+      55.7947265
+    ]
+  },
+  {
+    "id": "node/2692905506",
+    "name_ru": "Щёлковская",
+    "name_en": "Schelkovskaya",
+    "colour": "blue",
+    "coords": [
+      37.7985725,
+      55.8093369
+    ]
+  },
+  {
+    "id": "node/2950850833",
+    "name_ru": "Парк Победы",
+    "name_en": "Victory Park",
+    "colour": "yellow",
+    "coords": [
+      37.518219,
+      55.7365232
+    ]
+  },
+  {
+    "id": "node/3224593379",
+    "name_ru": "Тропарёво",
+    "name_en": "Troparyovo",
+    "colour": "red",
+    "coords": [
+      37.4725258,
+      55.645857
+    ]
+  },
+  {
+    "id": "node/3226428878",
+    "name_ru": "Деловой центр",
+    "name_en": "Delovoy Center",
+    "colour": "yellow",
+    "coords": [
+      37.5391788,
+      55.7491138
+    ]
+  },
+  {
+    "id": "node/3943961770",
+    "name_ru": "Румянцево",
+    "name_en": "Rumyantsevo",
+    "colour": "red",
+    "coords": [
+      37.4415854,
+      55.6329538
+    ]
+  },
+  {
+    "id": "node/4006225428",
+    "name_ru": "Саларьево",
+    "name_en": "Salaryevo",
+    "colour": "red",
+    "coords": [
+      37.4241868,
+      55.621922
+    ]
+  },
+  {
+    "id": "node/4404057364",
+    "name_ru": "Фонвизинская",
+    "name_en": null,
+    "colour": "#b4d445",
+    "coords": [
+      37.5876371,
+      55.822916
+    ]
+  },
+  {
+    "id": "node/4737155708",
+    "name_ru": "Минская",
+    "name_en": "Minskaya",
+    "colour": "yellow",
+    "coords": [
+      37.4968443,
+      55.7247884
+    ]
+  },
+  {
+    "id": "node/4737155709",
+    "name_ru": "Ломоносовский проспект",
+    "name_en": "Lomonosovskiy prospect",
+    "colour": "yellow",
+    "coords": [
+      37.5162362,
+      55.7071424
+    ]
+  },
+  {
+    "id": "node/4737155710",
+    "name_ru": "Раменки",
+    "name_en": "Ramenki",
+    "colour": "yellow",
+    "coords": [
+      37.4985423,
+      55.6975607
+    ]
+  },
+  {
+    "id": "node/4847996860",
+    "name_ru": "Бутырская",
+    "name_en": null,
+    "colour": "#b4d445",
+    "coords": [
+      37.6025285,
+      55.8133726
+    ]
+  },
+  {
+    "id": "node/4927798806",
+    "name_ru": "Киевская",
+    "name_en": "Kiyevskaya",
+    "colour": "blue",
+    "coords": [
+      37.5653751,
+      55.7443009
+    ]
+  },
+  {
+    "id": "node/5174653609",
+    "name_ru": "Каширская",
+    "name_en": "Kashirskaya",
+    "colour": "green;#82C0C0",
+    "coords": [
+      37.6488095,
+      55.6549932
+    ]
+  },
+  {
+    "id": "node/5176248502",
+    "name_ru": "Кунцевская",
+    "name_en": "Kuntsevskaya",
+    "colour": "blue",
+    "coords": [
+      37.4460224,
+      55.7306795
+    ]
+  },
+  {
+    "id": "node/5176322725",
+    "name_ru": "Китай-город",
+    "name_en": "Kitay-gorod",
+    "colour": "violet;orange",
+    "coords": [
+      37.6335649,
+      55.7556518
+    ]
+  },
+  {
+    "id": "node/5176322726",
+    "name_ru": "Китай-город",
+    "name_en": "Kitay-gorod",
+    "colour": "orange;violet",
+    "coords": [
+      37.6330592,
+      55.7555863
+    ]
+  },
+  {
+    "id": "node/5176445915",
+    "name_ru": "Парк Культуры",
+    "name_en": "Park Kultury",
+    "colour": "red",
+    "coords": [
+      37.5942726,
+      55.7354915
+    ]
+  },
+  {
+    "id": "node/5202080141",
+    "name_ru": "Петровско-Разумовская",
+    "name_en": "Petrovsko-Razumovskaya",
+    "colour": "#b4d445",
+    "coords": [
+      37.5748248,
+      55.8346874
+    ]
+  },
+  {
+    "id": "node/5202080142",
+    "name_ru": "Петровско-Разумовская",
+    "name_en": "Petrovsko-Razumovskaya",
+    "colour": "#a0a2a3",
+    "coords": [
+      37.5744209,
+      55.8349897
+    ]
+  },
+  {
+    "id": "node/5202107560",
+    "name_ru": "Спартак",
+    "name_en": "Spartak",
+    "colour": "violet",
+    "coords": [
+      37.4357519,
+      55.8183044
+    ]
+  },
+  {
+    "id": "node/5202107562",
+    "name_ru": "Алексеевская",
+    "name_en": "Alekseyevskaya",
+    "colour": "orange",
+    "coords": [
+      37.6390056,
+      55.8090891
+    ]
+  },
+  {
+    "id": "node/5202107564",
+    "name_ru": "Строгино",
+    "name_en": "Strogino",
+    "colour": "blue",
+    "coords": [
+      37.4030833,
+      55.8037017
+    ]
+  },
+  {
+    "id": "node/5202107568",
+    "name_ru": "Волоколамская",
+    "name_en": "Volokolamskaya",
+    "colour": "blue",
+    "coords": [
+      37.3822424,
+      55.8355134
+    ]
+  },
+  {
+    "id": "node/5202107570",
+    "name_ru": "Курская",
+    "name_en": "Kurskaya",
+    "colour": "blue",
+    "coords": [
+      37.6584192,
+      55.7580191
+    ]
+  },
+  {
+    "id": "node/5202107572",
+    "name_ru": "Чкаловская",
+    "name_en": "Chkalovskaya",
+    "colour": "#b4d445",
+    "coords": [
+      37.6569978,
+      55.7567019
+    ]
+  },
+  {
+    "id": "node/5202107574",
+    "name_ru": "ВДНХ",
+    "name_en": "VDNKh",
+    "colour": "orange",
+    "coords": [
+      37.6412006,
+      55.8209553
+    ]
+  },
+  {
+    "id": "node/5202107576",
+    "name_ru": "Сокол",
+    "name_en": "Sokol",
+    "colour": "green",
+    "coords": [
+      37.5150534,
+      55.805267
+    ]
+  },
+  {
+    "id": "node/5308689093",
+    "name_ru": "Ховрино",
+    "name_en": "Khovrino",
+    "colour": "green",
+    "coords": [
+      37.4808537,
+      55.8781525
+    ]
+  },
+  {
+    "id": "node/5436404611",
+    "name_ru": "Хорошёвская",
+    "name_en": "Horoshyovskaya",
+    "colour": "#82C0C0",
+    "coords": [
+      37.5191367,
+      55.7766946
+    ]
+  },
+  {
+    "id": "node/5436412993",
+    "name_ru": "Петровский парк",
+    "name_en": "Petrovskiy Park",
+    "colour": "#82C0C0",
+    "coords": [
+      37.5570925,
+      55.7919222
+    ]
+  },
+  {
+    "id": "node/5436420781",
+    "name_ru": "ЦСКА",
+    "name_en": "CSKA",
+    "colour": "#82C0C0",
+    "coords": [
+      37.5332007,
+      55.786561
+    ]
+  },
+  {
+    "id": "node/5482245444",
+    "name_ru": "Селигерская",
+    "name_en": null,
+    "colour": "#b4d445",
+    "coords": [
+      37.5471803,
+      55.8666119
+    ]
+  },
+  {
+    "id": "node/5482407019",
+    "name_ru": "Верхние Лихоборы",
+    "name_en": null,
+    "colour": "#b4d445",
+    "coords": [
+      37.5613445,
+      55.8561131
+    ]
+  },
+  {
+    "id": "node/5482410676",
+    "name_ru": "Окружная",
+    "name_en": null,
+    "colour": "#b4d445",
+    "coords": [
+      37.5738294,
+      55.8460256
+    ]
+  },
+  {
+    "id": "node/5868120884",
+    "name_ru": "Мичуринский проспект",
+    "name_en": "Michurinskiy prospekt",
+    "colour": "yellow",
+    "coords": [
+      37.4828443,
+      55.6893341
+    ]
+  },
+  {
+    "id": "node/5868122985",
+    "name_ru": "Озёрная",
+    "name_en": "Ozyornaya",
+    "colour": "yellow",
+    "coords": [
+      37.4487297,
+      55.6705052
+    ]
+  },
+  {
+    "id": "node/5868122986",
+    "name_ru": "Новопеределкино",
+    "name_en": "Novoperedelkino",
+    "colour": "yellow",
+    "coords": [
+      37.3551039,
+      55.639625
+    ]
+  },
+  {
+    "id": "node/5868122987",
+    "name_ru": "Рассказовка",
+    "name_en": "Rasskazovka",
+    "colour": "yellow",
+    "coords": [
+      37.3350858,
+      55.6340295
+    ]
+  },
+  {
+    "id": "node/5868122988",
+    "name_ru": "Боровское шоссе",
+    "name_en": "Borovskoe shosse",
+    "colour": "yellow",
+    "coords": [
+      37.3704228,
+      55.6477505
+    ]
+  },
+  {
+    "id": "node/5868122989",
+    "name_ru": "Солнцево",
+    "name_en": "Solntsevo",
+    "colour": "yellow",
+    "coords": [
+      37.3911002,
+      55.649569
+    ]
+  },
+  {
+    "id": "node/5868122990",
+    "name_ru": "Говорово",
+    "name_en": "Govorovo",
+    "colour": "yellow",
+    "coords": [
+      37.417239,
+      55.6595519
+    ]
+  },
+  {
+    "id": "node/6147634222",
+    "name_ru": "Беломорская",
+    "name_en": "Belomorskaja",
+    "colour": "green",
+    "coords": [
+      37.4748773,
+      55.8649644
+    ]
+  },
+  {
+    "id": "node/6172651201",
+    "name_ru": "Савёловская",
+    "name_en": "Savyolovskaya",
+    "colour": "#82C0C0",
+    "coords": [
+      37.5861196,
+      55.7923287
+    ]
+  },
+  {
+    "id": "node/6518539849",
+    "name_ru": "Косино",
+    "name_en": "Kosino",
+    "colour": "#FFCBDB",
+    "coords": [
+      37.8510317,
+      55.7034168
+    ]
+  },
+  {
+    "id": "node/6518539850",
+    "name_ru": "Улица Дмитриевского",
+    "name_en": "Ulitsa Dmitriyevskogo",
+    "colour": "#FFCBDB",
+    "coords": [
+      37.8802008,
+      55.7101029
+    ]
+  },
+  {
+    "id": "node/6518539851",
+    "name_ru": "Лухмановская",
+    "name_en": "Lukhmanovskaya",
+    "colour": "#FFCBDB",
+    "coords": [
+      37.9010164,
+      55.70851
+    ]
+  },
+  {
+    "id": "node/6518539852",
+    "name_ru": "Некрасовка",
+    "name_en": "Nekrasovka",
+    "colour": "#FFCBDB",
+    "coords": [
+      37.9281784,
+      55.7028909
+    ]
+  },
+  {
+    "id": "node/6560279948",
+    "name_ru": "Новомосковская",
+    "name_en": null,
+    "colour": "red",
+    "coords": [
+      37.4680062,
+      55.5605675
+    ]
+  },
+  {
+    "id": "node/6560279949",
+    "name_ru": "Ольховая",
+    "name_en": null,
+    "colour": "red",
+    "coords": [
+      37.4593593,
+      55.568621
+    ]
+  },
+  {
+    "id": "node/6560279950",
+    "name_ru": "Прокшино",
+    "name_en": null,
+    "colour": "red",
+    "coords": [
+      37.4338591,
+      55.5862179
+    ]
+  },
+  {
+    "id": "node/6560279951",
+    "name_ru": "Филатов Луг",
+    "name_en": null,
+    "colour": "red",
+    "coords": [
+      37.4074265,
+      55.6015282
+    ]
+  },
+  {
+    "id": "node/6938823554",
+    "name_ru": "Красные Ворота",
+    "name_en": "Krasnye Vorota",
+    "colour": "red",
+    "coords": [
+      37.6489874,
+      55.7690244
+    ]
+  },
+  {
+    "id": "node/6939665011",
+    "name_ru": "Крылатское",
+    "name_en": "Krylatskoye",
+    "colour": "blue",
+    "coords": [
+      37.4081393,
+      55.7565949
+    ]
+  },
+  {
+    "id": "node/7335380503",
+    "name_ru": "Окская",
+    "name_en": "Okskaya",
+    "colour": "#FFCBDB",
+    "coords": [
+      37.7817628,
+      55.718342
+    ]
+  },
+  {
+    "id": "node/7335523472",
+    "name_ru": "Стахановская",
+    "name_en": "Stakhanovskaya",
+    "colour": "#FFCBDB",
+    "coords": [
+      37.7532484,
+      55.7270183
+    ]
+  },
+  {
+    "id": "node/7339988431",
+    "name_ru": "Юго-Восточная",
+    "name_en": "Yugo-Vostochnaya",
+    "colour": "#FFCBDB",
+    "coords": [
+      37.8189764,
+      55.7050362
+    ]
+  },
+  {
+    "id": "node/7340764979",
+    "name_ru": "Лефортово",
+    "name_en": "Lefortovo",
+    "colour": "#82C0C0",
+    "coords": [
+      37.7067382,
+      55.7647338
+    ]
+  },
+  {
+    "id": "node/7340764980",
+    "name_ru": "Авиамоторная",
+    "name_en": "Aviamotornaya",
+    "colour": "#82C0C0",
+    "coords": [
+      37.718992,
+      55.7539271
+    ]
+  },
+  {
+    "id": "node/7340764981",
+    "name_ru": "Нижегородская",
+    "name_en": "Nizhegorodskaya",
+    "colour": "#FFCBDB",
+    "coords": [
+      37.7299863,
+      55.7319234
+    ]
+  },
+  {
+    "id": "node/8268702705",
+    "name_ru": "Электрозаводская",
+    "name_en": "Electrozavodskaya",
+    "colour": "#82C0C0",
+    "coords": [
+      37.7029935,
+      55.7802845
+    ]
+  },
+  {
+    "id": "node/8581944518",
+    "name_ru": "Народное Ополчение",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.4857311,
+      55.7757351
+    ]
+  },
+  {
+    "id": "node/8581944519",
+    "name_ru": "Мнёвники",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.471405,
+      55.7611845
+    ]
+  },
+  {
+    "id": "node/9315693017",
+    "name_ru": "Зюзино",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.5735524,
+      55.6557778
+    ]
+  },
+  {
+    "id": "node/9315693019",
+    "name_ru": "Воронцовская",
+    "name_en": "Vorontsovskaya",
+    "colour": "#82C0C0",
+    "coords": [
+      37.5394795,
+      55.6588351
+    ]
+  },
+  {
+    "id": "node/9315693022",
+    "name_ru": "Новаторская",
+    "name_en": "Novatorskaya",
+    "colour": "#82C0C0",
+    "coords": [
+      37.5217748,
+      55.6700672
+    ]
+  },
+  {
+    "id": "node/9315693025",
+    "name_ru": "Проспект Вернадского",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.503929,
+      55.6784309
+    ]
+  },
+  {
+    "id": "node/9315693028",
+    "name_ru": "Мичуринский проспект",
+    "name_en": "Michurinskiy prospekt",
+    "colour": "#82C0C0",
+    "coords": [
+      37.4851908,
+      55.6882968
+    ]
+  },
+  {
+    "id": "node/9315693031",
+    "name_ru": "Аминьевская",
+    "name_en": "Aminyevskaya",
+    "colour": "#82C0C0",
+    "coords": [
+      37.4649703,
+      55.6971748
+    ]
+  },
+  {
+    "id": "node/9315693034",
+    "name_ru": "Давыдково",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.4517426,
+      55.7151436
+    ]
+  },
+  {
+    "id": "node/9315693037",
+    "name_ru": "Кунцевская",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.4459847,
+      55.7288677
+    ]
+  },
+  {
+    "id": "node/9315693039",
+    "name_ru": "Терехово",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.4596435,
+      55.748029
+    ]
+  },
+  {
+    "id": "node/10702113003",
+    "name_ru": "Варшавская",
+    "name_en": "Varshavskaya",
+    "colour": "#82C0C0",
+    "coords": [
+      37.6195024,
+      55.6533344
+    ]
+  },
+  {
+    "id": "node/10702213023",
+    "name_ru": "Кленовый бульвар",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.6807341,
+      55.6744865
+    ]
+  },
+  {
+    "id": "node/10702213026",
+    "name_ru": "Нагатинский Затон",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.7043027,
+      55.6843314
+    ]
+  },
+  {
+    "id": "node/10702442752",
+    "name_ru": "Печатники",
+    "name_en": "Pechatniki",
+    "colour": "#82C0C0",
+    "coords": [
+      37.727363,
+      55.6946059
+    ]
+  },
+  {
+    "id": "node/10702471714",
+    "name_ru": "Текстильщики",
+    "name_en": "Tekstilshchiki",
+    "colour": "#82C0C0",
+    "coords": [
+      37.728473,
+      55.7070532
+    ]
+  },
+  {
+    "id": "node/10702624107",
+    "name_ru": "Марьина Роща",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.6164167,
+      55.7965331
+    ]
+  },
+  {
+    "id": "node/10702624108",
+    "name_ru": "Рижская",
+    "name_en": null,
+    "colour": "#82C0C0",
+    "coords": [
+      37.6343276,
+      55.7938842
+    ]
+  },
+  {
+    "id": "node/10703951288",
+    "name_ru": "Сокольники",
+    "name_en": "Sokolniki",
+    "colour": "#82C0C0",
+    "coords": [
+      37.6792574,
+      55.7901778
+    ]
+  },
+  {
+    "id": "node/10852613370",
+    "name_ru": "Парк Победы",
+    "name_en": "Victory Park",
+    "colour": "blue",
+    "coords": [
+      37.5179675,
+      55.7361688
+    ]
+  },
+  {
+    "id": "node/10852613371",
+    "name_ru": "Кунцевская",
+    "name_en": "Kuntsevskaya",
+    "colour": "lightblue",
+    "coords": [
+      37.4459818,
+      55.7307628
+    ]
+  },
+  {
+    "id": "node/10852613372",
+    "name_ru": "Нижегородская",
+    "name_en": "Nizhegorodskaya",
+    "colour": "#82C0C0",
+    "coords": [
+      37.7297964,
+      55.7317169
+    ]
+  },
+  {
+    "id": "node/10852613373",
+    "name_ru": "Каширская",
+    "name_en": "Kashirskaya",
+    "colour": "green;#82C0C0",
+    "coords": [
+      37.6485829,
+      55.6550857
+    ]
+  },
+  {
+    "id": "node/11171697213",
+    "name_ru": "Пыхтино",
+    "name_en": null,
+    "colour": "yellow",
+    "coords": [
+      37.295668,
+      55.6245026
+    ]
+  },
+  {
+    "id": "node/11171729958",
+    "name_ru": "Аэропорт Внуково",
+    "name_en": "Vnukovo Airport",
+    "colour": "yellow",
+    "coords": [
+      37.2872762,
+      55.607309
+    ]
+  },
+  {
+    "id": "node/11174639393",
+    "name_ru": "Физтех",
+    "name_en": null,
+    "colour": "#b4d445",
+    "coords": [
+      37.5465759,
+      55.9216617
+    ]
+  },
+  {
+    "id": "node/11174673548",
+    "name_ru": "Яхромская",
+    "name_en": null,
+    "colour": "#b4d445",
+    "coords": [
+      37.5454418,
+      55.8798821
+    ]
+  },
+  {
+    "id": "node/11174673551",
+    "name_ru": "Лианозово",
+    "name_en": null,
+    "colour": "#b4d445",
+    "coords": [
+      37.544663,
+      55.898115
+    ]
+  },
+  {
+    "id": "node/12157560726",
+    "name_ru": "Потапово",
+    "name_en": null,
+    "colour": "red",
+    "coords": [
+      37.4926212,
+      55.5526401
+    ]
+  },
+  {
+    "id": "node/12163102805",
+    "name_ru": "Тютчевская",
+    "name_en": null,
+    "colour": "#03795F",
+    "coords": [
+      37.4810854,
+      55.61905
+    ]
+  },
+  {
+    "id": "node/12163102808",
+    "name_ru": "Генерала Тюленева",
+    "name_en": null,
+    "colour": "#03795F",
+    "coords": [
+      37.4857715,
+      55.6262046
+    ]
+  },
+  {
+    "id": "node/12163102812",
+    "name_ru": "Университет дружбы народов",
+    "name_en": null,
+    "colour": "#03795F",
+    "coords": [
+      37.5071425,
+      55.6479373
+    ]
+  },
+  {
+    "id": "node/12163102815",
+    "name_ru": "Новаторская",
+    "name_en": "Novatorskaya",
+    "colour": "#03795F",
+    "coords": [
+      37.5213865,
+      55.6715854
+    ]
+  },
+  {
+    "id": "node/12460750155",
+    "name_ru": "Корниловская",
+    "name_en": null,
+    "colour": "#03795f",
+    "coords": [
+      37.4789891,
+      55.5983956
+    ]
+  },
+  {
+    "id": "node/12460750156",
+    "name_ru": "Коммунарка",
+    "name_en": null,
+    "colour": "#03795F",
+    "coords": [
+      37.4679907,
+      55.574632
+    ]
+  },
+  {
+    "id": "node/12460750157",
+    "name_ru": "Новомосковская",
+    "name_en": null,
+    "colour": "#03795F",
+    "coords": [
+      37.4652781,
+      55.560601
+    ]
+  },
+  {
+    "id": "node/13141233387",
+    "name_ru": "ЗИЛ",
+    "name_en": null,
+    "colour": "#03795F",
+    "coords": [
+      37.6452346,
+      55.6969336
+    ]
+  },
+  {
+    "id": "node/13141822040",
+    "name_ru": "Крымская",
+    "name_en": null,
+    "colour": "#03795F",
+    "coords": [
+      37.6093943,
+      55.689732
+    ]
+  },
+  {
+    "id": "node/13141822043",
+    "name_ru": "Академическая",
+    "name_en": null,
+    "colour": "#03795F",
+    "coords": [
+      37.5759825,
+      55.6869446
+    ]
+  },
+  {
+    "id": "node/13143504742",
+    "name_ru": "Вавиловская",
+    "name_en": null,
+    "colour": "#03795F",
+    "coords": [
+      37.5408941,
+      55.6848912
+    ]
+  }
+]
