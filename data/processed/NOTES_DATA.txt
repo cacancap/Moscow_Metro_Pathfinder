@@ -14,3 +14,17 @@
     + Mục đích chính: tạo từ điển nối các nodes.
     + Thành quả: adjacency_list.json giúp tra cứu cạnh giữa các node với thời gian O(1) (VD: graph['source_id']['target_id])
     
+Lưu ý: Bộ dữ liệu đang bị lỗi
+
++ Duyệt các ways => Thêm node kết nối điểm cuối way trước vớI điểm đầU way sau (thuộc tính node giả)
+    - Về việc tạo node giả: nên hash theo lat và lon. 
+    - Khi duyệt qua mỗi way => check điểm đầu & cuối, nếu có node thì tạo edge (VD: way ko có node ở giữa, nhưng có node giả đầu A và cuối B => edge AB, còn nếu có thêm node stop => AC&CB)
++ Duyệt gán line->node (stop): dictionary theo node_id, way tương tự
++ Tạo cạnh đi bộ (transfer edge): vét cạn O(n^2), tạo edge nốI các stop (khác tuyến nhau) tạo thành cạnh đi bộ chuyển tuyến => phạt trọng số 
+
+=> Đầu ra: đủ từ điển nối các cạnh với lân cận (đủ các chiều đi và về).
+
+
+
+
+
