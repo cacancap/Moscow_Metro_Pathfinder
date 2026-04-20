@@ -1,7 +1,9 @@
 from pathlib import Path
 import folium
+from folium import plugins
 import json
 import math
+
 
 # --- THIẾT LẬP ĐƯỜNG DẪN ĐỘC LẬP ---
 current_file = Path(__file__).resolve()
@@ -12,8 +14,8 @@ project_root = current_dir.parent.parent.parent
 raw_data_path = project_root / "data" / "raw" / "subway_relation02.geojson"
 stop_dict_path = project_root / "data" / "processed" / "outputs" / "stop_dict_id.json"
 way_dict_path = project_root / "data" / "processed" / "outputs" / "way_dict_id.json"
-adjacency_list_path = project_root / "data" / "processed" / "outputs" / "adjacency_list.json" 
 
+adjacency_list_path = project_root / "data" / "processed" / "outputs" / "adjacency_list.json"
 
 try:
     with open(raw_data_path, 'r', encoding='utf-8') as f:
@@ -236,6 +238,8 @@ visualize_nodes_only(geojson_data, m)
 # 2. Vẽ cạnh và mũi tên
 visualize_adjacency_list(adjacency_list, m)
 
+#visualize_adjacency_list(adjacency_list, m)
+visualize_raw_data()
 output_file = "visualization_output.html"
 m.save(output_file)
 print("Thành công! Đã vẽ xong dữ liệu thô.")

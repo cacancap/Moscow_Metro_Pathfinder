@@ -36,3 +36,5 @@ conda activate Moscow_Metro_Pathfinder
 
 **Bước 6:** Chạy file tuỳ ý.  
 python *file_path*.py
+
+*

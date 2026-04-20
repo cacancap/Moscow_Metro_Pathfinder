@@ -10,3 +10,10 @@ __pycache__/
 # Bỏ qua cấu hình của IDE
 .vscode/
 .idea/
+# Internal documentation and logs
+Logs/
+Spec/
+
+# Temporary data
+data/processed/raw.geojson
+data/processed/bla.py

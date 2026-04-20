@@ -1,0 +1,2774 @@
+{
+  "node_auto_1": {
+    "name_ru": "Курская",
+    "name_en": "Kurskaya",
+    "type": "station",
+    "coords": [
+      37.658419,
+      55.758019
+    ]
+  },
+  "node_auto_3": {
+    "name_ru": "Кунцевская",
+    "name_en": "Kuntsevskaya",
+    "type": "station",
+    "coords": [
+      37.446022,
+      55.73068
+    ]
+  },
+  "node_auto_5": {
+    "name_ru": "Китай-город",
+    "name_en": "Kitay-gorod",
+    "type": "station",
+    "coords": [
+      37.633059,
+      55.755586
+    ]
+  },
+  "node_auto_7": {
+    "name_ru": "Крылатское",
+    "name_en": "Krylatskoye",
+    "type": "station",
+    "coords": [
+      37.408139,
+      55.756595
+    ]
+  },
+  "node_auto_9": {
+    "name_ru": "Сокол",
+    "name_en": "Sokol",
+    "type": "station",
+    "coords": [
+      37.515053,
+      55.805267
+    ]
+  },
+  "node_auto_11": {
+    "name_ru": "Красные Ворота",
+    "name_en": "Krasnye Vorota",
+    "type": "station",
+    "coords": [
+      37.648987,
+      55.769024
+    ]
+  },
+  "node_auto_13": {
+    "name_ru": "ВДНХ",
+    "name_en": "VDNKh",
+    "type": "station",
+    "coords": [
+      37.641201,
+      55.820955
+    ]
+  },
+  "node_auto_15": {
+    "name_ru": "Алексеевская",
+    "name_en": "Alekseyevskaya",
+    "type": "station",
+    "coords": [
+      37.639006,
+      55.809089
+    ]
+  },
+  "node_auto_17": {
+    "name_ru": "Парк Культуры",
+    "name_en": "Park Kultury",
+    "type": "station",
+    "coords": [
+      37.594273,
+      55.735492
+    ]
+  },
+  "node_auto_19": {
+    "name_ru": "Каширская",
+    "name_en": "Kashirskaya",
+    "type": "station",
+    "coords": [
+      37.648809,
+      55.654993
+    ]
+  },
+  "node_auto_21": {
+    "name_ru": "Варшавская",
+    "name_en": "Varshavskaya",
+    "type": "station",
+    "coords": [
+      37.619502,
+      55.653334
+    ]
+  },
+  "node_auto_23": {
+    "name_ru": "Строгино",
+    "name_en": "Strogino",
+    "type": "station",
+    "coords": [
+      37.403083,
+      55.803702
+    ]
+  },
+  "node_auto_25": {
+    "name_ru": "Чкаловская",
+    "name_en": "Chkalovskaya",
+    "type": "station",
+    "coords": [
+      37.656998,
+      55.756702
+    ]
+  },
+  "node_auto_27": {
+    "name_ru": "Курская",
+    "name_en": "Kurskaya",
+    "type": "station",
+    "coords": [
+      37.659332,
+      55.757198
+    ]
+  },
+  "node_auto_29": {
+    "name_ru": "Петровско-Разумовская",
+    "name_en": "Petrovsko-Razumovskaya",
+    "type": "station",
+    "coords": [
+      37.574421,
+      55.83499
+    ]
+  },
+  "node_auto_31": {
+    "name_ru": "Каширская",
+    "name_en": "Kashirskaya",
+    "type": "station",
+    "coords": [
+      37.648583,
+      55.655086
+    ]
+  },
+  "node_auto_33": {
+    "name_ru": "Китай-город",
+    "name_en": "Kitay-gorod",
+    "type": "station",
+    "coords": [
+      37.633565,
+      55.755652
+    ]
+  },
+  "node_auto_35": {
+    "name_ru": "Коньково",
+    "name_en": "Konkovo",
+    "type": "station",
+    "coords": [
+      37.518977,
+      55.633147
+    ]
+  },
+  "node_auto_37": {
+    "name_ru": "Волоколамская",
+    "name_en": "Volokolamskaya",
+    "type": "station",
+    "coords": [
+      37.382242,
+      55.835513
+    ]
+  },
+  "node_auto_43": {
+    "name_ru": "Александровский сад",
+    "name_en": "Alexander Garden",
+    "type": "station",
+    "coords": [
+      37.608683,
+      55.752403
+    ]
+  },
+  "node_auto_45": {
+    "name_ru": "Студенческая",
+    "name_en": "Studencheskaya",
+    "type": "station",
+    "coords": [
+      37.54841,
+      55.73883
+    ]
+  },
+  "node_auto_47": {
+    "name_ru": "Кутузовская",
+    "name_en": "Kutuzovskaya",
+    "type": "station",
+    "coords": [
+      37.534386,
+      55.739991
+    ]
+  },
+  "node_auto_49": {
+    "name_ru": "Кунцевская",
+    "name_en": "Kuntsevskaya",
+    "type": "station",
+    "coords": [
+      37.445982,
+      55.730763
+    ]
+  },
+  "node_auto_51": {
+    "name_ru": "Юго-Западная",
+    "name_en": "Yugo-Zapadnaya",
+    "type": "station",
+    "coords": [
+      37.483219,
+      55.663647
+    ]
+  },
+  "node_auto_53": {
+    "name_ru": "Проспект Мира",
+    "name_en": "Prospekt Mira",
+    "type": "station",
+    "coords": [
+      37.631981,
+      55.780851
+    ]
+  },
+  "node_auto_55": {
+    "name_ru": "Сухаревская",
+    "name_en": "Sukharevskaya",
+    "type": "station",
+    "coords": [
+      37.631204,
+      55.772955
+    ]
+  },
+  "node_auto_58": {
+    "name_ru": "Ясенево",
+    "name_en": "Yasenevo",
+    "type": "station",
+    "coords": [
+      37.533407,
+      55.606306
+    ]
+  },
+  "node_auto_60": {
+    "name_ru": "Октябрьское Поле",
+    "name_en": "Oktyabrskoye Pole",
+    "type": "station",
+    "coords": [
+      37.493812,
+      55.793366
+    ]
+  },
+  "node_auto_63": {
+    "name_ru": "Площадь Революции",
+    "name_en": "Revolution Square",
+    "type": "station",
+    "coords": [
+      37.621784,
+      55.756651
+    ]
+  },
+  "node_auto_65": {
+    "name_ru": "Владыкино",
+    "name_en": "Vladykino",
+    "type": "station",
+    "coords": [
+      37.589912,
+      55.847181
+    ]
+  },
+  "node_auto_67": {
+    "name_ru": "Технопарк",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.664435,
+      55.693623
+    ]
+  },
+  "node_auto_70": {
+    "name_ru": "Улица Старокачаловская",
+    "name_en": "Ulitsa Starokachalovskaya",
+    "type": "station",
+    "coords": [
+      37.576652,
+      55.568955
+    ]
+  },
+  "node_auto_72": {
+    "name_ru": "Пятницкое шоссе",
+    "name_en": "Pyatnitskoye Shosse",
+    "type": "station",
+    "coords": [
+      37.354202,
+      55.856143
+    ]
+  },
+  "node_auto_75": {
+    "name_ru": "Бабушкинская",
+    "name_en": "Babushkinskaya",
+    "type": "station",
+    "coords": [
+      37.66411,
+      55.869634
+    ]
+  },
+  "node_auto_78": {
+    "name_ru": "Спартак",
+    "name_en": "Spartak",
+    "type": "station",
+    "coords": [
+      37.435752,
+      55.818304
+    ]
+  },
+  "node_auto_80": {
+    "name_ru": "Тропарёво",
+    "name_en": "Troparyovo",
+    "type": "station",
+    "coords": [
+      37.472526,
+      55.645857
+    ]
+  },
+  "node_auto_83": {
+    "name_ru": "Петровско-Разумовская",
+    "name_en": "Petrovsko-Razumovskaya",
+    "type": "station",
+    "coords": [
+      37.574825,
+      55.834687
+    ]
+  },
+  "node_auto_85": {
+    "name_ru": "Парк Победы",
+    "name_en": "Victory Park",
+    "type": "station",
+    "coords": [
+      37.518219,
+      55.736523
+    ]
+  },
+  "node_auto_101": {
+    "name_ru": "Ховрино",
+    "name_en": "Khovrino",
+    "type": "station",
+    "coords": [
+      37.480854,
+      55.878152
+    ]
+  },
+  "node_auto_104": {
+    "name_ru": "Хорошёвская",
+    "name_en": "Horoshyovskaya",
+    "type": "station",
+    "coords": [
+      37.519137,
+      55.776695
+    ]
+  },
+  "node_auto_107": {
+    "name_ru": "ЦСКА",
+    "name_en": "CSKA",
+    "type": "station",
+    "coords": [
+      37.533201,
+      55.786561
+    ]
+  },
+  "node_auto_110": {
+    "name_ru": "Петровский парк",
+    "name_en": "Petrovskiy Park",
+    "type": "station",
+    "coords": [
+      37.557093,
+      55.791922
+    ]
+  },
+  "node_auto_113": {
+    "name_ru": "Беломорская",
+    "name_en": "Belomorskaja",
+    "type": "station",
+    "coords": [
+      37.474877,
+      55.864964
+    ]
+  },
+  "node_auto_116": {
+    "name_ru": "Савёловская",
+    "name_en": "Savyolovskaya",
+    "type": "station",
+    "coords": [
+      37.58612,
+      55.792329
+    ]
+  },
+  "node_auto_119": {
+    "name_ru": "Алтуфьево",
+    "name_en": "Altufyevo",
+    "type": "station",
+    "coords": [
+      37.587358,
+      55.897922
+    ]
+  },
+  "node_auto_122": {
+    "name_ru": "Бибирево",
+    "name_en": "Bibirevo",
+    "type": "station",
+    "coords": [
+      37.603554,
+      55.883871
+    ]
+  },
+  "node_auto_125": {
+    "name_ru": "Отрадное",
+    "name_en": "Otradnoye",
+    "type": "station",
+    "coords": [
+      37.604651,
+      55.863177
+    ]
+  },
+  "node_auto_129": {
+    "name_ru": "Тимирязевская",
+    "name_en": "Timiryazevskaya",
+    "type": "station",
+    "coords": [
+      37.576389,
+      55.817126
+    ]
+  },
+  "node_auto_132": {
+    "name_ru": "Дмитровская",
+    "name_en": "Dmitrovskaya",
+    "type": "station",
+    "coords": [
+      37.581907,
+      55.806561
+    ]
+  },
+  "node_auto_135": {
+    "name_ru": "Савёловская",
+    "name_en": "Savyolovskaya",
+    "type": "station",
+    "coords": [
+      37.588816,
+      55.792488
+    ]
+  },
+  "node_auto_138": {
+    "name_ru": "Менделеевская",
+    "name_en": "Mendeleyevskaya",
+    "type": "station",
+    "coords": [
+      37.601981,
+      55.780961
+    ]
+  },
+  "node_auto_141": {
+    "name_ru": "Цветной бульвар",
+    "name_en": "Tsvetnoy Bulvar",
+    "type": "station",
+    "coords": [
+      37.61791,
+      55.770872
+    ]
+  },
+  "node_auto_144": {
+    "name_ru": "Тверская",
+    "name_en": "Tverskaya",
+    "type": "station",
+    "coords": [
+      37.606313,
+      55.764895
+    ]
+  },
+  "node_auto_147": {
+    "name_ru": "Пушкинская",
+    "name_en": "Pushkinskaya",
+    "type": "station",
+    "coords": [
+      37.607416,
+      55.765428
+    ]
+  },
+  "node_auto_150": {
+    "name_ru": "Чеховская",
+    "name_en": "Chekhovskaya",
+    "type": "station",
+    "coords": [
+      37.609087,
+      55.764833
+    ]
+  },
+  "node_auto_153": {
+    "name_ru": "Боровицкая",
+    "name_en": "Borovitskaya",
+    "type": "station",
+    "coords": [
+      37.607057,
+      55.750972
+    ]
+  },
+  "node_auto_156": {
+    "name_ru": "Полянка",
+    "name_en": "Polyanka",
+    "type": "station",
+    "coords": [
+      37.6172,
+      55.738168
+    ]
+  },
+  "node_auto_159": {
+    "name_ru": "Добрынинская",
+    "name_en": "Dobryninskaya",
+    "type": "station",
+    "coords": [
+      37.62442,
+      55.729107
+    ]
+  },
+  "node_auto_162": {
+    "name_ru": "Серпуховская",
+    "name_en": "Serpukhovskaya",
+    "type": "station",
+    "coords": [
+      37.624829,
+      55.727953
+    ]
+  },
+  "node_auto_165": {
+    "name_ru": "Тульская",
+    "name_en": "Tulskaya",
+    "type": "station",
+    "coords": [
+      37.622817,
+      55.708665
+    ]
+  },
+  "node_auto_169": {
+    "name_ru": "Бульвар Дмитрия Донского",
+    "name_en": "Bulvar Dmitriya Donskogo",
+    "type": "station",
+    "coords": [
+      37.576869,
+      55.569245
+    ]
+  },
+  "node_auto_172": {
+    "name_ru": "Аннино",
+    "name_en": "Annino",
+    "type": "station",
+    "coords": [
+      37.596531,
+      55.582532
+    ]
+  },
+  "node_auto_175": {
+    "name_ru": "Улица Академика Янгеля",
+    "name_en": "Ulitsa Akademika Yangelya",
+    "type": "station",
+    "coords": [
+      37.600436,
+      55.594986
+    ]
+  },
+  "node_auto_178": {
+    "name_ru": "Пражская",
+    "name_en": "Prazhskaya",
+    "type": "station",
+    "coords": [
+      37.604524,
+      55.612374
+    ]
+  },
+  "node_auto_181": {
+    "name_ru": "Южная",
+    "name_en": "Yuzhnaya",
+    "type": "station",
+    "coords": [
+      37.609219,
+      55.622256
+    ]
+  },
+  "node_auto_184": {
+    "name_ru": "Чертановская",
+    "name_en": "Chertanovskaya",
+    "type": "station",
+    "coords": [
+      37.60669,
+      55.640455
+    ]
+  },
+  "node_auto_187": {
+    "name_ru": "Севастопольская",
+    "name_en": "Sevastopolskaya",
+    "type": "station",
+    "coords": [
+      37.598434,
+      55.652674
+    ]
+  },
+  "node_auto_190": {
+    "name_ru": "Нахимовский проспект",
+    "name_en": "Nakhimovsky Prospekt",
+    "type": "station",
+    "coords": [
+      37.605622,
+      55.662651
+    ]
+  },
+  "node_auto_193": {
+    "name_ru": "Нагорная",
+    "name_en": "Nagornaya",
+    "type": "station",
+    "coords": [
+      37.610274,
+      55.671943
+    ]
+  },
+  "node_auto_196": {
+    "name_ru": "Нагатинская",
+    "name_en": "Nagatinskaya",
+    "type": "station",
+    "coords": [
+      37.622414,
+      55.682973
+    ]
+  },
+  "node_auto_199": {
+    "name_ru": "Павелецкая",
+    "name_en": "Paveletskaya",
+    "type": "station",
+    "coords": [
+      37.638148,
+      55.732317
+    ]
+  },
+  "node_auto_202": {
+    "name_ru": "Марксистская",
+    "name_en": "Marksistskaya",
+    "type": "station",
+    "coords": [
+      37.653534,
+      55.741316
+    ]
+  },
+  "node_auto_205": {
+    "name_ru": "Таганская",
+    "name_en": "Taganskaya",
+    "type": "station",
+    "coords": [
+      37.6519,
+      55.740465
+    ]
+  },
+  "node_auto_208": {
+    "name_ru": "Таганская",
+    "name_en": "Taganskaya",
+    "type": "station",
+    "coords": [
+      37.651323,
+      55.741665
+    ]
+  },
+  "node_auto_211": {
+    "name_ru": "Комсомольская",
+    "name_en": "Komsomolskaya",
+    "type": "station",
+    "coords": [
+      37.656034,
+      55.775208
+    ]
+  },
+  "node_auto_214": {
+    "name_ru": "Комсомольская",
+    "name_en": "Komsomolskaya",
+    "type": "station",
+    "coords": [
+      37.654491,
+      55.774581
+    ]
+  },
+  "node_auto_218": {
+    "name_ru": "Проспект Мира",
+    "name_en": "Prospekt Mira",
+    "type": "station",
+    "coords": [
+      37.631753,
+      55.779633
+    ]
+  },
+  "node_auto_221": {
+    "name_ru": "Новослободская",
+    "name_en": "Novoslobodskaya",
+    "type": "station",
+    "coords": [
+      37.603475,
+      55.779852
+    ]
+  },
+  "node_auto_224": {
+    "name_ru": "Белорусская",
+    "name_en": "Belorusskaya",
+    "type": "station",
+    "coords": [
+      37.584068,
+      55.776138
+    ]
+  },
+  "node_auto_227": {
+    "name_ru": "Краснопресненская",
+    "name_en": "Krasnopresnenskaya",
+    "type": "station",
+    "coords": [
+      37.577329,
+      55.761185
+    ]
+  },
+  "node_auto_230": {
+    "name_ru": "Киевская",
+    "name_en": "Kiyevskaya",
+    "type": "station",
+    "coords": [
+      37.565506,
+      55.744727
+    ]
+  },
+  "node_auto_233": {
+    "name_ru": "Парк Культуры",
+    "name_en": "Park Kultury",
+    "type": "station",
+    "coords": [
+      37.591302,
+      55.735811
+    ]
+  },
+  "node_auto_236": {
+    "name_ru": "Октябрьская",
+    "name_en": "Oktyabrskaya",
+    "type": "station",
+    "coords": [
+      37.609399,
+      55.729779
+    ]
+  },
+  "node_auto_239": {
+    "name_ru": "Алма-Атинская",
+    "name_en": "Alma-Atinskaya",
+    "type": "station",
+    "coords": [
+      37.765935,
+      55.632799
+    ]
+  },
+  "node_auto_242": {
+    "name_ru": "Речной вокзал",
+    "name_en": "Rechnoy Vokzal",
+    "type": "station",
+    "coords": [
+      37.476213,
+      55.855013
+    ]
+  },
+  "node_auto_245": {
+    "name_ru": "Водный стадион",
+    "name_en": "Vodny Stadion",
+    "type": "station",
+    "coords": [
+      37.486711,
+      55.840059
+    ]
+  },
+  "node_auto_248": {
+    "name_ru": "Войковская",
+    "name_en": "Voykovskaya",
+    "type": "station",
+    "coords": [
+      37.498018,
+      55.819052
+    ]
+  },
+  "node_auto_251": {
+    "name_ru": "Аэропорт",
+    "name_en": "Aeroport",
+    "type": "station",
+    "coords": [
+      37.53315,
+      55.800397
+    ]
+  },
+  "node_auto_254": {
+    "name_ru": "Динамо",
+    "name_en": "Dinamo",
+    "type": "station",
+    "coords": [
+      37.558208,
+      55.78974
+    ]
+  },
+  "node_auto_257": {
+    "name_ru": "Белорусская",
+    "name_en": "Belorusskaya",
+    "type": "station",
+    "coords": [
+      37.583575,
+      55.776702
+    ]
+  },
+  "node_auto_260": {
+    "name_ru": "Маяковская",
+    "name_en": "Mayakovskaya",
+    "type": "station",
+    "coords": [
+      37.595087,
+      55.770171
+    ]
+  },
+  "node_auto_263": {
+    "name_ru": "Охотный Ряд",
+    "name_en": "Okhotny Ryad",
+    "type": "station",
+    "coords": [
+      37.61651,
+      55.757772
+    ]
+  },
+  "node_auto_267": {
+    "name_ru": "Театральная",
+    "name_en": "Teatralnaya",
+    "type": "station",
+    "coords": [
+      37.619191,
+      55.757507
+    ]
+  },
+  "node_auto_270": {
+    "name_ru": "Третьяковская",
+    "name_en": "Tretyakovskaya",
+    "type": "station",
+    "coords": [
+      37.627344,
+      55.740917
+    ]
+  },
+  "node_auto_272": {
+    "name_ru": "Третьяковская",
+    "name_en": "Tretyakovskaya",
+    "type": "station",
+    "coords": [
+      37.627308,
+      55.741284
+    ]
+  },
+  "node_auto_276": {
+    "name_ru": "Новокузнецкая",
+    "name_en": "Novokuznetskaya",
+    "type": "station",
+    "coords": [
+      37.629202,
+      55.741434
+    ]
+  },
+  "node_auto_279": {
+    "name_ru": "Павелецкая",
+    "name_en": "Paveletskaya",
+    "type": "station",
+    "coords": [
+      37.637841,
+      55.730498
+    ]
+  },
+  "node_auto_282": {
+    "name_ru": "Автозаводская",
+    "name_en": "Avtozavodskaya",
+    "type": "station",
+    "coords": [
+      37.657768,
+      55.707345
+    ]
+  },
+  "node_auto_286": {
+    "name_ru": "Коломенская",
+    "name_en": "Kolomenskaya",
+    "type": "station",
+    "coords": [
+      37.663925,
+      55.678481
+    ]
+  },
+  "node_auto_289": {
+    "name_ru": "Кантемировская",
+    "name_en": "Kantemirovskaya",
+    "type": "station",
+    "coords": [
+      37.656541,
+      55.635735
+    ]
+  },
+  "node_auto_292": {
+    "name_ru": "Царицыно",
+    "name_en": "Tsaritsyno",
+    "type": "station",
+    "coords": [
+      37.669238,
+      55.621481
+    ]
+  },
+  "node_auto_295": {
+    "name_ru": "Орехово",
+    "name_en": "Orekhovo",
+    "type": "station",
+    "coords": [
+      37.694972,
+      55.613143
+    ]
+  },
+  "node_auto_298": {
+    "name_ru": "Домодедовская",
+    "name_en": "Domodedovskaya",
+    "type": "station",
+    "coords": [
+      37.718741,
+      55.610855
+    ]
+  },
+  "node_auto_301": {
+    "name_ru": "Красногвардейская",
+    "name_en": "Krasnogvardeyskaya",
+    "type": "station",
+    "coords": [
+      37.744435,
+      55.613694
+    ]
+  },
+  "node_auto_304": {
+    "name_ru": "Зябликово",
+    "name_en": "Zyablikovo",
+    "type": "station",
+    "coords": [
+      37.745179,
+      55.612235
+    ]
+  },
+  "node_auto_307": {
+    "name_ru": "Селигерская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.54718,
+      55.866612
+    ]
+  },
+  "node_auto_310": {
+    "name_ru": "Верхние Лихоборы",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.561344,
+      55.856113
+    ]
+  },
+  "node_auto_313": {
+    "name_ru": "Окружная",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.573829,
+      55.846026
+    ]
+  },
+  "node_auto_316": {
+    "name_ru": "Фонвизинская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.587637,
+      55.822916
+    ]
+  },
+  "node_auto_319": {
+    "name_ru": "Бутырская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.602528,
+      55.813373
+    ]
+  },
+  "node_auto_322": {
+    "name_ru": "Марьина Роща",
+    "name_en": "Maryina Roshcha",
+    "type": "station",
+    "coords": [
+      37.616306,
+      55.795524
+    ]
+  },
+  "node_auto_325": {
+    "name_ru": "Достоевская",
+    "name_en": "Dostoyevskaya",
+    "type": "station",
+    "coords": [
+      37.615074,
+      55.781461
+    ]
+  },
+  "node_auto_328": {
+    "name_ru": "Трубная",
+    "name_en": "Trubnaya",
+    "type": "station",
+    "coords": [
+      37.619551,
+      55.769114
+    ]
+  },
+  "node_auto_331": {
+    "name_ru": "Сретенский бульвар",
+    "name_en": "Sretensky Bulvar",
+    "type": "station",
+    "coords": [
+      37.640087,
+      55.766988
+    ]
+  },
+  "node_auto_334": {
+    "name_ru": "Тургеневская",
+    "name_en": "Turgenevskaya",
+    "type": "station",
+    "coords": [
+      37.637467,
+      55.766492
+    ]
+  },
+  "node_auto_337": {
+    "name_ru": "Чистые пруды",
+    "name_en": "Chistye Prudy",
+    "type": "station",
+    "coords": [
+      37.639028,
+      55.765871
+    ]
+  },
+  "node_auto_340": {
+    "name_ru": "Площадь Ильича",
+    "name_en": "Ploshchad Ilyicha",
+    "type": "station",
+    "coords": [
+      37.683197,
+      55.747196
+    ]
+  },
+  "node_auto_343": {
+    "name_ru": "Римская",
+    "name_en": "Rimskaya",
+    "type": "station",
+    "coords": [
+      37.683251,
+      55.746342
+    ]
+  },
+  "node_auto_346": {
+    "name_ru": "Крестьянская Застава",
+    "name_en": "Krestyanskaya Zastava",
+    "type": "station",
+    "coords": [
+      37.667478,
+      55.73317
+    ]
+  },
+  "node_auto_349": {
+    "name_ru": "Пролетарская",
+    "name_en": "Proletarskaya",
+    "type": "station",
+    "coords": [
+      37.665879,
+      55.731857
+    ]
+  },
+  "node_auto_352": {
+    "name_ru": "Дубровка",
+    "name_en": "Dubrovka",
+    "type": "station",
+    "coords": [
+      37.675541,
+      55.719209
+    ]
+  },
+  "node_auto_355": {
+    "name_ru": "Кожуховская",
+    "name_en": "Kozhukhovskaya",
+    "type": "station",
+    "coords": [
+      37.684618,
+      55.707586
+    ]
+  },
+  "node_auto_358": {
+    "name_ru": "Печатники",
+    "name_en": "Pechatniki",
+    "type": "station",
+    "coords": [
+      37.726952,
+      55.693491
+    ]
+  },
+  "node_auto_361": {
+    "name_ru": "Волжская",
+    "name_en": "Volzhskaya",
+    "type": "station",
+    "coords": [
+      37.753101,
+      55.690826
+    ]
+  },
+  "node_auto_364": {
+    "name_ru": "Люблино",
+    "name_en": "Lyublino",
+    "type": "station",
+    "coords": [
+      37.761958,
+      55.675721
+    ]
+  },
+  "node_auto_367": {
+    "name_ru": "Братиславская",
+    "name_en": "Bratislavskaya",
+    "type": "station",
+    "coords": [
+      37.750669,
+      55.659739
+    ]
+  },
+  "node_auto_370": {
+    "name_ru": "Марьино",
+    "name_en": "Maryino",
+    "type": "station",
+    "coords": [
+      37.743147,
+      55.650016
+    ]
+  },
+  "node_auto_373": {
+    "name_ru": "Борисово",
+    "name_en": "Borisovo",
+    "type": "station",
+    "coords": [
+      37.743752,
+      55.633304
+    ]
+  },
+  "node_auto_376": {
+    "name_ru": "Шипиловская",
+    "name_en": "Shipilovskaya",
+    "type": "station",
+    "coords": [
+      37.743639,
+      55.621027
+    ]
+  },
+  "node_auto_379": {
+    "name_ru": "Медведково",
+    "name_en": "Medvedkovo",
+    "type": "station",
+    "coords": [
+      37.66155,
+      55.887177
+    ]
+  },
+  "node_auto_382": {
+    "name_ru": "Свиблово",
+    "name_en": "Sviblovo",
+    "type": "station",
+    "coords": [
+      37.652706,
+      55.855213
+    ]
+  },
+  "node_auto_385": {
+    "name_ru": "Ботанический сад",
+    "name_en": "Botanical Garden",
+    "type": "station",
+    "coords": [
+      37.638246,
+      55.844845
+    ]
+  },
+  "node_auto_388": {
+    "name_ru": "Рижская",
+    "name_en": "Rizhskaya",
+    "type": "station",
+    "coords": [
+      37.636498,
+      55.793701
+    ]
+  },
+  "node_auto_392": {
+    "name_ru": "Кузнецкий Мост",
+    "name_en": "Kuznetsky Most",
+    "type": "station",
+    "coords": [
+      37.626143,
+      55.760751
+    ]
+  },
+  "node_auto_395": {
+    "name_ru": "Лубянка",
+    "name_en": "Lubyanka",
+    "type": "station",
+    "coords": [
+      37.627855,
+      55.759873
+    ]
+  },
+  "node_auto_398": {
+    "name_ru": "Октябрьская",
+    "name_en": "Oktyabrskaya",
+    "type": "station",
+    "coords": [
+      37.610909,
+      55.730496
+    ]
+  },
+  "node_auto_401": {
+    "name_ru": "Шаболовская",
+    "name_en": "Shabolovskaya",
+    "type": "station",
+    "coords": [
+      37.607696,
+      55.719987
+    ]
+  },
+  "node_auto_404": {
+    "name_ru": "Ленинский проспект",
+    "name_en": "Leninsky Prospekt",
+    "type": "station",
+    "coords": [
+      37.586212,
+      55.707617
+    ]
+  },
+  "node_auto_407": {
+    "name_ru": "Академическая",
+    "name_en": "Akademicheskaya",
+    "type": "station",
+    "coords": [
+      37.573515,
+      55.687808
+    ]
+  },
+  "node_auto_410": {
+    "name_ru": "Профсоюзная",
+    "name_en": "Profsoyuznaya",
+    "type": "station",
+    "coords": [
+      37.562904,
+      55.67793
+    ]
+  },
+  "node_auto_413": {
+    "name_ru": "Новые Черёмушки",
+    "name_en": "Novye Cheryomushki",
+    "type": "station",
+    "coords": [
+      37.554698,
+      55.670279
+    ]
+  },
+  "node_auto_416": {
+    "name_ru": "Калужская",
+    "name_en": "Kaluzhskaya",
+    "type": "station",
+    "coords": [
+      37.540526,
+      55.657091
+    ]
+  },
+  "node_auto_419": {
+    "name_ru": "Беляево",
+    "name_en": "Belyayevo",
+    "type": "station",
+    "coords": [
+      37.52568,
+      55.642777
+    ]
+  },
+  "node_auto_422": {
+    "name_ru": "Тёплый Стан",
+    "name_en": "Tyoply Stan",
+    "type": "station",
+    "coords": [
+      37.508218,
+      55.618862
+    ]
+  },
+  "node_auto_426": {
+    "name_ru": "Новоясеневская",
+    "name_en": "Novoyasenevskaya",
+    "type": "station",
+    "coords": [
+      37.554139,
+      55.600994
+    ]
+  },
+  "node_auto_429": {
+    "name_ru": "Битцевский парк",
+    "name_en": "Bitsevskiy park",
+    "type": "station",
+    "coords": [
+      37.556379,
+      55.600239
+    ]
+  },
+  "node_auto_432": {
+    "name_ru": "Лесопарковая",
+    "name_en": "Lesoparkovaya",
+    "type": "station",
+    "coords": [
+      37.576892,
+      55.582098
+    ]
+  },
+  "node_auto_435": {
+    "name_ru": "Улица Скобелевская",
+    "name_en": "Ulitsa Skobelevskaya",
+    "type": "station",
+    "coords": [
+      37.554625,
+      55.548108
+    ]
+  },
+  "node_auto_438": {
+    "name_ru": "Бульвар Адмирала Ушакова",
+    "name_en": "Bulvar Admirala Ushakova",
+    "type": "station",
+    "coords": [
+      37.543211,
+      55.545434
+    ]
+  },
+  "node_auto_441": {
+    "name_ru": "Улица Горчакова",
+    "name_en": "Ulitsa Gorchakova",
+    "type": "station",
+    "coords": [
+      37.530718,
+      55.541695
+    ]
+  },
+  "node_auto_444": {
+    "name_ru": "Бунинская аллея",
+    "name_en": "Buninskaya Alleya",
+    "type": "station",
+    "coords": [
+      37.516547,
+      55.538147
+    ]
+  },
+  "node_auto_447": {
+    "name_ru": "Бульвар Рокоссовского",
+    "name_en": "Bul'var Rokossovskogo",
+    "type": "station",
+    "coords": [
+      37.73434,
+      55.814682
+    ]
+  },
+  "node_auto_450": {
+    "name_ru": "Черкизовская",
+    "name_en": "Cherkizovskaya",
+    "type": "station",
+    "coords": [
+      37.745032,
+      55.803881
+    ]
+  },
+  "node_auto_453": {
+    "name_ru": "Преображенская площадь",
+    "name_en": "Preobrazhenskaya Ploshchad",
+    "type": "station",
+    "coords": [
+      37.715347,
+      55.79637
+    ]
+  },
+  "node_auto_456": {
+    "name_ru": "Сокольники",
+    "name_en": "Sokolniki",
+    "type": "station",
+    "coords": [
+      37.680253,
+      55.788817
+    ]
+  },
+  "node_auto_459": {
+    "name_ru": "Красносельская",
+    "name_en": "Krasnoselskaya",
+    "type": "station",
+    "coords": [
+      37.667656,
+      55.780356
+    ]
+  },
+  "node_auto_464": {
+    "name_ru": "Библиотека имени Ленина",
+    "name_en": "Lenin Library",
+    "type": "station",
+    "coords": [
+      37.610171,
+      55.751232
+    ]
+  },
+  "node_auto_467": {
+    "name_ru": "Кропоткинская",
+    "name_en": "Kropotkinskaya",
+    "type": "station",
+    "coords": [
+      37.603807,
+      55.74543
+    ]
+  },
+  "node_auto_470": {
+    "name_ru": "Фрунзенская",
+    "name_en": "Frunzenskaya",
+    "type": "station",
+    "coords": [
+      37.57833,
+      55.726879
+    ]
+  },
+  "node_auto_473": {
+    "name_ru": "Спортивная",
+    "name_en": "Sportivnaya",
+    "type": "station",
+    "coords": [
+      37.564213,
+      55.723383
+    ]
+  },
+  "node_auto_476": {
+    "name_ru": "Воробьёвы горы",
+    "name_en": "Vorobyovy Gory",
+    "type": "station",
+    "coords": [
+      37.559289,
+      55.710332
+    ]
+  },
+  "node_auto_479": {
+    "name_ru": "Университет",
+    "name_en": "Universitet",
+    "type": "station",
+    "coords": [
+      37.533285,
+      55.692663
+    ]
+  },
+  "node_auto_482": {
+    "name_ru": "Проспект Вернадского",
+    "name_en": "Prospekt Vernadskogo",
+    "type": "station",
+    "coords": [
+      37.506064,
+      55.677226
+    ]
+  },
+  "node_auto_486": {
+    "name_ru": "Румянцево",
+    "name_en": "Rumyantsevo",
+    "type": "station",
+    "coords": [
+      37.441585,
+      55.632954
+    ]
+  },
+  "node_auto_489": {
+    "name_ru": "Саларьево",
+    "name_en": "Salaryevo",
+    "type": "station",
+    "coords": [
+      37.424187,
+      55.621922
+    ]
+  },
+  "node_auto_492": {
+    "name_ru": "Филатов Луг",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.407426,
+      55.601528
+    ]
+  },
+  "node_auto_495": {
+    "name_ru": "Прокшино",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.433859,
+      55.586218
+    ]
+  },
+  "node_auto_498": {
+    "name_ru": "Ольховая",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.459359,
+      55.568621
+    ]
+  },
+  "node_auto_501": {
+    "name_ru": "Новомосковская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.468006,
+      55.560567
+    ]
+  },
+  "node_auto_504": {
+    "name_ru": "Планерная",
+    "name_en": "Planernaya",
+    "type": "station",
+    "coords": [
+      37.436526,
+      55.860654
+    ]
+  },
+  "node_auto_507": {
+    "name_ru": "Сходненская",
+    "name_en": "Skhodnenskaya",
+    "type": "station",
+    "coords": [
+      37.439774,
+      55.850481
+    ]
+  },
+  "node_auto_510": {
+    "name_ru": "Тушинская",
+    "name_en": "Tushinskaya",
+    "type": "station",
+    "coords": [
+      37.436976,
+      55.826529
+    ]
+  },
+  "node_auto_513": {
+    "name_ru": "Щукинская",
+    "name_en": "Shchukinskaya",
+    "type": "station",
+    "coords": [
+      37.464701,
+      55.808461
+    ]
+  },
+  "node_auto_517": {
+    "name_ru": "Полежаевская",
+    "name_en": "Polezhayevskaya",
+    "type": "station",
+    "coords": [
+      37.51929,
+      55.777509
+    ]
+  },
+  "node_auto_520": {
+    "name_ru": "Беговая",
+    "name_en": "Begovaya",
+    "type": "station",
+    "coords": [
+      37.546656,
+      55.773716
+    ]
+  },
+  "node_auto_523": {
+    "name_ru": "Улица 1905 года",
+    "name_en": "Ulitsa 1905 Goda",
+    "type": "station",
+    "coords": [
+      37.561341,
+      55.764861
+    ]
+  },
+  "node_auto_526": {
+    "name_ru": "Баррикадная",
+    "name_en": "Barrikadnaya",
+    "type": "station",
+    "coords": [
+      37.579309,
+      55.761131
+    ]
+  },
+  "node_auto_529": {
+    "name_ru": "Волгоградский проспект",
+    "name_en": "Volgogradsky Prospekt",
+    "type": "station",
+    "coords": [
+      37.686891,
+      55.725239
+    ]
+  },
+  "node_auto_532": {
+    "name_ru": "Текстильщики",
+    "name_en": "Tekstilshchiki",
+    "type": "station",
+    "coords": [
+      37.731504,
+      55.708814
+    ]
+  },
+  "node_auto_535": {
+    "name_ru": "Кузьминки",
+    "name_en": "Kuzminki",
+    "type": "station",
+    "coords": [
+      37.765784,
+      55.705602
+    ]
+  },
+  "node_auto_538": {
+    "name_ru": "Рязанский проспект",
+    "name_en": "Ryazansky Prospekt",
+    "type": "station",
+    "coords": [
+      37.793315,
+      55.716947
+    ]
+  },
+  "node_auto_541": {
+    "name_ru": "Выхино",
+    "name_en": "Vykhino",
+    "type": "station",
+    "coords": [
+      37.817923,
+      55.715644
+    ]
+  },
+  "node_auto_544": {
+    "name_ru": "Косино",
+    "name_en": "Kosino",
+    "type": "station",
+    "coords": [
+      37.851032,
+      55.703417
+    ]
+  },
+  "node_auto_547": {
+    "name_ru": "Лермонтовский проспект",
+    "name_en": "Lermontovsky prospekt",
+    "type": "station",
+    "coords": [
+      37.851973,
+      55.701625
+    ]
+  },
+  "node_auto_550": {
+    "name_ru": "Жулебино",
+    "name_en": "Zhulebino",
+    "type": "station",
+    "coords": [
+      37.856294,
+      55.685438
+    ]
+  },
+  "node_auto_555": {
+    "name_ru": "Деловой центр",
+    "name_en": "Delovoy Center",
+    "type": "station",
+    "coords": [
+      37.539179,
+      55.749114
+    ]
+  },
+  "node_auto_558": {
+    "name_ru": "Минская",
+    "name_en": "Minskaya",
+    "type": "station",
+    "coords": [
+      37.496844,
+      55.724788
+    ]
+  },
+  "node_auto_561": {
+    "name_ru": "Ломоносовский проспект",
+    "name_en": "Lomonosovskiy prospect",
+    "type": "station",
+    "coords": [
+      37.516236,
+      55.707142
+    ]
+  },
+  "node_auto_564": {
+    "name_ru": "Раменки",
+    "name_en": "Ramenki",
+    "type": "station",
+    "coords": [
+      37.498542,
+      55.697561
+    ]
+  },
+  "node_auto_567": {
+    "name_ru": "Мичуринский проспект",
+    "name_en": "Michurinskiy prospekt",
+    "type": "station",
+    "coords": [
+      37.482844,
+      55.689334
+    ]
+  },
+  "node_auto_570": {
+    "name_ru": "Озёрная",
+    "name_en": "Ozyornaya",
+    "type": "station",
+    "coords": [
+      37.44873,
+      55.670505
+    ]
+  },
+  "node_auto_573": {
+    "name_ru": "Говорово",
+    "name_en": "Govorovo",
+    "type": "station",
+    "coords": [
+      37.417239,
+      55.659552
+    ]
+  },
+  "node_auto_576": {
+    "name_ru": "Солнцево",
+    "name_en": "Solntsevo",
+    "type": "station",
+    "coords": [
+      37.3911,
+      55.649569
+    ]
+  },
+  "node_auto_579": {
+    "name_ru": "Боровское шоссе",
+    "name_en": "Borovskoe shosse",
+    "type": "station",
+    "coords": [
+      37.370423,
+      55.647751
+    ]
+  },
+  "node_auto_582": {
+    "name_ru": "Новопеределкино",
+    "name_en": "Novoperedelkino",
+    "type": "station",
+    "coords": [
+      37.355104,
+      55.639625
+    ]
+  },
+  "node_auto_585": {
+    "name_ru": "Рассказовка",
+    "name_en": "Rasskazovka",
+    "type": "station",
+    "coords": [
+      37.335086,
+      55.634029
+    ]
+  },
+  "node_auto_588": {
+    "name_ru": "Авиамоторная",
+    "name_en": "Aviamotornaya",
+    "type": "station",
+    "coords": [
+      37.720063,
+      55.752535
+    ]
+  },
+  "node_auto_591": {
+    "name_ru": "Шоссе Энтузиастов",
+    "name_en": "Shosse Entuziastov",
+    "type": "station",
+    "coords": [
+      37.749487,
+      55.757569
+    ]
+  },
+  "node_auto_594": {
+    "name_ru": "Перово",
+    "name_en": "Perovo",
+    "type": "station",
+    "coords": [
+      37.786482,
+      55.751197
+    ]
+  },
+  "node_auto_597": {
+    "name_ru": "Новогиреево",
+    "name_en": "Novogireyevo",
+    "type": "station",
+    "coords": [
+      37.816745,
+      55.751769
+    ]
+  },
+  "node_auto_600": {
+    "name_ru": "Новокосино",
+    "name_en": "Novokosino",
+    "type": "station",
+    "coords": [
+      37.863773,
+      55.745087
+    ]
+  },
+  "node_auto_603": {
+    "name_ru": "Улица Дмитриевского",
+    "name_en": "Ulitsa Dmitriyevskogo",
+    "type": "station",
+    "coords": [
+      37.880201,
+      55.710103
+    ]
+  },
+  "node_auto_606": {
+    "name_ru": "Лухмановская",
+    "name_en": "Lukhmanovskaya",
+    "type": "station",
+    "coords": [
+      37.901016,
+      55.70851
+    ]
+  },
+  "node_auto_609": {
+    "name_ru": "Деловой центр",
+    "name_en": "Delovoy Center",
+    "type": "station",
+    "coords": [
+      37.541367,
+      55.750087
+    ]
+  },
+  "node_auto_612": {
+    "name_ru": "Москва-Сити",
+    "name_en": "Moscow-City",
+    "type": "station",
+    "coords": [
+      37.534231,
+      55.748305
+    ]
+  },
+  "node_auto_615": {
+    "name_ru": "Митино",
+    "name_en": "Mitino",
+    "type": "station",
+    "coords": [
+      37.362226,
+      55.845754
+    ]
+  },
+  "node_auto_619": {
+    "name_ru": "Молодёжная",
+    "name_en": "Molodyozhnaya",
+    "type": "station",
+    "coords": [
+      37.416939,
+      55.740757
+    ]
+  },
+  "node_auto_622": {
+    "name_ru": "Славянский бульвар",
+    "name_en": "Slavyansky Bulvar",
+    "type": "station",
+    "coords": [
+      37.470788,
+      55.729596
+    ]
+  },
+  "node_auto_625": {
+    "name_ru": "Парк Победы",
+    "name_en": "Victory Park",
+    "type": "station",
+    "coords": [
+      37.517967,
+      55.736169
+    ]
+  },
+  "node_auto_628": {
+    "name_ru": "Киевская",
+    "name_en": "Kiyevskaya",
+    "type": "station",
+    "coords": [
+      37.565375,
+      55.744301
+    ]
+  },
+  "node_auto_630": {
+    "name_ru": "Киевская",
+    "name_en": "Kiyevskaya",
+    "type": "station",
+    "coords": [
+      37.565645,
+      55.743684
+    ]
+  },
+  "node_auto_634": {
+    "name_ru": "Смоленская",
+    "name_en": "Smolenskaya",
+    "type": "station",
+    "coords": [
+      37.581825,
+      55.747394
+    ]
+  },
+  "node_auto_637": {
+    "name_ru": "Смоленская",
+    "name_en": "Smolenskaya",
+    "type": "station",
+    "coords": [
+      37.582721,
+      55.748808
+    ]
+  },
+  "node_auto_640": {
+    "name_ru": "Арбатская",
+    "name_en": "Arbatskaya",
+    "type": "station",
+    "coords": [
+      37.600657,
+      55.751852
+    ]
+  },
+  "node_auto_643": {
+    "name_ru": "Арбатская",
+    "name_en": "Arbatskaya",
+    "type": "station",
+    "coords": [
+      37.606978,
+      55.752095
+    ]
+  },
+  "node_auto_646": {
+    "name_ru": "Бауманская",
+    "name_en": "Baumanskaya",
+    "type": "station",
+    "coords": [
+      37.680549,
+      55.773039
+    ]
+  },
+  "node_auto_649": {
+    "name_ru": "Электрозаводская",
+    "name_en": "Elektrozavodskaya",
+    "type": "station",
+    "coords": [
+      37.703788,
+      55.781713
+    ]
+  },
+  "node_auto_652": {
+    "name_ru": "Партизанская",
+    "name_en": "Partizanskaya",
+    "type": "station",
+    "coords": [
+      37.750993,
+      55.788503
+    ]
+  },
+  "node_auto_655": {
+    "name_ru": "Измайловская",
+    "name_en": "Izmaylovskaya",
+    "type": "station",
+    "coords": [
+      37.781602,
+      55.787733
+    ]
+  },
+  "node_auto_658": {
+    "name_ru": "Первомайская",
+    "name_en": "Pervomayskaya",
+    "type": "station",
+    "coords": [
+      37.799396,
+      55.794727
+    ]
+  },
+  "node_auto_661": {
+    "name_ru": "Щёлковская",
+    "name_en": "Schelkovskaya",
+    "type": "station",
+    "coords": [
+      37.798572,
+      55.809337
+    ]
+  },
+  "node_auto_664": {
+    "name_ru": "Семёновская",
+    "name_en": "Semyonovskaya",
+    "type": "station",
+    "coords": [
+      37.721282,
+      55.783307
+    ]
+  },
+  "node_auto_667": {
+    "name_ru": "Каховская",
+    "name_en": "Kakhovskaya",
+    "type": "station",
+    "coords": [
+      37.598429,
+      55.652903
+    ]
+  },
+  "node_auto_670": {
+    "name_ru": "Зюзино",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.573552,
+      55.655778
+    ]
+  },
+  "node_auto_673": {
+    "name_ru": "Воронцовская",
+    "name_en": "Vorontsovskaya",
+    "type": "station",
+    "coords": [
+      37.539479,
+      55.658835
+    ]
+  },
+  "node_auto_676": {
+    "name_ru": "Новаторская",
+    "name_en": "Novatorskaya",
+    "type": "station",
+    "coords": [
+      37.521775,
+      55.670067
+    ]
+  },
+  "node_auto_679": {
+    "name_ru": "Проспект Вернадского",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.503929,
+      55.678431
+    ]
+  },
+  "node_auto_682": {
+    "name_ru": "Мичуринский проспект",
+    "name_en": "Michurinskiy prospekt",
+    "type": "station",
+    "coords": [
+      37.485191,
+      55.688297
+    ]
+  },
+  "node_auto_685": {
+    "name_ru": "Аминьевская",
+    "name_en": "Aminyevskaya",
+    "type": "station",
+    "coords": [
+      37.46497,
+      55.697175
+    ]
+  },
+  "node_auto_688": {
+    "name_ru": "Давыдково",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.451743,
+      55.715144
+    ]
+  },
+  "node_auto_691": {
+    "name_ru": "Кунцевская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.445985,
+      55.728868
+    ]
+  },
+  "node_auto_694": {
+    "name_ru": "Терехово",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.459643,
+      55.748029
+    ]
+  },
+  "node_auto_697": {
+    "name_ru": "Мнёвники",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.471405,
+      55.761184
+    ]
+  },
+  "node_auto_700": {
+    "name_ru": "Народное Ополчение",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.485731,
+      55.775735
+    ]
+  },
+  "node_auto_705": {
+    "name_ru": "Фили",
+    "name_en": "Fili",
+    "type": "station",
+    "coords": [
+      37.514827,
+      55.746127
+    ]
+  },
+  "node_auto_707": {
+    "name_ru": "Филёвский парк",
+    "name_en": "Filyovsky Park",
+    "type": "station",
+    "coords": [
+      37.483372,
+      55.739508
+    ]
+  },
+  "node_auto_709": {
+    "name_ru": "Пионерская",
+    "name_en": "Pionerskaya",
+    "type": "station",
+    "coords": [
+      37.467136,
+      55.735988
+    ]
+  },
+  "node_auto_713": {
+    "name_ru": "Багратионовская",
+    "name_en": "Bagrationovskaya",
+    "type": "station",
+    "coords": [
+      37.497737,
+      55.743732
+    ]
+  },
+  "node_auto_717": {
+    "name_ru": "Рижская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.634328,
+      55.793884
+    ]
+  },
+  "node_auto_720": {
+    "name_ru": "Марьина Роща",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.616417,
+      55.796533
+    ]
+  },
+  "node_auto_724": {
+    "name_ru": "Кленовый бульвар",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.680734,
+      55.674487
+    ]
+  },
+  "node_auto_727": {
+    "name_ru": "Нагатинский Затон",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.704303,
+      55.684331
+    ]
+  },
+  "node_auto_730": {
+    "name_ru": "Печатники",
+    "name_en": "Pechatniki",
+    "type": "station",
+    "coords": [
+      37.727363,
+      55.694606
+    ]
+  },
+  "node_auto_733": {
+    "name_ru": "Текстильщики",
+    "name_en": "Tekstilshchiki",
+    "type": "station",
+    "coords": [
+      37.728473,
+      55.707053
+    ]
+  },
+  "node_auto_736": {
+    "name_ru": "Сокольники",
+    "name_en": "Sokolniki",
+    "type": "station",
+    "coords": [
+      37.679257,
+      55.790178
+    ]
+  },
+  "node_auto_739": {
+    "name_ru": "Электрозаводская",
+    "name_en": "Electrozavodskaya",
+    "type": "station",
+    "coords": [
+      37.702993,
+      55.780285
+    ]
+  },
+  "node_auto_742": {
+    "name_ru": "Лефортово",
+    "name_en": "Lefortovo",
+    "type": "station",
+    "coords": [
+      37.706738,
+      55.764734
+    ]
+  },
+  "node_auto_745": {
+    "name_ru": "Нижегородская",
+    "name_en": "Nizhegorodskaya",
+    "type": "station",
+    "coords": [
+      37.729986,
+      55.731923
+    ]
+  },
+  "node_auto_747": {
+    "name_ru": "Нижегородская",
+    "name_en": "Nizhegorodskaya",
+    "type": "station",
+    "coords": [
+      37.729796,
+      55.731717
+    ]
+  },
+  "node_auto_749": {
+    "name_ru": "Авиамоторная",
+    "name_en": "Aviamotornaya",
+    "type": "station",
+    "coords": [
+      37.718992,
+      55.753927
+    ]
+  },
+  "node_auto_754": {
+    "name_ru": "Стахановская",
+    "name_en": "Stakhanovskaya",
+    "type": "station",
+    "coords": [
+      37.753248,
+      55.727018
+    ]
+  },
+  "node_auto_757": {
+    "name_ru": "Окская",
+    "name_en": "Okskaya",
+    "type": "station",
+    "coords": [
+      37.781763,
+      55.718342
+    ]
+  },
+  "node_auto_760": {
+    "name_ru": "Юго-Восточная",
+    "name_en": "Yugo-Vostochnaya",
+    "type": "station",
+    "coords": [
+      37.818976,
+      55.705036
+    ]
+  },
+  "node_auto_763": {
+    "name_ru": "Некрасовка",
+    "name_en": "Nekrasovka",
+    "type": "station",
+    "coords": [
+      37.928178,
+      55.702891
+    ]
+  },
+  "node_auto_766": {
+    "name_ru": "Пыхтино",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.295668,
+      55.624503
+    ]
+  },
+  "node_auto_769": {
+    "name_ru": "Аэропорт Внуково",
+    "name_en": "Vnukovo Airport",
+    "type": "station",
+    "coords": [
+      37.287276,
+      55.607309
+    ]
+  },
+  "node_auto_772": {
+    "name_ru": "Физтех",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.546576,
+      55.921662
+    ]
+  },
+  "node_auto_775": {
+    "name_ru": "Яхромская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.545442,
+      55.879882
+    ]
+  },
+  "node_auto_778": {
+    "name_ru": "Лианозово",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.544663,
+      55.898115
+    ]
+  },
+  "node_auto_781": {
+    "name_ru": "Потапово",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.492621,
+      55.55264
+    ]
+  },
+  "node_auto_784": {
+    "name_ru": "Тютчевская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.481085,
+      55.61905
+    ]
+  },
+  "node_auto_787": {
+    "name_ru": "Генерала Тюленева",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.485771,
+      55.626205
+    ]
+  },
+  "node_auto_790": {
+    "name_ru": "Университет дружбы народов",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.507143,
+      55.647937
+    ]
+  },
+  "node_auto_793": {
+    "name_ru": "Новаторская",
+    "name_en": "Novatorskaya",
+    "type": "station",
+    "coords": [
+      37.521386,
+      55.671585
+    ]
+  },
+  "node_auto_796": {
+    "name_ru": "Корниловская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.478989,
+      55.598396
+    ]
+  },
+  "node_auto_799": {
+    "name_ru": "Коммунарка",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.467991,
+      55.574632
+    ]
+  },
+  "node_auto_802": {
+    "name_ru": "Новомосковская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.465278,
+      55.560601
+    ]
+  },
+  "node_auto_805": {
+    "name_ru": "ЗИЛ",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.645235,
+      55.696934
+    ]
+  },
+  "node_auto_808": {
+    "name_ru": "Крымская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.609394,
+      55.689732
+    ]
+  },
+  "node_auto_811": {
+    "name_ru": "Академическая",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.575983,
+      55.686945
+    ]
+  },
+  "node_auto_814": {
+    "name_ru": "Вавиловская",
+    "name_en": null,
+    "type": "station",
+    "coords": [
+      37.540894,
+      55.684891
+    ]
+  },
+  "hub_0": {
+    "name_ru": "Hub: Курская / Чкаловская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.65824966666667,
+      55.75730633333333
+    ]
+  },
+  "hub_1": {
+    "name_ru": "Hub: Кунцевская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.446002,
+      55.7307215
+    ]
+  },
+  "hub_2": {
+    "name_ru": "Hub: Китай-город",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.633312000000004,
+      55.755618999999996
+    ]
+  },
+  "hub_3": {
+    "name_ru": "Hub: Каширская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.648696,
+      55.6550395
+    ]
+  },
+  "hub_4": {
+    "name_ru": "Hub: Петровско-Разумовская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.574623,
+      55.834838500000004
+    ]
+  },
+  "hub_5": {
+    "name_ru": "Hub: Александровский сад / Библиотека имени Ленина...",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.60822225,
+      55.7516755
+    ]
+  },
+  "hub_6": {
+    "name_ru": "Hub: Проспект Мира",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.631867,
+      55.780242
+    ]
+  },
+  "hub_7": {
+    "name_ru": "Hub: Улица Старокачаловская / Бульвар Дмитрия Донского",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.576760500000006,
+      55.569100000000006
+    ]
+  },
+  "hub_8": {
+    "name_ru": "Hub: Парк Победы",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.518093,
+      55.736346
+    ]
+  },
+  "hub_9": {
+    "name_ru": "Hub: Хорошёвская / Полежаевская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.5192135,
+      55.777102
+    ]
+  },
+  "hub_10": {
+    "name_ru": "Hub: Менделеевская / Новослободская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.602728,
+      55.7804065
+    ]
+  },
+  "hub_11": {
+    "name_ru": "Hub: Тверская / Пушкинская...",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.60760533333333,
+      55.765052000000004
+    ]
+  },
+  "hub_12": {
+    "name_ru": "Hub: Добрынинская / Серпуховская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.624624499999996,
+      55.72853
+    ]
+  },
+  "hub_13": {
+    "name_ru": "Hub: Севастопольская / Каховская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.598431500000004,
+      55.6527885
+    ]
+  },
+  "hub_14": {
+    "name_ru": "Hub: Марксистская / Таганская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.65225233333333,
+      55.74114866666667
+    ]
+  },
+  "hub_15": {
+    "name_ru": "Hub: Комсомольская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.6552625,
+      55.7748945
+    ]
+  },
+  "hub_16": {
+    "name_ru": "Hub: Белорусская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.5838215,
+      55.77642
+    ]
+  },
+  "hub_17": {
+    "name_ru": "Hub: Краснопресненская / Баррикадная",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.578319,
+      55.761157999999995
+    ]
+  },
+  "hub_18": {
+    "name_ru": "Hub: Киевская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.565508666666666,
+      55.74423733333333
+    ]
+  },
+  "hub_19": {
+    "name_ru": "Hub: Октябрьская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.610154,
+      55.7301375
+    ]
+  },
+  "hub_20": {
+    "name_ru": "Hub: Третьяковская / Новокузнецкая",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.627951333333336,
+      55.741211666666665
+    ]
+  },
+  "hub_21": {
+    "name_ru": "Hub: Красногвардейская / Зябликово",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.744807,
+      55.612964500000004
+    ]
+  },
+  "hub_22": {
+    "name_ru": "Hub: Марьина Роща",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.6163615,
+      55.7960285
+    ]
+  },
+  "hub_23": {
+    "name_ru": "Hub: Сретенский бульвар / Чистые пруды...",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.638860666666666,
+      55.76645033333333
+    ]
+  },
+  "hub_24": {
+    "name_ru": "Hub: Площадь Ильича / Римская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.683223999999996,
+      55.746769
+    ]
+  },
+  "hub_25": {
+    "name_ru": "Hub: Крестьянская Застава / Пролетарская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.6666785,
+      55.732513499999996
+    ]
+  },
+  "hub_26": {
+    "name_ru": "Hub: Печатники",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.7271575,
+      55.6940485
+    ]
+  },
+  "hub_27": {
+    "name_ru": "Hub: Рижская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.635413,
+      55.793792499999995
+    ]
+  },
+  "hub_28": {
+    "name_ru": "Hub: Кузнецкий Мост / Лубянка",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.626999,
+      55.760312
+    ]
+  },
+  "hub_29": {
+    "name_ru": "Hub: Новоясеневская / Битцевский парк",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.555259,
+      55.6006165
+    ]
+  },
+  "hub_30": {
+    "name_ru": "Hub: Сокольники",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.679755,
+      55.789497499999996
+    ]
+  },
+  "hub_31": {
+    "name_ru": "Hub: Деловой центр",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.540273,
+      55.7496005
+    ]
+  },
+  "hub_32": {
+    "name_ru": "Hub: Авиамоторная",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.7195275,
+      55.753231
+    ]
+  },
+  "hub_33": {
+    "name_ru": "Hub: Смоленская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.582273,
+      55.748101
+    ]
+  },
+  "hub_34": {
+    "name_ru": "Hub: Электрозаводская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.7033905,
+      55.780999
+    ]
+  },
+  "hub_35": {
+    "name_ru": "Hub: Новаторская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.5215805,
+      55.670826000000005
+    ]
+  },
+  "hub_36": {
+    "name_ru": "Hub: Нижегородская",
+    "name_en": null,
+    "type": "hub",
+    "coords": [
+      37.729890999999995,
+      55.73182
+    ]
+  }
+}

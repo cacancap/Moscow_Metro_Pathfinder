@@ -194,7 +194,7 @@ def stop_clustering(max_distance, transfer_penalty):
             
             
             distance = calculate_haversine_distance(coord_A[0], coord_A[1], coord_B[0], coord_B[1])
-            if (distance < max_distance and (stop_A.get('line_id') != stop_B.get('line_id'))):
+            if (distance < max_distance and (f"{stop_A.get('id')},{stop_A.get('colour')}" != f"{stop_B.get('line_id')},{stop_B.get('colour')}")):
                 create_edge(stop_A['id'], stop_B['id'], distance + transfer_penalty, 'walk', 'transfer', 'purple', [coord_A, coord_B])
                 create_edge(stop_B['id'], stop_A['id'], distance + transfer_penalty, 'walk', 'transfer', 'purple', [coord_B, coord_A])
                 transfer_count += 2
