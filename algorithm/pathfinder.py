@@ -3,155 +3,105 @@ import os
 import heapq
 
 class MoscowMetroPathFinder:
-    def __init__(self, adj_map_path, stop_dict_path=None):
-        """Khởi tạo hệ thống tìm đường, tải đồ thị vào bộ nhớ"""
-        print(f"Đang tải đồ thị từ: {adj_map_path}...")
+    def __init__(self, adj_map_path, station_dict_path):
+        """Khởi tạo hệ thống với Adjacency Map và Station Dictionary"""
+        # Nạp đồ thị kề (adj_map)
         with open(adj_map_path, 'r', encoding='utf-8') as f:
             self.graph = json.load(f)
             
-        # Nạp thêm từ điển trạm (nếu có) để in tên ga thay vì chỉ in ID
-        self.stop_dict = {}
-        if stop_dict_path and os.path.exists(stop_dict_path):
-            with open(stop_dict_path, 'r', encoding='utf-8') as f:
-                self.stop_dict = json.load(f)
-                
-        print(f"Đã tải xong hệ thống với {len(self.graph)} ga sẵn sàng phục vụ!\n")
+        # Nạp từ điển ga (station_dict) - Dạng Dictionary chuẩn
+        with open(station_dict_path, 'r', encoding='utf-8') as f:
+            self.station_dict = json.load(f)
+        
+        print(f"Hệ thống sẵn sàng: {len(self.station_dict)} ga tàu đã được nạp.")
+        # print("test 5 keys: ", end='')
+        # for i in range(1,5):
+        #     print(self)
 
-    def get_station_name(self, node_id):
-        """Hàm phụ trợ để lấy tên ga nếu có dữ liệu, nếu không trả về ID"""
-        if node_id in self.stop_dict:
-            return self.stop_dict[node_id].get('name', node_id)
-        return str(node_id)
+    def find_shortest_path(self, source_station_id, dest_station_id):
+        """Tìm đường dựa trên Station ID (Trả về danh sách edge_id)"""
+        # Ép kiểu ID về string để khớp với Key trong JSON
+        source_id = str(source_station_id)
+        dest_id = str(dest_station_id)
+        print("Source: ", source_id)
+        print("dest: ", dest_id)
+        print("test: ", self.station_dict.get(dest_id))
+        # Kiểm tra sự tồn tại của Ga trong Từ điển O(1)
+        if source_id not in self.station_dict or dest_id not in self.station_dict:
+            print(f"Lỗi: Không tìm thấy ID ga ({source_id} hoặc {dest_id}) trong danh sách.")
+            return []
 
-    def find_shortest_path(self, source_id, dest_id):
-        """Thuật toán Dijkstra tìm đường đi ngắn nhất (thời gian)"""
-        source_id, dest_id = str(source_id), str(dest_id)
-        
-        # Kiểm tra ga có tồn tại không
-        if source_id not in self.graph:
-            return f"Lỗi: Ga xuất phát '{source_id}' không tồn tại."
-        if dest_id not in self.graph:
-            return f"Lỗi: Ga đích '{dest_id}' không tồn tại."
+        # Lấy stop đại diện cho Ga (phần tử đầu tiên trong danh sách stops)
+        start_stop = self.station_dict[source_id]['stops'][0]
+        end_stop = self.station_dict[dest_id]['stops'][0]
 
-        # Bảng lưu khoảng cách (thời gian) ngắn nhất từ start đến mọi đỉnh
-        distances = {node: float('inf') for node in self.graph}
-        distances[source_id] = 0
-        
-        # Bảng lưu Vết (Trace) để tái tạo lộ trình: node -> (node_trước_đó, dữ_liệu_cạnh)
-        came_from = {node: None for node in self.graph}
-        
-        # Hàng đợi ưu tiên: lưu (khoảng_cách_hiện_tại, node_id)
-        # Sử dụng heapq để luôn lấy ra được ga có thời gian đi ngắn nhất hiện tại
-        priority_queue = [(0, source_id)]
-        
+        # Thuật toán Dijkstra tìm đường giữa các stop
+        distances = {start_stop: 0}
+        came_from = {} # Lưu vết: node_hien_tai: (node_truoc, edge_id)
+        priority_queue = [(0, start_stop)]
+
         while priority_queue:
-            # Lấy ra ga gần nhất
-            current_dist, current_node = heapq.heappop(priority_queue)
-            
-            # Tối ưu: Nếu đã đến được ga đích, ta có thể dừng thuật toán sớm
-            if current_node == dest_id:
+            current_dist, u = heapq.heappop(priority_queue)
+
+            if u == end_stop:
                 break
-                
-            # Bỏ qua nếu ta đã tìm thấy một đường khác ngắn hơn đến current_node từ trước
-            if current_dist > distances[current_node]:
+
+            if current_dist > distances.get(u, float('inf')):
                 continue
-                
-            # Quét tất cả láng giềng O(1)
-            for neighbor_id, edge_data in self.graph[current_node].items():
+
+            # Duyệt các đỉnh kề từ adj_map
+            for v, edge_data in self.graph.get(u, {}).items():
                 weight = edge_data['weight']
                 new_dist = current_dist + weight
                 
-                # Nếu đường đi mới này ngắn hơn đường cũ ta từng biết
-                if new_dist < distances[neighbor_id]:
-                    distances[neighbor_id] = new_dist
-                    came_from[neighbor_id] = (current_node, edge_data)
-                    heapq.heappush(priority_queue, (new_dist, neighbor_id))
+                if new_dist < distances.get(v, float('inf')):
+                    distances[v] = new_dist
+                    came_from[v] = (u, edge_data['edge_id'])
+                    heapq.heappush(priority_queue, (new_dist, v))
 
-        # --- BƯỚC RECONSTRUCT LỘ TRÌNH (TRUY VẾT) ---
-        if distances[dest_id] == float('inf'):
-            return f"Không tìm thấy bất kỳ đường đi nào từ {source_id} đến {dest_id}."
-            
-        path_details = []
-        current = dest_id
-        
-        # Đi ngược từ Đích về Xuất phát
-        while current != source_id:
-            prev_node, edge_used = came_from[current]
-            
-            # Đóng gói thông tin chặng đi
-            step = {
-                'from_node': prev_node,
-                'from_name': self.get_station_name(prev_node),
-                'to_node': current,
-                'to_name': self.get_station_name(current),
-                'weight_sec': edge_used['weight'],
-                'line': edge_used['line_id'],
-                'action': "walk" if edge_used['edge_type'] == 'transfer' else f"subway"
-            }
-            path_details.append(step)
-            current = prev_node
-            
-        # Đảo ngược mảng để có lộ trình Xuất phát -> Đích
-        path_details.reverse()
-        
-        return {
-            'total_time_sec': round(distances[dest_id], 2),
-            'total_time_min': round(distances[dest_id] / 60, 2),
-            'path': path_details
-        }
+        # Truy vết để lấy danh sách edge_id từ Xuất phát -> Đích
+        return self._reconstruct_path(came_from, start_stop, end_stop)
 
-    def print_route_report(self, source_id, dest_id):
-        """In báo cáo lộ trình ra màn hình console một cách đẹp mắt"""
-        print(f"🔍 TÌM ĐƯỜNG: [{self.get_station_name(source_id)}] ➡️ [{self.get_station_name(dest_id)}]")
-        
-        result = self.find_shortest_path(source_id, dest_id)
-        
-        if isinstance(result, str): # Trả về chuỗi nghĩa là có lỗi/không tìm thấy
-            print(result)
-            return
+    def _reconstruct_path(self, came_from, start, end):
+        if end not in came_from and start != end:
+            return []
             
-        print(f"⏱️ Tổng thời gian ước tính: {result['total_time_min']} phút ({result['total_time_sec']} giây)")
-        print("-" * 60)
-        
-        current_line = None
-        for step in result['path']:
-            action = step['action']
-            line = step['line']
-            time = round(step['weight_sec'])
+        path = []
+        curr = end
+        while curr != start:
+            prev_node, edge_id = came_from[curr]
+            path.append(edge_id)
+            curr = prev_node
             
-            # Thông báo khi chuyển sang tuyến mới
-            if line != current_line:
-                if current_line is not None and action != "Đi bộ chuyển tuyến":
-                    print(f"\n🔄 Chuyển sang Tuyến {line}:")
-                current_line = line
-            
-            if action == "Đi bộ chuyển tuyến":
-                print(f"  🚶 {action} ({time}s) tới [{step['to_name']}]")
-            else:
-                print(f"  🚆 {action} tới [{step['to_name']}] (Tuyến {line} - {time}s)")
-                
-        print("-" * 60 + "\n")
+        path.reverse() # Đảo ngược để có trình tự từ nguồn đến đích
+        return path
 
 # ==========================================
-# TEST THUẬT TOÁN
+# KHỐI CHẠY KIỂM THỬ
 # ==========================================
 if __name__ == "__main__":
-    # Thiết lập đường dẫn đến các file dữ liệu (thay đổi tùy theo cấu trúc thư mục của bạn)
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    adj_map_path = os.path.normpath(os.path.join(current_dir, '..', 'data', 'processed', 'outputs', 'adjacency_list.json'))
-    stop_dict_path = os.path.normpath(os.path.join(current_dir, '..', 'data', 'processed', 'outputs', 'stop_dict_id.json'))
+    # Điều chỉnh đường dẫn chính xác tới thư mục outputs
+    output_dir = os.path.normpath(os.path.join(current_dir, '..', 'data', 'processed', 'outputs'))
+    
+    adj_map_path = os.path.join(output_dir, 'adjacency_list.json')
+    station_dict_path = os.path.join(output_dir, 'station_dict.json') # Tên file bạn xuất từ build_dataset.py
     
     try:
-        # Khởi tạo cỗ máy tìm đường
-        pathfinder = MoscowMetroPathFinder(adj_map_path, stop_dict_path)
+        pathfinder = MoscowMetroPathFinder(adj_map_path, station_dict_path)
         
-        # --- NHẬP ID ĐỂ TEST ---
-        # Lấy 2 ID bất kỳ có trong file json của bạn để test
-        # Ví dụ giả định:
-        start_station = "2101832215"  # Tự động lấy đỉnh đầu tiên
-        end_station = "6938823545"   # Tự động lấy đỉnh thứ 20 (cách đó xa xa)
+        # Thử nghiệm tìm đường giữa 2 Station ID
+        start_id = "60660466" 
+        dest_id = "5202107564"  
         
-        pathfinder.print_route_report(start_station, end_station)
+        result = pathfinder.find_shortest_path(start_id, dest_id)
         
+        if result:
+            print("\n✅ TÌM ĐƯỜNG THÀNH CÔNG!")
+            print(f"Lộ trình đi qua {len(result)} cạnh.")
+            print("Danh sách Edge IDs:", result)
+        else:
+            print(f"\n❌ Không tìm thấy đường đi giữa Ga {start_id} và Ga {dest_id}.")
+            
     except Exception as e:
-        print(f"Lỗi khởi chạy: {e}")
+        print(f"Lỗi hệ thống: {e}")
