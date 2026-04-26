@@ -1,0 +1,3579 @@
+{
+  "60660466": {
+    "name": "Медведково",
+    "name_en": "Medvedkovo",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.66155,
+      55.8871767
+    ],
+    "stops": [
+      "6938090606",
+      "6938090607"
+    ]
+  },
+  "60660469": {
+    "name": "Бабушкинская",
+    "name_en": "Babushkinskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.6641097,
+      55.8696342
+    ],
+    "stops": [
+      "2584131690",
+      "2584131693"
+    ]
+  },
+  "68916801": {
+    "name": "Партизанская",
+    "name_en": "Partizanskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.7509929,
+      55.788503
+    ],
+    "stops": [
+      "6939665035",
+      "6939665036"
+    ]
+  },
+  "68937012": {
+    "name": "Семёновская",
+    "name_en": "Semyonovskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.7212818,
+      55.7833072
+    ],
+    "stops": [
+      "6950639206",
+      "6950639207"
+    ]
+  },
+  "241158259": {
+    "name": "Филёвский парк",
+    "name_en": "Filyovsky Park",
+    "colour": "lightblue",
+    "line_id": "4",
+    "geometry": [
+      37.4833717,
+      55.7395085
+    ],
+    "stops": [
+      "9330588500",
+      "9961947341"
+    ]
+  },
+  "241158281": {
+    "name": "Багратионовская",
+    "name_en": "Bagrationovskaya",
+    "colour": "lightblue",
+    "line_id": "4",
+    "geometry": [
+      37.497737,
+      55.7437316
+    ],
+    "stops": [
+      "9961947342",
+      "9961947344"
+    ]
+  },
+  "241158327": {
+    "name": "Фили",
+    "name_en": "Fili",
+    "colour": "lightblue",
+    "line_id": "4",
+    "geometry": [
+      37.5148273,
+      55.7461266
+    ],
+    "stops": [
+      "9330588499",
+      "9961947343"
+    ]
+  },
+  "241158369": {
+    "name": "Кутузовская",
+    "name_en": "Kutuzovskaya",
+    "colour": "lightblue",
+    "line_id": "4",
+    "geometry": [
+      37.5343862,
+      55.7399906
+    ],
+    "stops": [
+      "1191041916",
+      "9330588498"
+    ]
+  },
+  "241158415": {
+    "name": "Студенческая",
+    "name_en": "Studencheskaya",
+    "colour": "lightblue",
+    "line_id": "4",
+    "geometry": [
+      37.5484101,
+      55.7388299
+    ],
+    "stops": [
+      "1191041836",
+      "9330588497"
+    ]
+  },
+  "242546355": {
+    "name": "Электрозаводская",
+    "name_en": "Elektrozavodskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.7037878,
+      55.7817132
+    ],
+    "stops": [
+      "6939665033",
+      "6939665034"
+    ]
+  },
+  "242546356": {
+    "name": "Бауманская",
+    "name_en": "Baumanskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.6805494,
+      55.7730392
+    ],
+    "stops": [
+      "6939665031",
+      "6939665032"
+    ]
+  },
+  "242546475": {
+    "name": "Площадь Революции",
+    "name_en": "Revolution Square",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.6217842,
+      55.7566512
+    ],
+    "stops": [
+      "1257026800",
+      "6937811151"
+    ]
+  },
+  "242546476": {
+    "name": "Арбатская",
+    "name_en": "Arbatskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.6069779,
+      55.752095
+    ],
+    "stops": [
+      "6939665029",
+      "6939665030"
+    ]
+  },
+  "244036228": {
+    "name": "Молодёжная",
+    "name_en": "Molodyozhnaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.4169385,
+      55.7407572
+    ],
+    "stops": [
+      "6939665013",
+      "6939665014"
+    ]
+  },
+  "244036856": {
+    "name": "Пионерская",
+    "name_en": "Pionerskaya",
+    "colour": "lightblue",
+    "line_id": "4",
+    "geometry": [
+      37.4671358,
+      55.7359875
+    ],
+    "stops": [
+      "9330588501",
+      "9961947340"
+    ]
+  },
+  "252828224": {
+    "name": "Смоленская",
+    "name_en": "Smolenskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.5818245,
+      55.747394
+    ],
+    "stops": [
+      "6939665023",
+      "6939665024"
+    ]
+  },
+  "252934400": {
+    "name": "Кузнецкий Мост",
+    "name_en": "Kuznetsky Most",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.6261429,
+      55.7607508
+    ],
+    "stops": []
+  },
+  "253016890": {
+    "name": "Таганская",
+    "name_en": "Taganskaya",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.6518996,
+      55.740465
+    ],
+    "stops": []
+  },
+  "253016891": {
+    "name": "Пролетарская",
+    "name_en": "Proletarskaya",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.6658787,
+      55.731857
+    ],
+    "stops": []
+  },
+  "253016892": {
+    "name": "Волгоградский проспект",
+    "name_en": "Volgogradsky Prospekt",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.6868906,
+      55.7252386
+    ],
+    "stops": []
+  },
+  "253016893": {
+    "name": "Текстильщики",
+    "name_en": "Tekstilshchiki",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.7315039,
+      55.7088138
+    ],
+    "stops": []
+  },
+  "253016894": {
+    "name": "Кузьминки",
+    "name_en": "Kuzminki",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.7657844,
+      55.7056021
+    ],
+    "stops": []
+  },
+  "253016895": {
+    "name": "Выхино",
+    "name_en": "Vykhino",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.8179229,
+      55.7156444
+    ],
+    "stops": []
+  },
+  "253017004": {
+    "name": "Рязанский проспект",
+    "name_en": "Ryazansky Prospekt",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.7933151,
+      55.716947
+    ],
+    "stops": []
+  },
+  "253043175": {
+    "name": "Арбатская",
+    "name_en": "Arbatskaya",
+    "colour": "lightblue",
+    "line_id": [
+      "4",
+      "4А"
+    ],
+    "geometry": [
+      37.6006567,
+      55.7518523
+    ],
+    "stops": [
+      "6939665027",
+      "6939665028"
+    ]
+  },
+  "253045735": {
+    "name": "Деловой центр",
+    "name_en": "Delovoy Center",
+    "colour": "lightblue",
+    "line_id": "unknown",
+    "geometry": [
+      37.5413666,
+      55.7500874
+    ],
+    "stops": []
+  },
+  "253228506": {
+    "name": "Александровский сад",
+    "name_en": "Alexander Garden",
+    "colour": "lightblue",
+    "line_id": [
+      "4",
+      "4А"
+    ],
+    "geometry": [
+      37.6086825,
+      55.7524027
+    ],
+    "stops": [
+      "1135674408",
+      "6938823556"
+    ]
+  },
+  "253375111": {
+    "name": "Киевская",
+    "name_en": "Kiyevskaya",
+    "colour": "lightblue",
+    "line_id": [
+      "4",
+      "4А"
+    ],
+    "geometry": [
+      37.5656452,
+      55.7436835
+    ],
+    "stops": [
+      "6939665020",
+      "6939665021"
+    ]
+  },
+  "253780238": {
+    "name": "Славянский бульвар",
+    "name_en": "Slavyansky Bulvar",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.4707878,
+      55.7295963
+    ],
+    "stops": [
+      "6939665015",
+      "6939665016"
+    ]
+  },
+  "255744331": {
+    "name": "Новогиреево",
+    "name_en": "Novogireyevo",
+    "colour": "yellow",
+    "line_id": "8",
+    "geometry": [
+      37.8167454,
+      55.751769
+    ],
+    "stops": [
+      "6939601867",
+      "6939601868"
+    ]
+  },
+  "255744332": {
+    "name": "Перово",
+    "name_en": "Perovo",
+    "colour": "yellow",
+    "line_id": "8",
+    "geometry": [
+      37.7864823,
+      55.7511973
+    ],
+    "stops": [
+      "6939601865",
+      "6939601866"
+    ]
+  },
+  "255744578": {
+    "name": "Шоссе Энтузиастов",
+    "name_en": "Shosse Entuziastov",
+    "colour": "yellow",
+    "line_id": "8",
+    "geometry": [
+      37.7494868,
+      55.7575686
+    ],
+    "stops": [
+      "6939601863",
+      "6939601864"
+    ]
+  },
+  "255856078": {
+    "name": "Москва-Сити",
+    "name_en": "Moscow-City",
+    "colour": "lightblue",
+    "line_id": "4А",
+    "geometry": [
+      37.5342309,
+      55.7483053
+    ],
+    "stops": [
+      "6939665007",
+      "6939665008"
+    ]
+  },
+  "259785706": {
+    "name": "Тёплый Стан",
+    "name_en": "Tyoply Stan",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.5082183,
+      55.6188619
+    ],
+    "stops": [
+      "6938090638",
+      "6938090639"
+    ]
+  },
+  "259786804": {
+    "name": "Калужская",
+    "name_en": "Kaluzhskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.5405263,
+      55.657091
+    ],
+    "stops": [
+      "6938090632",
+      "6938090633"
+    ]
+  },
+  "259786806": {
+    "name": "Новые Черёмушки",
+    "name_en": "Novye Cheryomushki",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.5546984,
+      55.6702787
+    ],
+    "stops": [
+      "6938090630",
+      "6938090631"
+    ]
+  },
+  "264162888": {
+    "name": "Ясенево",
+    "name_en": "Yasenevo",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.533407,
+      55.6063062
+    ],
+    "stops": [
+      "1221881576",
+      "6938090640"
+    ]
+  },
+  "265949954": {
+    "name": "Бульвар Рокоссовского",
+    "name_en": "Bul'var Rokossovskogo",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.73434,
+      55.8146824
+    ],
+    "stops": [
+      "6938823544",
+      "6938823545"
+    ]
+  },
+  "265949956": {
+    "name": "Черкизовская",
+    "name_en": "Cherkizovskaya",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.7450321,
+      55.8038807
+    ],
+    "stops": [
+      "6938823546",
+      "6938823547"
+    ]
+  },
+  "265949958": {
+    "name": "Преображенская площадь",
+    "name_en": "Preobrazhenskaya Ploshchad",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.7153466,
+      55.7963698
+    ],
+    "stops": [
+      "6938823548",
+      "6938823549"
+    ]
+  },
+  "266835841": {
+    "name": "Речной вокзал",
+    "name_en": "Rechnoy Vokzal",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.4762129,
+      55.8550132
+    ],
+    "stops": []
+  },
+  "266835844": {
+    "name": "Водный стадион",
+    "name_en": "Vodny Stadion",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.4867105,
+      55.8400589
+    ],
+    "stops": []
+  },
+  "266835845": {
+    "name": "Войковская",
+    "name_en": "Voykovskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.4980181,
+      55.819052
+    ],
+    "stops": []
+  },
+  "266835847": {
+    "name": "Аэропорт",
+    "name_en": "Aeroport",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.5331501,
+      55.8003966
+    ],
+    "stops": []
+  },
+  "266835848": {
+    "name": "Динамо",
+    "name_en": "Dinamo",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.558208,
+      55.7897397
+    ],
+    "stops": []
+  },
+  "267334996": {
+    "name": "Сокольники",
+    "name_en": "Sokolniki",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.6802525,
+      55.7888168
+    ],
+    "stops": [
+      "6938823550",
+      "6938823551"
+    ]
+  },
+  "267335088": {
+    "name": "Комсомольская",
+    "name_en": "Komsomolskaya",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.6560339,
+      55.7752083
+    ],
+    "stops": [
+      "6937381503",
+      "6937381504"
+    ]
+  },
+  "267335089": {
+    "name": "Красносельская",
+    "name_en": "Krasnoselskaya",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.6676557,
+      55.780356
+    ],
+    "stops": [
+      "6938823552",
+      "6938823553"
+    ]
+  },
+  "267335315": {
+    "name": "Охотный ряд",
+    "name_en": "Okhotny Ryad",
+    "colour": "red",
+    "line_id": "unknown",
+    "geometry": [
+      37.6165101,
+      55.7577723
+    ],
+    "stops": []
+  },
+  "267335316": {
+    "name": "Лубянка",
+    "name_en": "Lubyanka",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.6278554,
+      55.7598728
+    ],
+    "stops": [
+      "6938090618",
+      "6938090619"
+    ]
+  },
+  "267335317": {
+    "name": "Чистые пруды",
+    "name_en": "Chistye Prudy",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.639028,
+      55.7658711
+    ],
+    "stops": [
+      "6937856034",
+      "6937856035"
+    ]
+  },
+  "268521588": {
+    "name": "Свиблово",
+    "name_en": "Sviblovo",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.652706,
+      55.8552129
+    ],
+    "stops": [
+      "6938090608",
+      "6938090609"
+    ]
+  },
+  "268521591": {
+    "name": "Ботанический сад",
+    "name_en": "Botanical Garden",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.6382462,
+      55.8448445
+    ],
+    "stops": [
+      "6938090610",
+      "6938090611"
+    ]
+  },
+  "276191013": {
+    "name": "Авиамоторная",
+    "name_en": "Aviamotornaya",
+    "colour": "yellow",
+    "line_id": "8",
+    "geometry": [
+      37.7200631,
+      55.7525349
+    ],
+    "stops": [
+      "6939601861",
+      "6939601862"
+    ]
+  },
+  "276191299": {
+    "name": "Площадь Ильича",
+    "name_en": "Ploshchad Ilyicha",
+    "colour": "yellow",
+    "line_id": "8",
+    "geometry": [
+      37.6831971,
+      55.7471964
+    ],
+    "stops": [
+      "6937856036",
+      "6937856037"
+    ]
+  },
+  "276191577": {
+    "name": "Марксистская",
+    "name_en": "Marksistskaya",
+    "colour": "yellow",
+    "line_id": "8",
+    "geometry": [
+      37.6535345,
+      55.7413164
+    ],
+    "stops": [
+      "6937381497",
+      "6937381498"
+    ]
+  },
+  "277499099": {
+    "name": "Рижская",
+    "name_en": "Rizhskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.6364976,
+      55.7937015
+    ],
+    "stops": [
+      "6938090612",
+      "6938090613"
+    ]
+  },
+  "277499848": {
+    "name": "Проспект Мира",
+    "name_en": "Prospekt Mira",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.6319812,
+      55.7808506
+    ],
+    "stops": [
+      "1221407668",
+      "6937381507"
+    ]
+  },
+  "277499849": {
+    "name": "Сухаревская",
+    "name_en": "Sukharevskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.6312038,
+      55.7729551
+    ],
+    "stops": [
+      "1221424287",
+      "6938090615"
+    ]
+  },
+  "277499850": {
+    "name": "Тургеневская",
+    "name_en": "Turgenevskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.637467,
+      55.766492
+    ],
+    "stops": [
+      "6937856032",
+      "6937856033"
+    ]
+  },
+  "277499852": {
+    "name": "Третьяковская",
+    "name_en": "Tretyakovskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.6273436,
+      55.7409166
+    ],
+    "stops": [
+      "6937811155",
+      "6937811158"
+    ]
+  },
+  "277499853": {
+    "name": "Октябрьская",
+    "name_en": "Oktyabrskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.6109093,
+      55.7304961
+    ],
+    "stops": [
+      "6938090620",
+      "6938090621"
+    ]
+  },
+  "277499854": {
+    "name": "Шаболовская",
+    "name_en": "Shabolovskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.6076956,
+      55.7199872
+    ],
+    "stops": [
+      "6938090622",
+      "6938090623"
+    ]
+  },
+  "278692957": {
+    "name": "Кропоткинская",
+    "name_en": "Kropotkinskaya",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.603807,
+      55.7454302
+    ],
+    "stops": [
+      "6938823559",
+      "6938823560"
+    ]
+  },
+  "278692958": {
+    "name": "Библиотека имени Ленина",
+    "name_en": "Lenin Library",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.6101708,
+      55.7512323
+    ],
+    "stops": [
+      "6938823557",
+      "6938823558"
+    ]
+  },
+  "278693055": {
+    "name": "Спортивная",
+    "name_en": "Sportivnaya",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.5642133,
+      55.7233833
+    ],
+    "stops": [
+      "6938823563",
+      "6938823564"
+    ]
+  },
+  "278693056": {
+    "name": "Фрунзенская",
+    "name_en": "Frunzenskaya",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.57833,
+      55.7268793
+    ],
+    "stops": [
+      "6938823561",
+      "6938823562"
+    ]
+  },
+  "282411334": {
+    "name": "Ленинский проспект",
+    "name_en": "Leninsky Prospekt",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.5862116,
+      55.7076167
+    ],
+    "stops": [
+      "6938090624",
+      "6938090625"
+    ]
+  },
+  "282413851": {
+    "name": "Академическая",
+    "name_en": "Akademicheskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.5735148,
+      55.6878077
+    ],
+    "stops": [
+      "6938090626",
+      "6938090627"
+    ]
+  },
+  "282414382": {
+    "name": "Профсоюзная",
+    "name_en": "Profsoyuznaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.5629043,
+      55.6779304
+    ],
+    "stops": [
+      "6938090628",
+      "6938090629"
+    ]
+  },
+  "282416839": {
+    "name": "Беляево",
+    "name_en": "Belyayevo",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.5256804,
+      55.6427774
+    ],
+    "stops": [
+      "6938090634",
+      "6938090635"
+    ]
+  },
+  "291686079": {
+    "name": "Парк Культуры",
+    "name_en": "Park Kultury",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.5913019,
+      55.735811
+    ],
+    "stops": [
+      "6937381519",
+      "6937381520"
+    ]
+  },
+  "291686160": {
+    "name": "Октябрьская",
+    "name_en": "Oktyabrskaya",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.6093994,
+      55.7297787
+    ],
+    "stops": [
+      "6937381521",
+      "6937381522"
+    ]
+  },
+  "291687197": {
+    "name": "Смоленская",
+    "name_en": "Smolenskaya",
+    "colour": "lightblue",
+    "line_id": [
+      "4",
+      "4А"
+    ],
+    "geometry": [
+      37.5827207,
+      55.7488081
+    ],
+    "stops": [
+      "6939665025",
+      "6939665026"
+    ]
+  },
+  "291687455": {
+    "name": "Маяковская",
+    "name_en": "Mayakovskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.5950872,
+      55.7701709
+    ],
+    "stops": []
+  },
+  "291689166": {
+    "name": "Цветной бульвар",
+    "name_en": "Tsvetnoy Bulvar",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6179101,
+      55.7708721
+    ],
+    "stops": [
+      "6937152862",
+      "6937152863"
+    ]
+  },
+  "291712231": {
+    "name": "Новоясеневская",
+    "name_en": "Novoyasenevskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.554139,
+      55.6009942
+    ],
+    "stops": [
+      "6938090641",
+      "6938090642"
+    ]
+  },
+  "292019726": {
+    "name": "Павелецкая",
+    "name_en": "Paveletskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.6378407,
+      55.7304982
+    ],
+    "stops": []
+  },
+  "292019996": {
+    "name": "Павелецкая",
+    "name_en": "Paveletskaya",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.6381483,
+      55.7323172
+    ],
+    "stops": [
+      "6937381495",
+      "6937381496"
+    ]
+  },
+  "292143794": {
+    "name": "Театральная",
+    "name_en": "Teatralnaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.6191912,
+      55.7575071
+    ],
+    "stops": []
+  },
+  "292143796": {
+    "name": "Новокузнецкая",
+    "name_en": "Novokuznetskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.6292018,
+      55.7414344
+    ],
+    "stops": []
+  },
+  "292144111": {
+    "name": "Тверская",
+    "name_en": "Tverskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.606313,
+      55.7648953
+    ],
+    "stops": []
+  },
+  "292146578": {
+    "name": "Автозаводская",
+    "name_en": "Avtozavodskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.6577684,
+      55.7073446
+    ],
+    "stops": []
+  },
+  "292147581": {
+    "name": "Коломенская",
+    "name_en": "Kolomenskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.6639248,
+      55.6784809
+    ],
+    "stops": []
+  },
+  "292148161": {
+    "name": "Технопарк",
+    "name_en": "",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.6644353,
+      55.6936232
+    ],
+    "stops": []
+  },
+  "293799708": {
+    "name": "Проспект Мира",
+    "name_en": "Prospekt Mira",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.6317532,
+      55.7796332
+    ],
+    "stops": [
+      "6937381509",
+      "6937381510"
+    ]
+  },
+  "294024698": {
+    "name": "Добрынинская",
+    "name_en": "Dobryninskaya",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.6244196,
+      55.7291072
+    ],
+    "stops": [
+      "6937152874",
+      "6937152875"
+    ]
+  },
+  "296045315": {
+    "name": "Таганская",
+    "name_en": "Taganskaya",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.6513234,
+      55.741665
+    ],
+    "stops": [
+      "6937381501",
+      "6937381502"
+    ]
+  },
+  "296932663": {
+    "name": "Улица Скобелевская",
+    "name_en": "Ulitsa Skobelevskaya",
+    "colour": "#bac8e8",
+    "line_id": "12",
+    "geometry": [
+      37.5546254,
+      55.5481082
+    ],
+    "stops": [
+      "6938090647",
+      "6938090648"
+    ]
+  },
+  "296932668": {
+    "name": "Бульвар Адмирала Ушакова",
+    "name_en": "Bulvar Admirala Ushakova",
+    "colour": "#bac8e8",
+    "line_id": "12",
+    "geometry": [
+      37.5432114,
+      55.5454337
+    ],
+    "stops": [
+      "6938090649",
+      "6938090650"
+    ]
+  },
+  "296932670": {
+    "name": "Улица Горчакова",
+    "name_en": "Ulitsa Gorchakova",
+    "colour": "#bac8e8",
+    "line_id": "12",
+    "geometry": [
+      37.530718,
+      55.5416949
+    ],
+    "stops": [
+      "6938090651",
+      "6938090652"
+    ]
+  },
+  "296932673": {
+    "name": "Бунинская аллея",
+    "name_en": "Buninskaya Alleya",
+    "colour": "#bac8e8",
+    "line_id": "12",
+    "geometry": [
+      37.5165467,
+      55.5381467
+    ],
+    "stops": [
+      "6938090653",
+      "6938090654"
+    ]
+  },
+  "296944258": {
+    "name": "Трубная",
+    "name_en": "Trubnaya",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.6195511,
+      55.7691136
+    ],
+    "stops": [
+      "6937856028",
+      "6937856029"
+    ]
+  },
+  "296947177": {
+    "name": "Римская",
+    "name_en": "Rimskaya",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.683251,
+      55.7463418
+    ],
+    "stops": [
+      "6937856038",
+      "6937856039"
+    ]
+  },
+  "296947185": {
+    "name": "Дубровка",
+    "name_en": "Dubrovka",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.6755406,
+      55.7192085
+    ],
+    "stops": [
+      "6937856044",
+      "6937856045"
+    ]
+  },
+  "296949274": {
+    "name": "Кожуховская",
+    "name_en": "Kozhukhovskaya",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.6846176,
+      55.7075865
+    ],
+    "stops": [
+      "6937856046",
+      "6937856047"
+    ]
+  },
+  "296949278": {
+    "name": "Печатники",
+    "name_en": "Pechatniki",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.726952,
+      55.6934907
+    ],
+    "stops": [
+      "6937856048",
+      "6937856049"
+    ]
+  },
+  "296949283": {
+    "name": "Волжская",
+    "name_en": "Volzhskaya",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.7531007,
+      55.6908257
+    ],
+    "stops": [
+      "6937856050",
+      "6937856051"
+    ]
+  },
+  "296949285": {
+    "name": "Люблино",
+    "name_en": "Lyublino",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.7619581,
+      55.6757211
+    ],
+    "stops": [
+      "6937856052",
+      "6937856053"
+    ]
+  },
+  "296949290": {
+    "name": "Марьино",
+    "name_en": "Maryino",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.7431467,
+      55.6500158
+    ],
+    "stops": [
+      "6937856056",
+      "6937856057"
+    ]
+  },
+  "296953126": {
+    "name": "Чеховская",
+    "name_en": "Chekhovskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.609087,
+      55.7648327
+    ],
+    "stops": [
+      "6937152868",
+      "6937152869"
+    ]
+  },
+  "296953128": {
+    "name": "Боровицкая",
+    "name_en": "Borovitskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.607057,
+      55.7509718
+    ],
+    "stops": [
+      "6937152870",
+      "6937152871"
+    ]
+  },
+  "296953130": {
+    "name": "Серпуховская",
+    "name_en": "Serpukhovskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6248289,
+      55.7279529
+    ],
+    "stops": [
+      "6937152876",
+      "6937152877"
+    ]
+  },
+  "296953131": {
+    "name": "Тульская",
+    "name_en": "Tulskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6228172,
+      55.7086649
+    ],
+    "stops": [
+      "6937152878",
+      "6937152879"
+    ]
+  },
+  "296953132": {
+    "name": "Нагатинская",
+    "name_en": "Nagatinskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6224144,
+      55.6829727
+    ],
+    "stops": [
+      "6937223800",
+      "6937223801"
+    ]
+  },
+  "296953133": {
+    "name": "Нагорная",
+    "name_en": "Nagornaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6102741,
+      55.6719433
+    ],
+    "stops": [
+      "6937223797",
+      "6937223798"
+    ]
+  },
+  "296953134": {
+    "name": "Нахимовский проспект",
+    "name_en": "Nakhimovsky Prospekt",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6056223,
+      55.6626511
+    ],
+    "stops": [
+      "6937223795",
+      "6937223796"
+    ]
+  },
+  "296953135": {
+    "name": "Севастопольская",
+    "name_en": "Sevastopolskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.598434,
+      55.6526736
+    ],
+    "stops": [
+      "6937223793",
+      "6937223794"
+    ]
+  },
+  "296953136": {
+    "name": "Чертановская",
+    "name_en": "Chertanovskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.60669,
+      55.640455
+    ],
+    "stops": [
+      "6937223791",
+      "6937223792"
+    ]
+  },
+  "296953137": {
+    "name": "Южная",
+    "name_en": "Yuzhnaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6092188,
+      55.622256
+    ],
+    "stops": [
+      "6937223789",
+      "6937223790"
+    ]
+  },
+  "296953138": {
+    "name": "Пражская",
+    "name_en": "Prazhskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6045238,
+      55.6123741
+    ],
+    "stops": [
+      "6937223787",
+      "6937223788"
+    ]
+  },
+  "296953139": {
+    "name": "Улица Академика Янгеля",
+    "name_en": "Ulitsa Akademika Yangelya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6004358,
+      55.5949862
+    ],
+    "stops": [
+      "6937223785",
+      "6937223786"
+    ]
+  },
+  "296953140": {
+    "name": "Аннино",
+    "name_en": "Annino",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.5965311,
+      55.5825315
+    ],
+    "stops": [
+      "6937152883",
+      "6937152884"
+    ]
+  },
+  "296956167": {
+    "name": "Тимирязевская",
+    "name_en": "Timiryazevskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.5763885,
+      55.8171256
+    ],
+    "stops": [
+      "6937152854",
+      "6937152855"
+    ]
+  },
+  "296956168": {
+    "name": "Дмитровская",
+    "name_en": "Dmitrovskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.5819074,
+      55.8065606
+    ],
+    "stops": [
+      "6937152856",
+      "6937152857"
+    ]
+  },
+  "296956169": {
+    "name": "Савёловская",
+    "name_en": "Savyolovskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.5888159,
+      55.7924879
+    ],
+    "stops": [
+      "6937152858",
+      "6937152859"
+    ]
+  },
+  "296956170": {
+    "name": "Менделеевская",
+    "name_en": "Mendeleyevskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.601981,
+      55.7809613
+    ],
+    "stops": [
+      "6937152860",
+      "6937152861"
+    ]
+  },
+  "296957238": {
+    "name": "Алтуфьево",
+    "name_en": "Altufyevo",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.5873584,
+      55.8979224
+    ],
+    "stops": [
+      "6937152846",
+      "6937152847"
+    ]
+  },
+  "296957239": {
+    "name": "Бибирево",
+    "name_en": "Bibirevo",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6035539,
+      55.8838707
+    ],
+    "stops": [
+      "6937152848",
+      "6937152849"
+    ]
+  },
+  "296957241": {
+    "name": "Отрадное",
+    "name_en": "Otradnoye",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6046508,
+      55.8631775
+    ],
+    "stops": [
+      "6937152850",
+      "6937152851"
+    ]
+  },
+  "296959502": {
+    "name": "Планерная",
+    "name_en": "Planernaya",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.4365264,
+      55.8606544
+    ],
+    "stops": []
+  },
+  "296959504": {
+    "name": "Тушинская",
+    "name_en": "Tushinskaya",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.4369761,
+      55.8265293
+    ],
+    "stops": []
+  },
+  "296959505": {
+    "name": "Щукинская",
+    "name_en": "Shchukinskaya",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.4647008,
+      55.8084608
+    ],
+    "stops": []
+  },
+  "296959507": {
+    "name": "Полежаевская",
+    "name_en": "Polezhayevskaya",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.5192899,
+      55.7775087
+    ],
+    "stops": []
+  },
+  "296959508": {
+    "name": "Беговая",
+    "name_en": "Begovaya",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.5466565,
+      55.7737161
+    ],
+    "stops": []
+  },
+  "296959509": {
+    "name": "Улица 1905 года",
+    "name_en": "Ulitsa 1905 Goda",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.5613413,
+      55.7648611
+    ],
+    "stops": []
+  },
+  "296959510": {
+    "name": "Баррикадная",
+    "name_en": "Barrikadnaya",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.5793093,
+      55.7611309
+    ],
+    "stops": []
+  },
+  "297148038": {
+    "name": "Комсомольская",
+    "name_en": "Komsomolskaya",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.6544906,
+      55.7745807
+    ],
+    "stops": [
+      "6937381505",
+      "6937381506"
+    ]
+  },
+  "297291268": {
+    "name": "Владыкино",
+    "name_en": "Vladykino",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.5899119,
+      55.8471808
+    ],
+    "stops": [
+      "1270512427",
+      "6937152852"
+    ]
+  },
+  "297335182": {
+    "name": "Воробьёвы горы",
+    "name_en": "Vorobyovy Gory",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.559289,
+      55.7103322
+    ],
+    "stops": [
+      "6938823565",
+      "6938823566"
+    ]
+  },
+  "297366493": {
+    "name": "Новослободская",
+    "name_en": "Novoslobodskaya",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.6034748,
+      55.7798525
+    ],
+    "stops": [
+      "6937381511",
+      "6937381512"
+    ]
+  },
+  "297773322": {
+    "name": "Крестьянская Застава",
+    "name_en": "Krestyanskaya Zastava",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.6674776,
+      55.7331695
+    ],
+    "stops": [
+      "6937856040",
+      "6937856041"
+    ]
+  },
+  "300120212": {
+    "name": "Красногвардейская",
+    "name_en": "Krasnogvardeyskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.7444351,
+      55.613694
+    ],
+    "stops": []
+  },
+  "305486163": {
+    "name": "Домодедовская",
+    "name_en": "Domodedovskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.7187413,
+      55.6108547
+    ],
+    "stops": []
+  },
+  "308993125": {
+    "name": "Орехово",
+    "name_en": "Orekhovo",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.6949724,
+      55.6131433
+    ],
+    "stops": []
+  },
+  "308993196": {
+    "name": "Царицыно",
+    "name_en": "Tsaritsyno",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.669238,
+      55.6214814
+    ],
+    "stops": []
+  },
+  "308993566": {
+    "name": "Кантемировская",
+    "name_en": "Kantemirovskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.6565408,
+      55.6357353
+    ],
+    "stops": []
+  },
+  "309741697": {
+    "name": "Бульвар Дмитрия Донского",
+    "name_en": "Bulvar Dmitriya Donskogo",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.5768693,
+      55.5692452
+    ],
+    "stops": [
+      "6937152881",
+      "6937152882"
+    ]
+  },
+  "309741829": {
+    "name": "Улица Старокачаловская",
+    "name_en": "Ulitsa Starokachalovskaya",
+    "colour": "#bac8e8",
+    "line_id": "12",
+    "geometry": [
+      37.5766521,
+      55.5689553
+    ],
+    "stops": [
+      "1279716959",
+      "6937152880"
+    ]
+  },
+  "309744779": {
+    "name": "Краснопресненская",
+    "name_en": "Krasnopresnenskaya",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.577329,
+      55.761185
+    ],
+    "stops": [
+      "6937381515",
+      "6937381516"
+    ]
+  },
+  "309745114": {
+    "name": "Киевская",
+    "name_en": "Kiyevskaya",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.565506,
+      55.7447266
+    ],
+    "stops": [
+      "6937381517",
+      "6937381518"
+    ]
+  },
+  "309748905": {
+    "name": "Октябрьское Поле",
+    "name_en": "Oktyabrskoye Pole",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.4938123,
+      55.7933663
+    ],
+    "stops": []
+  },
+  "309750154": {
+    "name": "Сходненская",
+    "name_en": "Skhodnenskaya",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.4397738,
+      55.8504805
+    ],
+    "stops": []
+  },
+  "309752486": {
+    "name": "Юго-Западная",
+    "name_en": "Yugo-Zapadnaya",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.4832189,
+      55.6636469
+    ],
+    "stops": [
+      "1202096548",
+      "6938823571"
+    ]
+  },
+  "309752494": {
+    "name": "Университет",
+    "name_en": "Universitet",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.5332847,
+      55.6926632
+    ],
+    "stops": [
+      "6938823567",
+      "6938823568"
+    ]
+  },
+  "312816773": {
+    "name": "Полянка",
+    "name_en": "Polyanka",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.6171996,
+      55.7381678
+    ],
+    "stops": [
+      "6937152872",
+      "6937152873"
+    ]
+  },
+  "314679443": {
+    "name": "Каховская",
+    "name_en": "Kakhovskaya",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.5984294,
+      55.6529025
+    ],
+    "stops": [
+      "9315679313",
+      "9315679314"
+    ]
+  },
+  "333159878": {
+    "name": "Братиславская",
+    "name_en": "Bratislavskaya",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.7506688,
+      55.659739
+    ],
+    "stops": [
+      "6937856054",
+      "6937856055"
+    ]
+  },
+  "349930322": {
+    "name": "Проспект Вернадского",
+    "name_en": "Prospekt Vernadskogo",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.5060642,
+      55.6772263
+    ],
+    "stops": [
+      "6938823569",
+      "6938823570"
+    ]
+  },
+  "362156015": {
+    "name": "Пушкинская",
+    "name_en": "Pushkinskaya",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.6074165,
+      55.7654281
+    ],
+    "stops": []
+  },
+  "493292529": {
+    "name": "Третьяковская",
+    "name_en": "Tretyakovskaya",
+    "colour": "yellow",
+    "line_id": "8",
+    "geometry": [
+      37.6273084,
+      55.7412838
+    ],
+    "stops": [
+      "6937811156",
+      "6937811157"
+    ]
+  },
+  "596129560": {
+    "name": "Митино",
+    "name_en": "Mitino",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.3622259,
+      55.8457543
+    ],
+    "stops": [
+      "6939665009",
+      "6939665010"
+    ]
+  },
+  "666528523": {
+    "name": "Сретенский бульвар",
+    "name_en": "Sretensky Bulvar",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.6400865,
+      55.7669878
+    ],
+    "stops": [
+      "6937856030",
+      "6937856031"
+    ]
+  },
+  "773136965": {
+    "name": "Марьина Роща",
+    "name_en": "Maryina Roshcha",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.6163058,
+      55.7955236
+    ],
+    "stops": [
+      "6937856024",
+      "6937856025"
+    ]
+  },
+  "773136972": {
+    "name": "Достоевская",
+    "name_en": "Dostoyevskaya",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.6150741,
+      55.7814612
+    ],
+    "stops": [
+      "6937856026",
+      "6937856027"
+    ]
+  },
+  "1123660474": {
+    "name": "Курская",
+    "name_en": "Kurskaya",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.6593319,
+      55.7571978
+    ],
+    "stops": [
+      "297148175",
+      "1123660481"
+    ]
+  },
+  "1157975976": {
+    "name": "Белорусская",
+    "name_en": "Belorusskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.583575,
+      55.776702
+    ],
+    "stops": []
+  },
+  "1158396469": {
+    "name": "Белорусская",
+    "name_en": "Belorusskaya",
+    "colour": "brown",
+    "line_id": "5",
+    "geometry": [
+      37.5840675,
+      55.7761384
+    ],
+    "stops": [
+      "6937381513",
+      "6937381514"
+    ]
+  },
+  "1221839292": {
+    "name": "Коньково",
+    "name_en": "Konkovo",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.5189769,
+      55.6331469
+    ],
+    "stops": [
+      "582860692",
+      "1221839172"
+    ]
+  },
+  "1527999919": {
+    "name": "Борисово",
+    "name_en": "Borisovo",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.7437524,
+      55.6333039
+    ],
+    "stops": [
+      "6937856058",
+      "6937856059"
+    ]
+  },
+  "1527999927": {
+    "name": "Зябликово",
+    "name_en": "Zyablikovo",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.745179,
+      55.6122352
+    ],
+    "stops": [
+      "6937811178",
+      "6937811179"
+    ]
+  },
+  "1527999934": {
+    "name": "Шипиловская",
+    "name_en": "Shipilovskaya",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.7436392,
+      55.6210274
+    ],
+    "stops": [
+      "6937856060",
+      "6937856061"
+    ]
+  },
+  "1890426555": {
+    "name": "Новокосино",
+    "name_en": "Novokosino",
+    "colour": "yellow",
+    "line_id": "8",
+    "geometry": [
+      37.8637729,
+      55.7450867
+    ],
+    "stops": [
+      "6939601869",
+      "6939601870"
+    ]
+  },
+  "2080924763": {
+    "name": "Алма-Атинская",
+    "name_en": "Alma-Atinskaya",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.765935,
+      55.6327995
+    ],
+    "stops": []
+  },
+  "2101832212": {
+    "name": "Пятницкое шоссе",
+    "name_en": "Pyatnitskoye Shosse",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.3542024,
+      55.856143
+    ],
+    "stops": [
+      "2086260190",
+      "2101832215"
+    ]
+  },
+  "2525101862": {
+    "name": "Жулебино",
+    "name_en": "Zhulebino",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.8562939,
+      55.685438
+    ],
+    "stops": []
+  },
+  "2525101863": {
+    "name": "Лермонтовский проспект",
+    "name_en": "Lermontovsky prospekt",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.8519732,
+      55.7016254
+    ],
+    "stops": []
+  },
+  "2591395115": {
+    "name": "Лесопарковая",
+    "name_en": "Lesoparkovaya",
+    "colour": "#bac8e8",
+    "line_id": "12",
+    "geometry": [
+      37.5768918,
+      55.5820975
+    ],
+    "stops": [
+      "6938090645",
+      "6938090646"
+    ]
+  },
+  "2591402980": {
+    "name": "Битцевский парк",
+    "name_en": "Bitsevskiy park",
+    "colour": "#bac8e8",
+    "line_id": "12",
+    "geometry": [
+      37.5563789,
+      55.6002393
+    ],
+    "stops": [
+      "6938090643",
+      "6938090644"
+    ]
+  },
+  "2692857848": {
+    "name": "Измайловская",
+    "name_en": "Izmaylovskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.7816023,
+      55.7877328
+    ],
+    "stops": [
+      "6939665038",
+      "6939665039"
+    ]
+  },
+  "2692882978": {
+    "name": "Первомайская",
+    "name_en": "Pervomayskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.7993959,
+      55.7947265
+    ],
+    "stops": [
+      "6939665040",
+      "6939665041"
+    ]
+  },
+  "2692905506": {
+    "name": "Щёлковская",
+    "name_en": "Schelkovskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.7985725,
+      55.8093369
+    ],
+    "stops": [
+      "6939665042",
+      "6939665043"
+    ]
+  },
+  "2950850833": {
+    "name": "Парк Победы",
+    "name_en": "Victory Park",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.518219,
+      55.7365232
+    ],
+    "stops": [
+      "4496913189",
+      "4593469035"
+    ]
+  },
+  "3224593379": {
+    "name": "Тропарёво",
+    "name_en": "Troparyovo",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.4725258,
+      55.645857
+    ],
+    "stops": [
+      "3114463783",
+      "3355867698"
+    ]
+  },
+  "3226428878": {
+    "name": "Деловой центр",
+    "name_en": "Delovoy Center",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.5391788,
+      55.7491138
+    ],
+    "stops": [
+      "6939601839",
+      "6939601840"
+    ]
+  },
+  "3943961770": {
+    "name": "Румянцево",
+    "name_en": "Rumyantsevo",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.4415854,
+      55.6329538
+    ],
+    "stops": [
+      "6938823575",
+      "6938823576"
+    ]
+  },
+  "4006225428": {
+    "name": "Саларьево",
+    "name_en": "Salaryevo",
+    "colour": "red",
+    "line_id": "unknown",
+    "geometry": [
+      37.4241868,
+      55.621922
+    ],
+    "stops": []
+  },
+  "4404057364": {
+    "name": "Фонвизинская",
+    "name_en": "",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.5876371,
+      55.822916
+    ],
+    "stops": [
+      "6937856020",
+      "6937856021"
+    ]
+  },
+  "4737155708": {
+    "name": "Минская",
+    "name_en": "Minskaya",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.4968443,
+      55.7247884
+    ],
+    "stops": [
+      "6939601841",
+      "6939601842"
+    ]
+  },
+  "4737155709": {
+    "name": "Ломоносовский проспект",
+    "name_en": "Lomonosovskiy prospect",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.5162362,
+      55.7071424
+    ],
+    "stops": [
+      "6939601843",
+      "6939601844"
+    ]
+  },
+  "4737155710": {
+    "name": "Раменки",
+    "name_en": "Ramenki",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.4985423,
+      55.6975607
+    ],
+    "stops": [
+      "6939601845",
+      "6939601846"
+    ]
+  },
+  "4847996860": {
+    "name": "Бутырская",
+    "name_en": "",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.6025285,
+      55.8133726
+    ],
+    "stops": [
+      "6937856022",
+      "6937856023"
+    ]
+  },
+  "4927798806": {
+    "name": "Киевская",
+    "name_en": "Kiyevskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.5653751,
+      55.7443009
+    ],
+    "stops": [
+      "6939665019",
+      "6939665022"
+    ]
+  },
+  "5174653609": {
+    "name": "Каширская",
+    "name_en": "Kashirskaya",
+    "colour": "green;#82C0C0",
+    "line_id": "unknown",
+    "geometry": [
+      37.6488095,
+      55.6549932
+    ],
+    "stops": []
+  },
+  "5176248502": {
+    "name": "Кунцевская",
+    "name_en": "Kuntsevskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.4460224,
+      55.7306795
+    ],
+    "stops": [
+      "244036218",
+      "5176248500"
+    ]
+  },
+  "5176322725": {
+    "name": "Китай-город",
+    "name_en": "Kitay-gorod",
+    "colour": "violet;orange",
+    "line_id": "unknown",
+    "geometry": [
+      37.6335649,
+      55.7556518
+    ],
+    "stops": []
+  },
+  "5176322726": {
+    "name": "Китай-город",
+    "name_en": "Kitay-gorod",
+    "colour": "orange;violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.6330592,
+      55.7555863
+    ],
+    "stops": []
+  },
+  "5176445915": {
+    "name": "Парк Культуры",
+    "name_en": "Park Kultury",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.5942726,
+      55.7354915
+    ],
+    "stops": [
+      "278692976",
+      "5176445916"
+    ]
+  },
+  "5202080141": {
+    "name": "Петровско-Разумовская",
+    "name_en": "Petrovsko-Razumovskaya",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.5748248,
+      55.8346874
+    ],
+    "stops": [
+      "4404055537",
+      "5202080144"
+    ]
+  },
+  "5202080142": {
+    "name": "Петровско-Разумовская",
+    "name_en": "Petrovsko-Razumovskaya",
+    "colour": "#a0a2a3",
+    "line_id": "9",
+    "geometry": [
+      37.5744209,
+      55.8349897
+    ],
+    "stops": [
+      "312814742",
+      "5202080143"
+    ]
+  },
+  "5202107560": {
+    "name": "Спартак",
+    "name_en": "Spartak",
+    "colour": "violet",
+    "line_id": "unknown",
+    "geometry": [
+      37.4357519,
+      55.8183044
+    ],
+    "stops": []
+  },
+  "5202107562": {
+    "name": "Алексеевская",
+    "name_en": "Alekseyevskaya",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.6390056,
+      55.8090891
+    ],
+    "stops": [
+      "277499098",
+      "1111110423"
+    ]
+  },
+  "5202107564": {
+    "name": "Строгино",
+    "name_en": "Strogino",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.4030833,
+      55.8037017
+    ],
+    "stops": [
+      "296938973",
+      "5202107563"
+    ]
+  },
+  "5202107568": {
+    "name": "Волоколамская",
+    "name_en": "Volokolamskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.3822424,
+      55.8355134
+    ],
+    "stops": [
+      "596129530",
+      "5202107567"
+    ]
+  },
+  "5202107570": {
+    "name": "Курская",
+    "name_en": "Kurskaya",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.6584192,
+      55.7580191
+    ],
+    "stops": [
+      "242546357",
+      "5202107569"
+    ]
+  },
+  "5202107572": {
+    "name": "Чкаловская",
+    "name_en": "Chkalovskaya",
+    "colour": "#b4d445",
+    "line_id": "10",
+    "geometry": [
+      37.6569978,
+      55.7567019
+    ],
+    "stops": [
+      "296944266",
+      "5202107571"
+    ]
+  },
+  "5202107574": {
+    "name": "ВДНХ",
+    "name_en": "VDNKh",
+    "colour": "orange",
+    "line_id": "6",
+    "geometry": [
+      37.6412006,
+      55.8209553
+    ],
+    "stops": [
+      "268521606",
+      "1067527110"
+    ]
+  },
+  "5202107576": {
+    "name": "Сокол",
+    "name_en": "Sokol",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.5150534,
+      55.805267
+    ],
+    "stops": []
+  },
+  "5308689093": {
+    "name": "Ховрино",
+    "name_en": "Khovrino",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.4808537,
+      55.8781525
+    ],
+    "stops": []
+  },
+  "5436404611": {
+    "name": "Хорошёвская",
+    "name_en": "Horoshyovskaya",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.5191367,
+      55.7766946
+    ],
+    "stops": [
+      "5482806574",
+      "5482806575"
+    ]
+  },
+  "5436412993": {
+    "name": "Петровский парк",
+    "name_en": "Petrovskiy Park",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.5570925,
+      55.7919222
+    ],
+    "stops": [
+      "5482806578",
+      "5482806579"
+    ]
+  },
+  "5436420781": {
+    "name": "ЦСКА",
+    "name_en": "CSKA",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.5332007,
+      55.786561
+    ],
+    "stops": [
+      "5482806576",
+      "5482806577"
+    ]
+  },
+  "5482245444": {
+    "name": "Селигерская",
+    "name_en": "",
+    "colour": "#b4d445",
+    "line_id": "unknown",
+    "geometry": [
+      37.5471803,
+      55.8666119
+    ],
+    "stops": []
+  },
+  "5482407019": {
+    "name": "Верхние Лихоборы",
+    "name_en": "",
+    "colour": "#b4d445",
+    "line_id": "unknown",
+    "geometry": [
+      37.5613445,
+      55.8561131
+    ],
+    "stops": []
+  },
+  "5482410676": {
+    "name": "Окружная",
+    "name_en": "",
+    "colour": "#b4d445",
+    "line_id": "unknown",
+    "geometry": [
+      37.5738294,
+      55.8460256
+    ],
+    "stops": []
+  },
+  "5868120884": {
+    "name": "Мичуринский проспект",
+    "name_en": "Michurinskiy prospekt",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.4828443,
+      55.6893341
+    ],
+    "stops": [
+      "6939601847",
+      "6939601848"
+    ]
+  },
+  "5868122985": {
+    "name": "Озёрная",
+    "name_en": "Ozyornaya",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.4487297,
+      55.6705052
+    ],
+    "stops": [
+      "6939601849",
+      "6939601850"
+    ]
+  },
+  "5868122986": {
+    "name": "Новопеределкино",
+    "name_en": "Novoperedelkino",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.3551039,
+      55.639625
+    ],
+    "stops": [
+      "6939601857",
+      "6939601858"
+    ]
+  },
+  "5868122987": {
+    "name": "Рассказовка",
+    "name_en": "Rasskazovka",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.3350858,
+      55.6340295
+    ],
+    "stops": [
+      "6939601859",
+      "6939601860"
+    ]
+  },
+  "5868122988": {
+    "name": "Боровское шоссе",
+    "name_en": "Borovskoe shosse",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.3704228,
+      55.6477505
+    ],
+    "stops": [
+      "6939601855",
+      "6939601856"
+    ]
+  },
+  "5868122989": {
+    "name": "Солнцево",
+    "name_en": "Solntsevo",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.3911002,
+      55.649569
+    ],
+    "stops": [
+      "6939601853",
+      "6939601854"
+    ]
+  },
+  "5868122990": {
+    "name": "Говорово",
+    "name_en": "Govorovo",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.417239,
+      55.6595519
+    ],
+    "stops": [
+      "6939601851",
+      "6939601852"
+    ]
+  },
+  "6147634222": {
+    "name": "Беломорская",
+    "name_en": "Belomorskaja",
+    "colour": "green",
+    "line_id": "unknown",
+    "geometry": [
+      37.4748773,
+      55.8649644
+    ],
+    "stops": []
+  },
+  "6172651201": {
+    "name": "Савёловская",
+    "name_en": "Savyolovskaya",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.5861196,
+      55.7923287
+    ],
+    "stops": [
+      "6207905523",
+      "6207905524"
+    ]
+  },
+  "6518539849": {
+    "name": "Косино",
+    "name_en": "Kosino",
+    "colour": "#FFCBDB",
+    "line_id": "unknown",
+    "geometry": [
+      37.8510317,
+      55.7034168
+    ],
+    "stops": []
+  },
+  "6518539850": {
+    "name": "Улица Дмитриевского",
+    "name_en": "Ulitsa Dmitriyevskogo",
+    "colour": "#FFCBDB",
+    "line_id": "unknown",
+    "geometry": [
+      37.8802008,
+      55.7101029
+    ],
+    "stops": []
+  },
+  "6518539851": {
+    "name": "Лухмановская",
+    "name_en": "Lukhmanovskaya",
+    "colour": "#FFCBDB",
+    "line_id": "unknown",
+    "geometry": [
+      37.9010164,
+      55.70851
+    ],
+    "stops": []
+  },
+  "6518539852": {
+    "name": "Некрасовка",
+    "name_en": "Nekrasovka",
+    "colour": "#FFCBDB",
+    "line_id": "unknown",
+    "geometry": [
+      37.9281784,
+      55.7028909
+    ],
+    "stops": []
+  },
+  "6560279948": {
+    "name": "Новомосковская",
+    "name_en": "",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.4680062,
+      55.5605675
+    ],
+    "stops": [
+      "6938881285",
+      "6938881286"
+    ]
+  },
+  "6560279949": {
+    "name": "Ольховая",
+    "name_en": "",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.4593593,
+      55.568621
+    ],
+    "stops": [
+      "6938823583",
+      "6938823584"
+    ]
+  },
+  "6560279950": {
+    "name": "Прокшино",
+    "name_en": "",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.4338591,
+      55.5862179
+    ],
+    "stops": [
+      "6938823581",
+      "6938823582"
+    ]
+  },
+  "6560279951": {
+    "name": "Филатов Луг",
+    "name_en": "",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.4074265,
+      55.6015282
+    ],
+    "stops": [
+      "6938823579",
+      "6938823580"
+    ]
+  },
+  "6938823554": {
+    "name": "Красные Ворота",
+    "name_en": "Krasnye Vorota",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.6489874,
+      55.7690244
+    ],
+    "stops": [
+      "267335318",
+      "6938823555"
+    ]
+  },
+  "6939665011": {
+    "name": "Крылатское",
+    "name_en": "Krylatskoye",
+    "colour": "blue",
+    "line_id": "unknown",
+    "geometry": [
+      37.4081393,
+      55.7565949
+    ],
+    "stops": []
+  },
+  "7335380503": {
+    "name": "Окская",
+    "name_en": "Okskaya",
+    "colour": "#FFCBDB",
+    "line_id": "unknown",
+    "geometry": [
+      37.7817628,
+      55.718342
+    ],
+    "stops": []
+  },
+  "7335523472": {
+    "name": "Стахановская",
+    "name_en": "Stakhanovskaya",
+    "colour": "#FFCBDB",
+    "line_id": "unknown",
+    "geometry": [
+      37.7532484,
+      55.7270183
+    ],
+    "stops": []
+  },
+  "7339988431": {
+    "name": "Юго-Восточная",
+    "name_en": "Yugo-Vostochnaya",
+    "colour": "#FFCBDB",
+    "line_id": "unknown",
+    "geometry": [
+      37.8189764,
+      55.7050362
+    ],
+    "stops": []
+  },
+  "7340764979": {
+    "name": "Лефортово",
+    "name_en": "Lefortovo",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.7067382,
+      55.7647338
+    ],
+    "stops": [
+      "10703951293",
+      "10703951294"
+    ]
+  },
+  "7340764980": {
+    "name": "Авиамоторная",
+    "name_en": "Aviamotornaya",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.718992,
+      55.7539271
+    ],
+    "stops": [
+      "10703951297",
+      "10703951298"
+    ]
+  },
+  "7340764981": {
+    "name": "Нижегородская",
+    "name_en": "Nizhegorodskaya",
+    "colour": "#FFCBDB",
+    "line_id": "unknown",
+    "geometry": [
+      37.7299863,
+      55.7319234
+    ],
+    "stops": []
+  },
+  "8268702705": {
+    "name": "Электрозаводская",
+    "name_en": "Electrozavodskaya",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.7029935,
+      55.7802845
+    ],
+    "stops": [
+      "10703951291",
+      "10703951292"
+    ]
+  },
+  "8581944518": {
+    "name": "Народное Ополчение",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.4857311,
+      55.7757351
+    ],
+    "stops": [
+      "9315693044",
+      "9315693045"
+    ]
+  },
+  "8581944519": {
+    "name": "Мнёвники",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.471405,
+      55.7611845
+    ],
+    "stops": [
+      "9315693042",
+      "9315693043"
+    ]
+  },
+  "9315693017": {
+    "name": "Зюзино",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.5735524,
+      55.6557778
+    ],
+    "stops": [
+      "9315679315",
+      "9315679316"
+    ]
+  },
+  "9315693019": {
+    "name": "Воронцовская",
+    "name_en": "Vorontsovskaya",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.5394795,
+      55.6588351
+    ],
+    "stops": [
+      "9315693018",
+      "9315693020"
+    ]
+  },
+  "9315693022": {
+    "name": "Новаторская",
+    "name_en": "Novatorskaya",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.5217748,
+      55.6700672
+    ],
+    "stops": [
+      "9315693021",
+      "9315693023"
+    ]
+  },
+  "9315693025": {
+    "name": "Проспект Вернадского",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.503929,
+      55.6784309
+    ],
+    "stops": [
+      "9315693024",
+      "9315693026"
+    ]
+  },
+  "9315693028": {
+    "name": "Мичуринский проспект",
+    "name_en": "Michurinskiy prospekt",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.4851908,
+      55.6882968
+    ],
+    "stops": [
+      "9315693027",
+      "9315693029"
+    ]
+  },
+  "9315693031": {
+    "name": "Аминьевская",
+    "name_en": "Aminyevskaya",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.4649703,
+      55.6971748
+    ],
+    "stops": [
+      "9315693030",
+      "9315693032"
+    ]
+  },
+  "9315693034": {
+    "name": "Давыдково",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.4517426,
+      55.7151436
+    ],
+    "stops": [
+      "9315693033",
+      "9315693035"
+    ]
+  },
+  "9315693037": {
+    "name": "Кунцевская",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.4459847,
+      55.7288677
+    ],
+    "stops": [
+      "9315693036",
+      "9315693038"
+    ]
+  },
+  "9315693039": {
+    "name": "Терехово",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.4596435,
+      55.748029
+    ],
+    "stops": [
+      "9315693040",
+      "9315693041"
+    ]
+  },
+  "10702113003": {
+    "name": "Варшавская",
+    "name_en": "Varshavskaya",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.6195024,
+      55.6533344
+    ],
+    "stops": [
+      "296926132",
+      "10702113004"
+    ]
+  },
+  "10702213023": {
+    "name": "Кленовый бульвар",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.6807341,
+      55.6744865
+    ],
+    "stops": [
+      "10702213024",
+      "10702213025"
+    ]
+  },
+  "10702213026": {
+    "name": "Нагатинский Затон",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.7043027,
+      55.6843314
+    ],
+    "stops": [
+      "10702213027",
+      "10702213028"
+    ]
+  },
+  "10702442752": {
+    "name": "Печатники",
+    "name_en": "Pechatniki",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.727363,
+      55.6946059
+    ],
+    "stops": [
+      "10702442753",
+      "10702442754"
+    ]
+  },
+  "10702471714": {
+    "name": "Текстильщики",
+    "name_en": "Tekstilshchiki",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.728473,
+      55.7070532
+    ],
+    "stops": [
+      "10702471715",
+      "10702471716"
+    ]
+  },
+  "10702624107": {
+    "name": "Марьина Роща",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.6164167,
+      55.7965331
+    ],
+    "stops": [
+      "10701831446",
+      "10701831447"
+    ]
+  },
+  "10702624108": {
+    "name": "Рижская",
+    "name_en": "",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.6343276,
+      55.7938842
+    ],
+    "stops": [
+      "10701825290",
+      "10701825291"
+    ]
+  },
+  "10703951288": {
+    "name": "Сокольники",
+    "name_en": "Sokolniki",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.6792574,
+      55.7901778
+    ],
+    "stops": [
+      "10703951289",
+      "10703951290"
+    ]
+  },
+  "10852613370": {
+    "name": "Парк Победы",
+    "name_en": "Victory Park",
+    "colour": "blue",
+    "line_id": "3",
+    "geometry": [
+      37.5179675,
+      55.7361688
+    ],
+    "stops": [
+      "6939665017",
+      "6939665018"
+    ]
+  },
+  "10852613371": {
+    "name": "Кунцевская",
+    "name_en": "Kuntsevskaya",
+    "colour": "lightblue",
+    "line_id": "4",
+    "geometry": [
+      37.4459818,
+      55.7307628
+    ],
+    "stops": [
+      "1191237441"
+    ]
+  },
+  "10852613372": {
+    "name": "Нижегородская",
+    "name_en": "Nizhegorodskaya",
+    "colour": "#82C0C0",
+    "line_id": "11",
+    "geometry": [
+      37.7297964,
+      55.7317169
+    ],
+    "stops": [
+      "10703951295",
+      "10703951296"
+    ]
+  },
+  "10852613373": {
+    "name": "Каширская",
+    "name_en": "Kashirskaya",
+    "colour": "green;#82C0C0",
+    "line_id": "unknown",
+    "geometry": [
+      37.6485829,
+      55.6550857
+    ],
+    "stops": []
+  },
+  "11171697213": {
+    "name": "Пыхтино",
+    "name_en": "",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.295668,
+      55.6245026
+    ],
+    "stops": [
+      "11171697214",
+      "11171697215"
+    ]
+  },
+  "11171729958": {
+    "name": "Аэропорт Внуково",
+    "name_en": "Vnukovo Airport",
+    "colour": "yellow",
+    "line_id": "8А",
+    "geometry": [
+      37.2872762,
+      55.607309
+    ],
+    "stops": [
+      "11171729959",
+      "11171729960"
+    ]
+  },
+  "11174639393": {
+    "name": "Физтех",
+    "name_en": "",
+    "colour": "#b4d445",
+    "line_id": "unknown",
+    "geometry": [
+      37.5465759,
+      55.9216617
+    ],
+    "stops": []
+  },
+  "11174673548": {
+    "name": "Яхромская",
+    "name_en": "",
+    "colour": "#b4d445",
+    "line_id": "unknown",
+    "geometry": [
+      37.5454418,
+      55.8798821
+    ],
+    "stops": []
+  },
+  "11174673551": {
+    "name": "Лианозово",
+    "name_en": "",
+    "colour": "#b4d445",
+    "line_id": "unknown",
+    "geometry": [
+      37.544663,
+      55.898115
+    ],
+    "stops": []
+  },
+  "12157560726": {
+    "name": "Потапово",
+    "name_en": "",
+    "colour": "red",
+    "line_id": "1",
+    "geometry": [
+      37.4926212,
+      55.5526401
+    ],
+    "stops": [
+      "12157560724",
+      "12157560725"
+    ]
+  },
+  "12163102805": {
+    "name": "Тютчевская",
+    "name_en": "",
+    "colour": "#03795F",
+    "line_id": "unknown",
+    "geometry": [
+      37.4810854,
+      55.61905
+    ],
+    "stops": []
+  },
+  "12163102808": {
+    "name": "Генерала Тюленева",
+    "name_en": "",
+    "colour": "#03795F",
+    "line_id": "unknown",
+    "geometry": [
+      37.4857715,
+      55.6262046
+    ],
+    "stops": []
+  },
+  "12163102812": {
+    "name": "Университет дружбы народов",
+    "name_en": "",
+    "colour": "#03795F",
+    "line_id": "unknown",
+    "geometry": [
+      37.5071425,
+      55.6479373
+    ],
+    "stops": []
+  },
+  "12163102815": {
+    "name": "Новаторская",
+    "name_en": "Novatorskaya",
+    "colour": "#03795F",
+    "line_id": "unknown",
+    "geometry": [
+      37.5213865,
+      55.6715854
+    ],
+    "stops": []
+  },
+  "12460750155": {
+    "name": "Корниловская",
+    "name_en": "",
+    "colour": "#03795f",
+    "line_id": "16",
+    "geometry": [
+      37.4789891,
+      55.5983956
+    ],
+    "stops": [
+      "12458764829",
+      "12458764830"
+    ]
+  },
+  "12460750156": {
+    "name": "Коммунарка",
+    "name_en": "",
+    "colour": "#03795F",
+    "line_id": "unknown",
+    "geometry": [
+      37.4679907,
+      55.574632
+    ],
+    "stops": []
+  },
+  "12460750157": {
+    "name": "Новомосковская",
+    "name_en": "",
+    "colour": "#03795F",
+    "line_id": "unknown",
+    "geometry": [
+      37.4652781,
+      55.560601
+    ],
+    "stops": []
+  },
+  "13141233387": {
+    "name": "ЗИЛ",
+    "name_en": "",
+    "colour": "#03795F",
+    "line_id": "unknown",
+    "geometry": [
+      37.6452346,
+      55.6969336
+    ],
+    "stops": []
+  },
+  "13141822040": {
+    "name": "Крымская",
+    "name_en": "",
+    "colour": "#03795F",
+    "line_id": "unknown",
+    "geometry": [
+      37.6093943,
+      55.689732
+    ],
+    "stops": []
+  },
+  "13141822043": {
+    "name": "Академическая",
+    "name_en": "",
+    "colour": "#03795F",
+    "line_id": "unknown",
+    "geometry": [
+      37.5759825,
+      55.6869446
+    ],
+    "stops": []
+  },
+  "13143504742": {
+    "name": "Вавиловская",
+    "name_en": "",
+    "colour": "#03795F",
+    "line_id": "unknown",
+    "geometry": [
+      37.5408941,
+      55.6848912
+    ],
+    "stops": []
+  }
+}

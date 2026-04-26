@@ -9,14 +9,18 @@ current_dir = current_file.parent
 project_root = current_dir.parent.parent.parent
 # đường dẫn tới file trong raw
 raw_relation_path = project_root / "data" / "raw" / "subway_relation02.geojson"
+raw_nodes_edges_path = project_root / "data" / "raw" / "subway_nodes-edges.geojson"
 
 if not raw_relation_path.exists():
     raise FileNotFoundError(f"Không tìm thấy file: {raw_relation_path}")
+if not raw_nodes_edges_path.exists():
+    raise FileNotFoundError(f"Không tìm thấy file: {raw_nodes_edges_path}")
 
 try:
     with open(raw_relation_path, 'r', encoding='utf-8') as f:
         raw_relation_data = json.load(f)
-        
+    with open(raw_nodes_edges_path, 'r', encoding='utf-8') as f:
+        raw_nodes_edges_data = json.load(f)
 except FileNotFoundError as e:
     print(e)
     
@@ -24,17 +28,19 @@ node_roles = {}
 
 stop_morethan_1relation = []
 
-features = raw_relation_data.get('features')
+features01 = raw_relation_data.get('features')
+features02 = raw_nodes_edges_data.get('features')
 stop_dict_id = {}       # dictionary of stops, index by id
 stop_dict_coord = {}    # dictionary of stops, index by coord
 way_dict_id = {}        # dictionary of ways, index by id
 edge_list = []          # edge connecting 2 adjacent stops
+station_dict = {}       # stations containing essential information: stop belonging to, line_id ...
 edge_counter = 0
 fake_id = 1
 
 # Build a stop_dict_id.json file for indexing stops with id only
 def build_stop_dicts():
-    for feature in features:
+    for feature in features01:
         properties = feature.get('properties')
         raw_id = properties.get('@id')
         clean_id = raw_id.split('/')[-1] if '/' in raw_id else raw_id
@@ -69,12 +75,64 @@ def build_stop_dicts():
                 'role': 'stop'
             }
             
-# Creating an edge
 
+def build_station_dict():
+    # features02 là dữ liệu từ file subway_nodes-edges.geojson (chứa Ga - Point)
+    count_station = 0
+    for feature in features02:
+        properties = feature.get('properties', {})
+        geom = feature.get('geometry', {})
+        geom_type = geom.get('type')
+        
+        # Chỉ lấy các Point là Ga tàu (station)
+        if geom_type == 'Point' and (properties.get('station') == 'subway' or properties.get('railway') == 'station'):
+            count_station += 1
+            raw_id = feature.get('id', '')
+            clean_id = raw_id.split('/')[-1] if '/' in raw_id else raw_id
+            
+            name = properties.get('name', '')
+            name_en = properties.get('name:en', '')
+            colour = properties.get('colour', '')
+            lon, lat = geom.get('coordinates', [0, 0])
+            
+            matched_stops = []
+            line_ids = set() # Dùng set để tránh trùng lặp nếu có nhiều stop cùng line
+            
+            # --- LOGIC GOM STOP VỀ STATION ---
+            # Quét toàn bộ stops, nếu trùng Tên và Màu thì stop đó thuộc về Ga này
+            for stop_id, stop_data in stop_dict_id.items():
+                if (stop_data.get('name') == 'Медведково' and stop_data.get('colour') == 'orange'):
+                    print("found: ", stop_id)
+                
+                if stop_data.get('name') == name and stop_data.get('colour') == colour:
+                    matched_stops.append(stop_id)
+                    
+                    # Trích xuất line_id từ stop (vì stop được lấy từ relation nên line_id rất chuẩn)
+                    if stop_data.get('line_id') and stop_data.get('line_id') != 'unknown':
+                        line_ids.add(stop_data.get('line_id'))
+            
+            # Chuẩn hóa line_id (nếu 1 ga phục vụ nhiều tuyến cùng màu - hiếm, nhưng set() sẽ gom thành list)
+            
+            
+            final_line_id = list(line_ids)[0] if len(line_ids) == 1 else list(line_ids) if len(line_ids) > 1 else 'unknown'
+            
+            station_data = {
+                'name': name,
+                'name_en': name_en,
+                'colour': colour,
+                'line_id': final_line_id,
+                'geometry': [lon, lat],
+                'stops': matched_stops
+            }
+            
+            station_dict[clean_id] = station_data
+    print("total stations: ", count_station)
+            
+# Creating an edge
+# Cần cải tiến: vừa đọc, vừa ghi từ điển chứ không nên build dict sau edge_list
 def create_edge(source_id, dest_id, weight, line_id, edge_type, colour, geometry):
     global edge_counter
     
-    edge_counter += 1
     new_edge = {
         'edge_id': f"e_{edge_counter}",
         'source_id': source_id,
@@ -91,13 +149,13 @@ def create_edge(source_id, dest_id, weight, line_id, edge_type, colour, geometry
         return
     
     edge_list.append(new_edge)
-       
+    edge_counter += 1       
 
 
 # Build the way_dict_id.json file for indexing ways with id only
 def build_way_dict():
     
-    for feature in features:
+    for feature in features01:
         properties = feature.get('properties')
         raw_id = properties.get('@id')
         clean_id = raw_id.split('/')[-1] if '/' in raw_id else raw_id
@@ -172,6 +230,12 @@ def build_way_dict():
                 
                 if (stop_dict_coord.get(cur_key) != None):  # Found a node
                     cur_node = stop_dict_coord[cur_key]
+                    
+                    cur_node['colour'] = colour 
+                    # Cập nhật màu cho từ điển id (chỉ node thật mới có trong này)
+                    if cur_node['id'] in stop_dict_id:
+                        stop_dict_id[cur_node['id']]['colour'] = colour
+                    
                     if (prev_node != None and prev_node != cur_node):   # Found a prev node => add 
                         create_edge(prev_node.get('id'), cur_node.get('id'), current_distance, line_id, 'subway', colour, current_geometry)
                         current_geometry = [cur_coord]
@@ -194,12 +258,68 @@ def stop_clustering(max_distance, transfer_penalty):
             
             
             distance = calculate_haversine_distance(coord_A[0], coord_A[1], coord_B[0], coord_B[1])
-            if (distance < max_distance and (f"{stop_A.get('id')},{stop_A.get('colour')}" != f"{stop_B.get('line_id')},{stop_B.get('colour')}")):
+            # if (distance < max_distance and (f"{stop_A.get('name')},{stop_A.get('colour')}" == f"{stop_B.get('name')}"))
+            
+            if (distance < max_distance):
                 create_edge(stop_A['id'], stop_B['id'], distance + transfer_penalty, 'walk', 'transfer', 'purple', [coord_A, coord_B])
                 create_edge(stop_B['id'], stop_A['id'], distance + transfer_penalty, 'walk', 'transfer', 'purple', [coord_B, coord_A])
                 transfer_count += 2
+            
     return transfer_count
                     
+def build_station_dict():
+    # features02 là dữ liệu từ file subway_nodes-edges.geojson (chứa Ga - Point)
+    count_station = 0
+    for feature in features02:
+        properties = feature.get('properties', {})
+        geom = feature.get('geometry', {})
+        geom_type = geom.get('type')
+        
+        # Chỉ lấy các Point là Ga tàu (station)
+        if geom_type == 'Point' and (properties.get('station') == 'subway' or properties.get('railway') == 'station'):
+            count_station += 1
+            raw_id = feature.get('id', '')
+            clean_id = raw_id.split('/')[-1] if '/' in raw_id else raw_id
+            
+            name = properties.get('name', '')
+            name_en = properties.get('name:en', '')
+            colour = properties.get('colour', '')
+            lon, lat = geom.get('coordinates', [0, 0])
+            
+            
+            matched_stops = []
+            line_ids = set() # Dùng set để tránh trùng lặp nếu có nhiều stop cùng line
+            
+            # --- LOGIC GOM STOP VỀ STATION ---
+            # Quét toàn bộ stops, nếu trùng Tên và Màu thì stop đó thuộc về Ga này
+            
+            
+            
+            for stop_id, stop_data in stop_dict_id.items():
+                
+                if stop_data.get('name') == name and stop_data.get('colour') == colour:
+                    matched_stops.append(stop_id)
+                    
+                    # Trích xuất line_id từ stop (vì stop được lấy từ relation nên line_id rất chuẩn)
+                    if stop_data.get('line_id') and stop_data.get('line_id') != 'unknown':
+                        line_ids.add(stop_data.get('line_id'))
+            
+            # Chuẩn hóa line_id (nếu 1 ga phục vụ nhiều tuyến cùng màu - hiếm, nhưng set() sẽ gom thành list)
+            
+            
+            final_line_id = list(line_ids)[0] if len(line_ids) == 1 else list(line_ids) if len(line_ids) > 1 else 'unknown'
+            
+            station_data = {
+                'name': name,
+                'name_en': name_en,
+                'colour': colour,
+                'line_id': final_line_id,
+                'geometry': [lon, lat],
+                'stops': matched_stops
+            }
+            
+            station_dict[clean_id] = station_data
+    print("total stations: ", count_station)
 
 
 def investigate_node_roles():
@@ -207,7 +327,7 @@ def investigate_node_roles():
     way_count = 0
     other_count = 0
     None_list = []
-    for feature in features:
+    for feature in features01:
         properties = feature.get('properties')
         raw_id = properties.get('@id')
         clean_id = raw_id.split('/')[-1] if '/' in raw_id else raw_id
@@ -243,7 +363,7 @@ def investigate_way():
     way_morethan_1relation = []
     total_way = 0
     railway_types = {}
-    for feature in features:
+    for feature in features01:
         properties = feature.get('properties')
         raw_id = properties.get('@id')
         clean_id = raw_id.split('/')[-1] if '/' in raw_id else raw_id
@@ -285,14 +405,17 @@ def investigate_way():
 
 if __name__ == "__main__":
     build_stop_dicts()
+    
     build_way_dict()
+    build_station_dict()
     transfer_count = stop_clustering(200, 500)
-    way_morethan_1relation = investigate_way()
     
     output_path_01 = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'stop_dict_id.json'))
     output_path_02 = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'stop_dict_coord.json'))
     output_path_03 = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'way_dict_id.json'))
     output_path_04 = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'edge_list.json'))
+    output_path_05 = os.path.normpath(os.path.join(current_dir, '..', 'outputs', 'station_dict.json'))
+    
     with open(output_path_01, 'w', encoding='utf-8') as outfile:
         json.dump(stop_dict_id, outfile, ensure_ascii=False, indent=2)
     print(f"\nĐã xuất dữ liệu thành công ra file: {output_path_01}")
@@ -309,4 +432,7 @@ if __name__ == "__main__":
         json.dump(edge_list, outfile, ensure_ascii=False, indent=2)
     print(f"\nĐã xuất dữ liệu thành công ra file: {output_path_04}")
     
-    print("total transfer: ", transfer_count)
+    with open(output_path_05, 'w', encoding='utf-8') as outfile:
+        json.dump(station_dict, outfile, ensure_ascii=False, indent=2)
+    print(f"\nĐã xuất dữ liệu thành công ra file: {output_path_05}")
+    

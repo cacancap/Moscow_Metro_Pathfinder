@@ -97,7 +97,7 @@ def visualize_nodes_only(geojson_data, m):
         name = properties.get('name:en') or properties.get('name', 'N/A')
         node_type = properties.get('railway', properties.get('highway', 'station'))
 
-        popup_html = f"<b>Ga/Điểm:</b> {name}<br><b>ID:</b> {clean_id}<br><b>Loại:</b> {node_type}"
+        popup_html = f"<b>node:</b> {name}<br><b>ID:</b> {clean_id}<br><b>Loại:</b> {node_type}"
         
         folium.CircleMarker(
             location=[lat, lon], 
@@ -216,7 +216,7 @@ def visualize_raw_data():
             way_type = properties.get('railway')
             if (way_type != 'subway'): continue
             
-            popup_html = f"<b>Đường ray:</b> {name} - Line: {line_id}<br><b>ID:</b> {clean_id}"
+            popup_html = f"<b>Way:</b> {name} - Line: {line_id}<br><b>ID:</b> {clean_id}"
             
             folium.PolyLine(
                 locations=points,
@@ -225,6 +225,80 @@ def visualize_raw_data():
                 weight=4, 
                 opacity=0.8
             ).add_to(m)
+
+def visualize_specific_path(adj_list_data, path_edge_ids, m):
+    """
+    Vẽ các cạnh có ID nằm trong danh sách path_edge_ids.
+    Tự động thu phóng bản đồ để hiển thị vừa vặn lộ trình.
+    """
+    print(f"Đang vẽ lộ trình gồm {len(path_edge_ids)} cạnh...")
+    
+    edges_found = 0
+    all_path_coords = []  # Lưu trữ tọa độ để tự động căn chỉnh bản đồ
+    
+    # Chuyển list thành set để tìm kiếm (lookup) nhanh hơn với O(1)
+    target_ids = set(path_edge_ids)
+    
+    for source_id, targets in adj_list_data.items():
+        for target_id, edge_data in targets.items():
+            edge_id = edge_data.get('edge_id')
+            
+            # --- MÀNG LỌC: Chỉ vẽ nếu ID cạnh nằm trong danh sách đầu vào ---
+            if edge_id in target_ids:
+                coords = edge_data.get('geometry', [])
+                if len(coords) < 2:
+                    continue
+                    
+                points = [[lat, lon] for lon, lat in coords]
+                all_path_coords.extend(points) # Gom tọa độ lại
+                
+                color = edge_data.get('colour', 'gray')
+                edge_type = edge_data.get('edge_type', 'unknown')
+                weight = edge_data.get('weight', 0)
+                
+                # Phân biệt đi bộ và đi tàu
+                dash = '6, 6' if edge_type == 'transfer' else None
+                
+                # Vẽ Cạnh
+                popup_html = f"<b>Edge ID:</b> {edge_id}<br><b>Từ:</b> {source_id}<br><b>Đến:</b> {target_id}<br><b>Loại:</b> {edge_type}<br><b>Dài:</b> {weight:.1f} m"
+                
+                folium.PolyLine(
+                    locations=points,
+                    color=color, 
+                    weight=5, # Làm nét đậm hơn một chút để lộ trình nổi bật
+                    dash_array=dash, 
+                    opacity=0.9,
+                    popup=folium.Popup(popup_html, max_width=250)
+                ).add_to(m)
+                
+                # Vẽ Mũi tên định hướng (Tam giác giữa đường)
+                mid_idx = len(points) // 2
+                p1 = points[mid_idx - 1]
+                p2 = points[mid_idx]
+                bearing = get_bearing(p1, p2)
+                
+                folium.RegularPolygonMarker(
+                    location=p2,
+                    number_of_sides=3,
+                    radius=7,  # Mũi tên to hơn chút để dễ nhìn lộ trình
+                    color=color,
+                    fill=True,
+                    fill_color=color,
+                    fill_opacity=1,
+                    rotation=bearing
+                ).add_to(m)
+                
+                edges_found += 1
+
+    print(f"Đã tìm thấy và vẽ {edges_found}/{len(path_edge_ids)} cạnh hợp lệ.")
+    
+    # --- TỰ ĐỘNG CAMERA ---
+    # Thu phóng bản đồ vừa khít với khu vực lộ trình đi qua
+    if all_path_coords:
+        m.fit_bounds(all_path_coords)
+        print("Đã tự động căn chỉnh góc nhìn bản đồ.")
+    else:
+        print("Cảnh báo: Không tìm thấy tọa độ nào để vẽ.")
 
 # --- LƯU BẢN ĐỒ ---
 
@@ -236,10 +310,12 @@ def visualize_raw_data():
 visualize_nodes_only(geojson_data, m)
 
 # 2. Vẽ cạnh và mũi tên
-visualize_adjacency_list(adjacency_list, m)
+# visualize_adjacency_list(adjacency_list, m)
 
-#visualize_adjacency_list(adjacency_list, m)
-visualize_raw_data()
+# visualize_adjacency_list(adjacency_list, m)
+# visualize_raw_data()
+visualize_specific_path(adjacency_list, ['e_298', 'e_68', 'e_69', 'e_467', 'e_468', 'e_464', 'e_465', 'e_466', 'e_98', 'e_994', 'e_162', 'e_163', 'e_164', 'e_172', 'e_173', 'e_171', 'e_99', 'e_100', 'e_303', 'e_300', 'e_1604', 'e_146', 'e_147', 'e_127', 'e_942', 'e_101', 'e_102', 'e_175', 'e_717', 'e_1640', 'e_205', 'e_206', 'e_216', 'e_217', 'e_28', 'e_66', 'e_67', 'e_72', 'e_73', 'e_243', 'e_222', 'e_223', 'e_226'], m)
+
 output_file = "visualization_output.html"
 m.save(output_file)
 print("Thành công! Đã vẽ xong dữ liệu thô.")
