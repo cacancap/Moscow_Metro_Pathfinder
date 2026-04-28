@@ -14,7 +14,7 @@ project_root = current_dir.parent.parent.parent
 raw_data_path = project_root / "data" / "raw" / "subway_relation02.geojson"
 stop_dict_path = project_root / "data" / "processed" / "outputs" / "stop_dict_id.json"
 way_dict_path = project_root / "data" / "processed" / "outputs" / "way_dict_id.json"
-
+station_dict_path = project_root / "data" / "processed" / "outputs" / "station_dict.json"
 adjacency_list_path = project_root / "data" / "processed" / "outputs" / "adjacency_list.json"
 
 try:
@@ -26,6 +26,8 @@ try:
         way_dict_id = json.load(f)
     with open(adjacency_list_path, 'r', encoding='utf-8') as f:
         adjacency_list = json.load(f)
+    with open(station_dict_path, 'r', encoding='utf-8') as f:
+        station_dict = json.load(f)
 except FileNotFoundError as e:
     raise FileNotFoundError(f"Lỗi: Không tìm thấy file: {e}")
 
@@ -49,12 +51,13 @@ def visualize_node(node_id, colour):
     lat = indicated_node.get('lat')
     lon = indicated_node.get('lon')
     
-    popup_html = f"<b>Ga:</b> {name}  <b>id: </b> {node_id} <br> {lat}, {lon}" 
+    popup_html = f"<b>Node:</b> {name}  <b>id: </b> {node_id} <br> {lat}, {lon}" 
     
-    folium.Marker(
+    folium.CircleMarker(
         location=[lat, lon],
+        radius=5,
         popup=folium.Popup(popup_html, max_width=300, parse_html=True),
-        icon=folium.Icon(color=colour, icon="star")
+        color=colour
     ).add_to(m)
     
 def visualize_way(way_id):
@@ -81,7 +84,40 @@ def get_bearing(p1, p2):
     compass_bearing = (math.degrees(initial_bearing) + 360) % 360
     return compass_bearing
     
-def visualize_nodes_only(geojson_data, m):
+# Visualize tất cả stations
+def visualize_stations_only(station_dict, m):
+    station_list = [
+        {"id": station_id, **info}
+        for station_id, info in station_dict.items()
+    ]
+    
+    for station in station_list:
+        name = station.get('name')
+        clean_id = station.get('id')
+        line_id = station.get('line_id')
+        popup_html = f"<b>Station:</b> {name}<br><b>ID:</b> {clean_id}<br><b>Line:</b> {line_id}"
+        colour = station.get('colour')
+        lon, lat = station.get('geometry')
+        if (line_id == 'unknown'):
+            folium.CircleMarker(
+                location=[lat, lon], 
+                radius=5,
+                popup=folium.Popup(popup_html, max_width=250),
+                color="red",
+                fill=True, 
+                fill_opacity=0.9
+            ).add_to(m)
+        else:
+            folium.CircleMarker(
+                location=[lat, lon], 
+                radius=5,
+                popup=folium.Popup(popup_html, max_width=250),
+                color=colour,
+                fill=True, 
+                fill_opacity=0.9
+            ).add_to(m)
+    
+def visualize_raw_nodes(geojson_data, m):
     """Quét dữ liệu thô và CHỈ vẽ các Đỉnh (Point) kèm Popup"""
     print("Đang vẽ các nhà ga (Nodes)...")
     for feature in geojson_data.get('features', []):
@@ -108,6 +144,19 @@ def visualize_nodes_only(geojson_data, m):
             fill_opacity=0.9
         ).add_to(m)
 
+# Visualize tất cả stops trong stop_dict_id
+def visualize_all_stops(stop_dict_id, m):
+    stop_list = [
+        {**info}
+        for stop_id, info in stop_dict_id.items()
+    ]
+    
+    for stop in stop_list:
+        id = stop.get('id')
+        colour = stop.get('colour')
+        visualize_node(id, colour)
+        
+# Visualize tất cả edge trong edge_list
 def visualize_adjacency_list(adj_list_data, m):
     """Vẽ Cạnh từ từ điển kề. Tích hợp mũi tên tam giác siêu nhẹ và Popup"""
     print("Đang vẽ đường ray và mũi tên định hướng...")
@@ -128,7 +177,7 @@ def visualize_adjacency_list(adj_list_data, m):
             dash = '6, 6' if edge_type == 'transfer' else None
             
             # --- VẼ ĐƯỜNG RAY & POPUP ---
-            popup_html = f"<b>Edge ID:</b> {edge_id}<br><b>Từ:</b> {source_id}<br><b>Đến:</b> {target_id}<br><b>Line:</b> {line_id}"
+            popup_html = f"<b>Edge ID:</b> {edge_id}<br><b>Từ:</b> {source_id}<br><b>Đến:</b> {target_id}<br><b>weight:</b> {weight}<br><b>Line:</b> {line_id}"
             
             folium.PolyLine(
                 locations=points,
@@ -302,20 +351,17 @@ def visualize_specific_path(adj_list_data, path_edge_ids, m):
 
 # --- LƯU BẢN ĐỒ ---
 
-# stop_morethan_1relation = ['1135674408', '1191237441', '6937381513', '6937381514', '6938823556', '6939665020', '6939665021', '6939665025', '6939665026', '6939665027', '6939665028', '10703951289', '10703951290']
-# way_morethan_1relation = ['22476058', '23397053', '23397056', '55518853', '80498006', '98150198', '98180700', '98180705', '98180710', '98180712', '98185805', '98185808', '98185812', '98185815', '98185817', '98185819', '98185820', '103150803', '103152210', '103152213', '103152214', '103152215', '134151194', '134151261', '429982492']
-# for id in way_morethan_1relation:
-#     visualize_way(id)
-
-visualize_nodes_only(geojson_data, m)
+# for stop in stop_line_02:
+#     visualize_node(stop, 'black')
 
 # 2. Vẽ cạnh và mũi tên
-# visualize_adjacency_list(adjacency_list, m)
 
-# visualize_adjacency_list(adjacency_list, m)
+visualize_adjacency_list(adjacency_list, m)
 # visualize_raw_data()
-visualize_specific_path(adjacency_list, ['e_298', 'e_68', 'e_69', 'e_467', 'e_468', 'e_464', 'e_465', 'e_466', 'e_98', 'e_994', 'e_162', 'e_163', 'e_164', 'e_172', 'e_173', 'e_171', 'e_99', 'e_100', 'e_303', 'e_300', 'e_1604', 'e_146', 'e_147', 'e_127', 'e_942', 'e_101', 'e_102', 'e_175', 'e_717', 'e_1640', 'e_205', 'e_206', 'e_216', 'e_217', 'e_28', 'e_66', 'e_67', 'e_72', 'e_73', 'e_243', 'e_222', 'e_223', 'e_226'], m)
-
+#visualize_specific_path(adjacency_list, ['e_298', 'e_68', 'e_69', 'e_467', 'e_468', 'e_464', 'e_465', 'e_466', 'e_98', 'e_994', 'e_162', 'e_163', 'e_164', 'e_172', 'e_173', 'e_171', 'e_99', 'e_100', 'e_303', 'e_300', 'e_1604', 'e_146', 'e_147', 'e_127', 'e_942', 'e_101', 'e_102', 'e_175', 'e_717', 'e_1640', 'e_205', 'e_206', 'e_216', 'e_217', 'e_28', 'e_66', 'e_67', 'e_72', 'e_73', 'e_243', 'e_222', 'e_223', 'e_226'], m)
+visualize_raw_nodes(geojson_data, m)
+visualize_stations_only(station_dict, m)
+visualize_all_stops(stop_dict_id, m)
 output_file = "visualization_output.html"
 m.save(output_file)
 print("Thành công! Đã vẽ xong dữ liệu thô.")

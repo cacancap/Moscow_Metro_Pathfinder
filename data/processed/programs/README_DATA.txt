@@ -16,3 +16,7 @@ Khảo sát sơ bộ dữ liệu subway_relation02.geojson:
 - Không phải node/way: 213
 
 - Có 13 stops chứa > 1 relation, nhưng một số cái bị lặp lại, có cái thì mang 2 tên tuyến khác nhau (VD: 4 và 4A) 
+
+Update 28/04/2026:
+- Sửa lại các stations bị unknown, cập nhật và đồng bộ hoá colour cho stop_dict_id.
+- Thay đổi trọng số cho adjacency_list: tính bằng giây thay vì quãng đường, & cập nhật lại trọng số cho một số cạnh đặc biệt.
