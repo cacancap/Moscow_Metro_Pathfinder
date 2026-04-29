@@ -1,107 +1,143 @@
-import json
-import os
 import heapq
+import time
+from collections import deque
 
-class MoscowMetroPathFinder:
-    def __init__(self, adj_map_path, station_dict_path):
-        """Khởi tạo hệ thống với Adjacency Map và Station Dictionary"""
-        # Nạp đồ thị kề (adj_map)
-        with open(adj_map_path, 'r', encoding='utf-8') as f:
-            self.graph = json.load(f)
-            
-        # Nạp từ điển ga (station_dict) - Dạng Dictionary chuẩn
-        with open(station_dict_path, 'r', encoding='utf-8') as f:
-            self.station_dict = json.load(f)
-        
-        print(f"Hệ thống sẵn sàng: {len(self.station_dict)} ga tàu đã được nạp.")
-        # print("test 5 keys: ", end='')
-        # for i in range(1,5):
-        #     print(self)
+from .graph import haversine
 
-    def find_shortest_path(self, source_station_id, dest_station_id):
-        """Tìm đường dựa trên Station ID (Trả về danh sách edge_id)"""
-        # Ép kiểu ID về string để khớp với Key trong JSON
-        source_id = str(source_station_id)
-        dest_id = str(dest_station_id)
-        print("Source: ", source_id)
-        print("dest: ", dest_id)
-        print("test: ", self.station_dict.get(dest_id))
-        # Kiểm tra sự tồn tại của Ga trong Từ điển O(1)
-        if source_id not in self.station_dict or dest_id not in self.station_dict:
-            print(f"Lỗi: Không tìm thấy ID ga ({source_id} hoặc {dest_id}) trong danh sách.")
-            return []
 
-        # Lấy stop đại diện cho Ga (phần tử đầu tiên trong danh sách stops)
-        start_stop = self.station_dict[source_id]['stops'][0]
-        end_stop = self.station_dict[dest_id]['stops'][0]
+# ── Helpers ────────────────────────────────────────────────────────────────────
 
-        # Thuật toán Dijkstra tìm đường giữa các stop
-        distances = {start_stop: 0}
-        came_from = {} # Lưu vết: node_hien_tai: (node_truoc, edge_id)
-        priority_queue = [(0, start_stop)]
+def _reconstruct_path(came_from, start, goal):
+    path = []
+    node = goal
+    while node != start:
+        path.append(node)
+        node = came_from[node]
+    path.append(start)
+    path.reverse()
+    return path
 
-        while priority_queue:
-            current_dist, u = heapq.heappop(priority_queue)
 
-            if u == end_stop:
-                break
+def _path_distance(graph, path):
+    return sum(graph[path[i]][path[i + 1]] for i in range(len(path) - 1))
 
-            if current_dist > distances.get(u, float('inf')):
-                continue
 
-            # Duyệt các đỉnh kề từ adj_map
-            for v, edge_data in self.graph.get(u, {}).items():
-                weight = edge_data['weight']
-                new_dist = current_dist + weight
-                
-                if new_dist < distances.get(v, float('inf')):
-                    distances[v] = new_dist
-                    came_from[v] = (u, edge_data['edge_id'])
-                    heapq.heappush(priority_queue, (new_dist, v))
+# ── Algorithms ─────────────────────────────────────────────────────────────────
 
-        # Truy vết để lấy danh sách edge_id từ Xuất phát -> Đích
-        return self._reconstruct_path(came_from, start_stop, end_stop)
+def _bfs(graph, nodes, start, goal):
+    """Tìm đường ít ga nhất (không quan tâm trọng số)."""
+    queue = deque([start])
+    came_from = {start: None}
 
-    def _reconstruct_path(self, came_from, start, end):
-        if end not in came_from and start != end:
-            return []
-            
-        path = []
-        curr = end
-        while curr != start:
-            prev_node, edge_id = came_from[curr]
-            path.append(edge_id)
-            curr = prev_node
-            
-        path.reverse() # Đảo ngược để có trình tự từ nguồn đến đích
-        return path
+    while queue:
+        current = queue.popleft()
+        if current == goal:
+            break
+        for neighbor in graph.get(current, {}):
+            if neighbor not in came_from:
+                came_from[neighbor] = current
+                queue.append(neighbor)
 
-# ==========================================
-# KHỐI CHẠY KIỂM THỬ
-# ==========================================
-if __name__ == "__main__":
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    # Điều chỉnh đường dẫn chính xác tới thư mục outputs
-    output_dir = os.path.normpath(os.path.join(current_dir, '..', 'data', 'processed', 'outputs'))
-    
-    adj_map_path = os.path.join(output_dir, 'adjacency_list.json')
-    station_dict_path = os.path.join(output_dir, 'station_dict.json') # Tên file bạn xuất từ build_dataset.py
-    
-    try:
-        pathfinder = MoscowMetroPathFinder(adj_map_path, station_dict_path)
-        
-        # Thử nghiệm tìm đường giữa 2 Station ID
-        start_id = "60660466" 
-        dest_id = "5202107564"  
-        
-        result = pathfinder.find_shortest_path(start_id, dest_id)
-        
-        if result:
-            print("\n✅ TÌM ĐƯỜNG THÀNH CÔNG!")
-            print(f"Lộ trình đi qua {len(result)} cạnh.")
-            print("Danh sách Edge IDs:", result)
-        else:
-            print(f"\n❌ Không tìm thấy đường đi giữa Ga {start_id} và Ga {dest_id}.")
-            
-    except Exception as e:
-        print(f"Lỗi hệ thống: {e}")
+    if goal not in came_from:
+        return None
+    return _reconstruct_path(came_from, start, goal)
+
+
+def _dijkstra(graph, nodes, start, goal):
+    """Tìm đường ngắn nhất theo km."""
+    dist = {start: 0.0}
+    came_from = {}
+    heap = [(0.0, start)]
+    visited = set()
+
+    while heap:
+        g, current = heapq.heappop(heap)
+        if current in visited:
+            continue
+        visited.add(current)
+        if current == goal:
+            break
+        for neighbor, weight in graph.get(current, {}).items():
+            new_g = g + weight
+            if new_g < dist.get(neighbor, float("inf")):
+                dist[neighbor] = new_g
+                came_from[neighbor] = current
+                heapq.heappush(heap, (new_g, neighbor))
+
+    if goal not in came_from and goal != start:
+        return None
+    return _reconstruct_path(came_from, start, goal)
+
+
+def _astar(graph, nodes, start, goal):
+    """Tìm đường ngắn nhất bằng A* (Dijkstra + Haversine heuristic)."""
+    h0 = haversine(nodes, start, goal)
+    dist = {start: 0.0}
+    came_from = {}
+    heap = [(h0, 0.0, start)]   # (f, g, node)
+    visited = set()
+
+    while heap:
+        f, g, current = heapq.heappop(heap)
+        if current in visited:
+            continue
+        visited.add(current)
+        if current == goal:
+            break
+        for neighbor, weight in graph.get(current, {}).items():
+            new_g = g + weight
+            if new_g < dist.get(neighbor, float("inf")):
+                dist[neighbor] = new_g
+                came_from[neighbor] = current
+                h = haversine(nodes, neighbor, goal)
+                heapq.heappush(heap, (new_g + h, new_g, neighbor))
+
+    if goal not in came_from and goal != start:
+        return None
+    return _reconstruct_path(came_from, start, goal)
+
+
+# ── Public API ─────────────────────────────────────────────────────────────────
+
+_ALGOS = {"bfs": _bfs, "dijkstra": _dijkstra, "astar": _astar}
+
+
+def find_path(graph, nodes, start_id, goal_id, algorithm="astar"):
+    """
+    Tìm đường từ start_id đến goal_id.
+
+    Parameters
+    ----------
+    graph     : { source_id: { target_id: weight_km } }
+    nodes     : { node_id: [lon, lat] }
+    algorithm : "bfs" | "dijkstra" | "astar"
+
+    Returns
+    -------
+    {
+        "path"        : [node_id, ...],
+        "distance_km" : float,
+        "num_stations": int,
+        "elapsed_ms"  : float,
+    }
+    hoặc None nếu không tìm được đường.
+    """
+    if algorithm not in _ALGOS:
+        raise ValueError(f"Thuật toán không hợp lệ: '{algorithm}'. Chọn: {list(_ALGOS)}")
+
+    if start_id == goal_id:
+        return {"path": [start_id], "distance_km": 0.0, "num_stations": 1, "elapsed_ms": 0.0}
+
+    t0 = time.perf_counter()
+    path = _ALGOS[algorithm](graph, nodes, start_id, goal_id)
+    elapsed_ms = round((time.perf_counter() - t0) * 1000, 3)
+
+    if path is None:
+        return None
+
+    return {
+        "path": path,
+        "distance_km": round(_path_distance(graph, path), 4),
+        "num_stations": len(path),
+        "elapsed_ms": elapsed_ms,
+    }

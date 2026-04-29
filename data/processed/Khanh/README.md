@@ -19,7 +19,7 @@ Dữ liệu đã được chuẩn hóa tọa độ (6 chữ số thập phân) v
 
 ### 3. `03_connected_network/`
 Đồ thị đã được liên thông hóa thông qua các Virtual Hubs.
-- **Logic gom nhóm (Clustering):** Sử dụng thuật toán **Single-linkage Clustering** với bán kính **200 mét**. Một ga sẽ gia nhập cụm trung chuyển nếu nó nằm gần *bất kỳ* thành viên nào trong cụm đó dưới 200m (không phụ thuộc vào tên).
+- **Logic gom nhóm (Clustering):** Sử dụng thuật toán **Single-linkage Clustering** với bán kính **230 mét**. Một ga sẽ gia nhập cụm trung chuyển nếu nó nằm gần *bất kỳ* thành viên nào trong cụm đó dưới 300m (không phụ thuộc vào tên).
 - `nodes_with_hubs.json`: Đã bao gồm các Hub ảo trung tâm (37 Hubs).
 - `edges_with_hubs.json`: Đã bao gồm các cạnh trung chuyển (transfer) giữa các ga với trọng số phạt ảo (Penalty).
 

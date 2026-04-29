@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moscow Metro Pathfinder</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="data:,">
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <button id="toggleControlsBtn" class="toggle-controls-btn" onclick="toggleControls()" title="Show/Hide Controls">☰</button>
+    <div id="stationSearchList" class="station-search-list"></div>
+
+    <div id="controls">
+        <h3>🗺️ Moscow Metro Pathfinder</h3>
+        
+        <div class="control-group">
+            <label>🔍 Search Station:</label>
+            <input type="text" id="stationSearch" placeholder="Type to search..." style="margin-bottom: 8px;" oninput="updateSearchList(this.value)">
+           
+        </div>
+
+        <div class="control-group">
+            <label>🚆 From Station:</label>
+            <select id="startStation" class="station-select">
+                <option value="">-- Select start station --</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label>🎯 To Station:</label>
+            <select id="endStation" class="station-select">
+                <option value="">-- Select end station --</option>
+            </select>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-primary" onclick="findPath()">🔎 Find Path</button>
+            <button class="btn-secondary" onclick="togglePathVisibility()">👁️ Toggle Path</button>
+        </div>
+        <div id="routeMessage" style="margin-top: 8px; color: #ffd700; font-size: 0.9rem; text-align: center;"></div>
+
+        <div class="control-group">
+            <label>📊 Statistics:</label>
+            <div id="stats"></div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-primary" onclick="centerMap()">🧭 Center</button>
+            <button class="btn-secondary" onclick="toggleStations()">🔍 Stations</button>
+            <button class="btn-secondary" onclick="toggleEdges()">🛤️ Lines</button>
+            <button class="btn-danger" onclick="clearAll()">🗑️ Clear</button>
+        </div>
+    </div>
+
+    <div id="stationInfo" class="station-panel">
+        <span class="close-btn" onclick="closeStationPanel()">×</span>
+        <h4 id="stationName"></h4>
+        <p><strong>Russian:</strong> <span id="stationNameRu"></span></p>
+        <p><strong>Type:</strong> <span id="stationType"></span></p>
+        <p><strong>Coordinates:</strong> <span id="stationCoords"></span></p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

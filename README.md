@@ -34,7 +34,42 @@ conda activate Moscow_Metro_Pathfinder
    cd *directory_path*\Moscow_Metro_Pathfinder  
 2. pip install -r requirements.txt
 
-**Bước 6:** Chạy file tuỳ ý.  
-python *file_path*.py
+**Bước 6:** Chạy ứng dụng Moscow Metro Pathfinder
+
+## Cách chạy đơn giản (Khuyến nghị)
+Chỉ cần chạy 1 lệnh duy nhất để khởi động cả backend và frontend:
+
+### Windows:
+```bash
+python run.py
+```
+hoặc double-click file `run.bat`
+
+### Linux/Mac:
+```bash
+python run.py
+```
+hoặc
+```bash
+chmod +x run.sh
+./run.sh
+```
+
+## Cách chạy riêng lẻ (Advanced)
+Nếu muốn chạy riêng từng phần:
+
+### Backend (FastAPI - Port 8000):
+```bash
+uvicorn api:app --host 127.0.0.1 --port 8000 --reload
+```
+
+### Frontend (Flask - Port 5000):
+```bash
+python web/app.py
+```
+
+## Truy cập ứng dụng
+- **Web App**: http://localhost:5000
+- **API Docs**: http://localhost:8000/docs
 
 *
