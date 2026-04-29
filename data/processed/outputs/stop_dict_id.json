@@ -42,7 +42,7 @@
     "lat": 55.8052091,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "267335318": {
     "id": "267335318",
@@ -87,7 +87,7 @@
     "lat": 55.6550308,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "296926132": {
     "id": "296926132",
@@ -330,7 +330,7 @@
     "lat": 55.6936249,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "1272374180": {
     "id": "1272374180",
@@ -339,7 +339,7 @@
     "lat": 55.6550552,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "1279716959": {
     "id": "1279716959",
@@ -555,7 +555,7 @@
     "lat": 55.8052938,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "5330792103": {
     "id": "5330792103",
@@ -564,7 +564,7 @@
     "lat": 55.8774655,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "5330792104": {
     "id": "5330792104",
@@ -573,7 +573,7 @@
     "lat": 55.8788071,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "5482806574": {
     "id": "5482806574",
@@ -636,7 +636,7 @@
     "lat": 55.8651307,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6147634224": {
     "id": "6147634224",
@@ -645,7 +645,7 @@
     "lat": 55.8650355,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6207905523": {
     "id": "6207905523",
@@ -825,7 +825,7 @@
     "lat": 55.7647089,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937152865": {
     "id": "6937152865",
@@ -834,7 +834,7 @@
     "lat": 55.7651201,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937152866": {
     "id": "6937152866",
@@ -1401,7 +1401,7 @@
     "lat": 55.6327731,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811134": {
     "id": "6937811134",
@@ -1410,7 +1410,7 @@
     "lat": 55.6328252,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811135": {
     "id": "6937811135",
@@ -1419,7 +1419,7 @@
     "lat": 55.8549987,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811136": {
     "id": "6937811136",
@@ -1428,7 +1428,7 @@
     "lat": 55.8550327,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811137": {
     "id": "6937811137",
@@ -1437,7 +1437,7 @@
     "lat": 55.8400336,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811138": {
     "id": "6937811138",
@@ -1446,7 +1446,7 @@
     "lat": 55.8400811,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811139": {
     "id": "6937811139",
@@ -1455,7 +1455,7 @@
     "lat": 55.8190183,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811140": {
     "id": "6937811140",
@@ -1464,7 +1464,7 @@
     "lat": 55.8190761,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811141": {
     "id": "6937811141",
@@ -1473,7 +1473,7 @@
     "lat": 55.8003694,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811142": {
     "id": "6937811142",
@@ -1482,7 +1482,7 @@
     "lat": 55.8004343,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811143": {
     "id": "6937811143",
@@ -1491,7 +1491,7 @@
     "lat": 55.78965,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811144": {
     "id": "6937811144",
@@ -1500,7 +1500,7 @@
     "lat": 55.789829,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811145": {
     "id": "6937811145",
@@ -1509,7 +1509,7 @@
     "lat": 55.7766185,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811146": {
     "id": "6937811146",
@@ -1518,7 +1518,7 @@
     "lat": 55.7767875,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811147": {
     "id": "6937811147",
@@ -1527,7 +1527,7 @@
     "lat": 55.7701166,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811148": {
     "id": "6937811148",
@@ -1536,7 +1536,7 @@
     "lat": 55.7702235,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811149": {
     "id": "6937811149",
@@ -1572,7 +1572,7 @@
     "lat": 55.7574422,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811154": {
     "id": "6937811154",
@@ -1581,7 +1581,7 @@
     "lat": 55.7575606,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811155": {
     "id": "6937811155",
@@ -1626,7 +1626,7 @@
     "lat": 55.741418,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811160": {
     "id": "6937811160",
@@ -1635,7 +1635,7 @@
     "lat": 55.7414182,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811161": {
     "id": "6937811161",
@@ -1644,7 +1644,7 @@
     "lat": 55.7304498,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811162": {
     "id": "6937811162",
@@ -1653,7 +1653,7 @@
     "lat": 55.7305498,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811163": {
     "id": "6937811163",
@@ -1662,7 +1662,7 @@
     "lat": 55.7073495,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811164": {
     "id": "6937811164",
@@ -1671,7 +1671,7 @@
     "lat": 55.7073457,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811165": {
     "id": "6937811165",
@@ -1680,7 +1680,7 @@
     "lat": 55.6936228,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811166": {
     "id": "6937811166",
@@ -1689,7 +1689,7 @@
     "lat": 55.6784824,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811167": {
     "id": "6937811167",
@@ -1698,7 +1698,7 @@
     "lat": 55.6784827,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811168": {
     "id": "6937811168",
@@ -1707,7 +1707,7 @@
     "lat": 55.6357042,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811169": {
     "id": "6937811169",
@@ -1716,7 +1716,7 @@
     "lat": 55.635756,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811170": {
     "id": "6937811170",
@@ -1725,7 +1725,7 @@
     "lat": 55.6214565,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811171": {
     "id": "6937811171",
@@ -1734,7 +1734,7 @@
     "lat": 55.6215076,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811172": {
     "id": "6937811172",
@@ -1743,7 +1743,7 @@
     "lat": 55.6131071,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811173": {
     "id": "6937811173",
@@ -1752,7 +1752,7 @@
     "lat": 55.6131789,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811174": {
     "id": "6937811174",
@@ -1761,7 +1761,7 @@
     "lat": 55.610897,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811175": {
     "id": "6937811175",
@@ -1770,7 +1770,7 @@
     "lat": 55.6107845,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811176": {
     "id": "6937811176",
@@ -1779,7 +1779,7 @@
     "lat": 55.6137516,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811177": {
     "id": "6937811177",
@@ -1788,7 +1788,7 @@
     "lat": 55.6136361,
     "line_id": "2",
     "role": "stop",
-    "colour": "darkgreen"
+    "colour": "green"
   },
   "6937811178": {
     "id": "6937811178",
@@ -2922,7 +2922,7 @@
     "lat": 55.6218771,
     "line_id": "1",
     "role": "stop",
-    "colour": null
+    "colour": "red"
   },
   "6938823578": {
     "id": "6938823578",
@@ -2931,7 +2931,7 @@
     "lat": 55.6219591,
     "line_id": "1",
     "role": "stop",
-    "colour": null
+    "colour": "red"
   },
   "6938823579": {
     "id": "6938823579",
@@ -3255,7 +3255,7 @@
     "lat": 55.7033509,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "6939553027": {
     "id": "6939553027",
@@ -3264,7 +3264,7 @@
     "lat": 55.703484,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "6939553028": {
     "id": "6939553028",
@@ -3615,7 +3615,7 @@
     "lat": 55.7101691,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "6939601872": {
     "id": "6939601872",
@@ -3624,7 +3624,7 @@
     "lat": 55.7100392,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "6939601873": {
     "id": "6939601873",
@@ -3633,7 +3633,7 @@
     "lat": 55.7085251,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "6939601874": {
     "id": "6939601874",
@@ -3642,7 +3642,7 @@
     "lat": 55.7084945,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "6939665005": {
     "id": "6939665005",
@@ -4515,7 +4515,7 @@
     "lat": 55.7318043,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "10784059828": {
     "id": "10784059828",
@@ -4524,7 +4524,7 @@
     "lat": 55.7318376,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "10784059829": {
     "id": "10784059829",
@@ -4533,7 +4533,7 @@
     "lat": 55.7270016,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "10784059830": {
     "id": "10784059830",
@@ -4542,7 +4542,7 @@
     "lat": 55.7270352,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "10784059831": {
     "id": "10784059831",
@@ -4551,7 +4551,7 @@
     "lat": 55.7183543,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "10784059832": {
     "id": "10784059832",
@@ -4560,7 +4560,7 @@
     "lat": 55.7183297,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "10784059833": {
     "id": "10784059833",
@@ -4569,7 +4569,7 @@
     "lat": 55.7050197,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "10784059834": {
     "id": "10784059834",
@@ -4578,7 +4578,7 @@
     "lat": 55.7050528,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "10784059835": {
     "id": "10784059835",
@@ -4587,7 +4587,7 @@
     "lat": 55.7028937,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "10784059836": {
     "id": "10784059836",
@@ -4596,7 +4596,7 @@
     "lat": 55.7028049,
     "line_id": "15",
     "role": "stop",
-    "colour": null
+    "colour": "lightpink"
   },
   "11171697214": {
     "id": "11171697214",
