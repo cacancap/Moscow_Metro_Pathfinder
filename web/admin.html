@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+    <div class="admin-shell">
+        <aside class="admin-sidebar">
+            <div>
+                <p class="eyebrow">Control room</p>
+                <h1>Metro Admin</h1>
+                <p class="sidebar-copy">Quản lý ga đóng, cạnh bị chặn, và trạng thái routing dùng chung cho bản đồ chính.</p>
+            </div>
+
+            <nav class="admin-nav">
+                <a class="active" href="admin.html">Rerouting</a>
+                <a href="map.html">Map workspace</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="welcome-badge admin-badge">
+                    <span>Administrator</span>
+                    <strong id="adminUsername">admin</strong>
+                </div>
+                <button class="btn btn-danger btn-block" type="button" onclick="logout()">Đăng xuất</button>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <div>
+                    <p class="eyebrow">Network controls</p>
+                    <h2>Dynamic rerouting</h2>
+                </div>
+                <div class="toolbar-row">
+                    <button class="btn btn-ghost" type="button" id="refreshAdminBtn">Làm mới dữ liệu</button>
+                    <button class="btn btn-primary" type="button" id="saveClosuresBtn">Lưu cấu hình</button>
+                </div>
+            </header>
+
+            <section class="admin-stats" id="adminStats">
+                <article class="metric-card">
+                    <span>Total stations</span>
+                    <strong id="adminStationCount">--</strong>
+                </article>
+                <article class="metric-card">
+                    <span>Total edges</span>
+                    <strong id="adminEdgeCount">--</strong>
+                </article>
+                <article class="metric-card">
+                    <span>Blocked stations</span>
+                    <strong id="adminBlockedStations">--</strong>
+                </article>
+                <article class="metric-card">
+                    <span>Blocked edges</span>
+                    <strong id="adminBlockedEdges">--</strong>
+                </article>
+            </section>
+
+            <section class="admin-grid">
+                <article class="workspace-card">
+                    <div class="status-head">
+                        <h3>Đóng ga</h3>
+                        <button class="btn btn-ghost" type="button" id="clearStationsBtn">Xóa danh sách</button>
+                    </div>
+                    <label class="field">
+                        <span>Tìm ga</span>
+                        <input type="text" id="adminStationSearch" placeholder="Nhập tên ga">
+                    </label>
+                    <div id="adminStationResults" class="search-results admin-results"></div>
+                    <div id="blockedStationsList" class="chip-list"></div>
+                </article>
+
+                <article class="workspace-card">
+                    <div class="status-head">
+                        <h3>Chặn cạnh</h3>
+                        <button class="btn btn-ghost" type="button" id="clearEdgesBtn">Xóa danh sách</button>
+                    </div>
+                    <label class="field">
+                        <span>Tìm edge</span>
+                        <input type="text" id="adminEdgeSearch" placeholder="Nhập edge id, line id hoặc tên ga">
+                    </label>
+                    <div id="adminEdgeResults" class="search-results admin-results"></div>
+                    <div id="blockedEdgesList" class="chip-list"></div>
+                </article>
+            </section>
+
+            <section class="workspace-card">
+                <div class="status-head">
+                    <h3>Ghi chú triển khai</h3>
+                </div>
+                <div class="note-grid">
+                    <div>
+                        <span class="detail-label">API dùng trong trang này</span>
+                        <strong>`/api/station_list`, `/api/edge_list`, `/api/find-path`, `/api/stations`</strong>
+                    </div>
+                    <div>
+                        <span class="detail-label">Cơ chế</span>
+                        <strong>Cấu hình được lưu trong `localStorage` và áp dụng ngay cho trang bản đồ.</strong>
+                    </div>
+                    <div>
+                        <span class="detail-label">Trạng thái</span>
+                        <strong id="adminStatusText">Chưa có thay đổi chưa lưu.</strong>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="admin.js"></script>
+    <script>
+        const username = requireAuth("admin");
+        if (username) {
+            document.getElementById("adminUsername").innerText = username;
+        }
+    </script>
+</body>
+</html>

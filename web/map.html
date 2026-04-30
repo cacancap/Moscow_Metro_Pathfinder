@@ -3,70 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moscow Metro Pathfinder</title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="data:,">
+    <title>Metro Pathfinder Workspace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
+<body class="app-page">
     <div id="map"></div>
 
-    <button id="toggleControlsBtn" class="toggle-controls-btn" onclick="toggleControls()" title="Show/Hide Controls">☰</button>
-    <div id="stationSearchList" class="station-search-list"></div>
-
-    <div id="controls">
-        <h3>🗺️ Moscow Metro Pathfinder</h3>
-        
-        <div class="control-group">
-            <label>🔍 Search Station:</label>
-            <input type="text" id="stationSearch" placeholder="Type to search..." style="margin-bottom: 8px;" oninput="updateSearchList(this.value)">
-           
+    <header class="app-topbar">
+        <div>
+            <p class="eyebrow">Routing console</p>
+            <h1>Metro Pathfinder</h1>
         </div>
 
-        <div class="control-group">
-            <label>🚆 From Station:</label>
-            <select id="startStation" class="station-select">
-                <option value="">-- Select start station --</option>
-            </select>
+        <div class="topbar-actions">
+            <div class="welcome-badge">
+                <span>Signed in as</span>
+                <strong id="displayUsername">User</strong>
+            </div>
+            <a id="adminShortcut" class="btn btn-ghost" href="admin.html">Admin</a>
+            <button class="btn btn-danger" type="button" onclick="logout()">Đăng xuất</button>
+        </div>
+    </header>
+
+    <aside class="glass-panel route-panel">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Planner</p>
+                <h2>Tạo lộ trình</h2>
+            </div>
+            <button class="icon-btn" type="button" id="togglePanelBtn" aria-label="Thu gọn panel">−</button>
         </div>
 
-        <div class="control-group">
-            <label>🎯 To Station:</label>
-            <select id="endStation" class="station-select">
-                <option value="">-- Select end station --</option>
-            </select>
+        <div class="panel-body" id="routePanelBody">
+            <div class="toolbar-row">
+                <button class="btn btn-ghost" type="button" onclick="centerMap()">Về trung tâm</button>
+                <button class="btn btn-ghost" type="button" onclick="toggleStations()">Ẩn ga</button>
+                <button class="btn btn-ghost" type="button" onclick="clearAll()">Xóa route</button>
+            </div>
+
+            <label class="field">
+                <span>Tìm ga nhanh</span>
+                <input type="text" id="stationSearch" placeholder="Nhập tên ga tiếng Nga hoặc tiếng Anh">
+            </label>
+            <div id="searchResults" class="search-results"></div>
+
+            <div class="swap-row">
+                <label class="field">
+                    <span>Ga xuất phát</span>
+                    <select id="startStation" class="input-select"></select>
+                </label>
+                <button class="icon-btn swap-btn" type="button" onclick="swapStations()" aria-label="Đổi ga đi và ga đến">⇅</button>
+            </div>
+
+            <label class="field">
+                <span>Ga đích</span>
+                <select id="endStation" class="input-select"></select>
+            </label>
+
+            <label class="field">
+                <span>Thuật toán</span>
+                <select id="algorithm" class="input-select">
+                    <option value="astar">A* Search</option>
+                </select>
+            </label>
+
+            <div class="button-stack">
+                <button class="btn btn-primary btn-block" type="button" onclick="findPath()">Tìm đường</button>
+            </div>
+
+            <section class="status-card">
+                <div class="status-head">
+                    <h3>Rerouting</h3>
+                    <a class="mini-link" href="admin.html">Chỉnh sửa</a>
+                </div>
+                <div id="closureSummary" class="closure-summary"></div>
+            </section>
+
+            <section class="stats-grid" id="statsGrid">
+                <article>
+                    <span class="stats-label">Distance</span>
+                    <strong id="distanceValue">--</strong>
+                </article>
+                <article>
+                    <span class="stats-label">Nodes</span>
+                    <strong id="stationsValue">--</strong>
+                </article>
+                <article>
+                    <span class="stats-label">Algorithm</span>
+                    <strong id="elapsedValue">--</strong>
+                </article>
+            </section>
+
+            <section class="status-card">
+                <div class="status-head">
+                    <h3>Trạng thái route</h3>
+                </div>
+                <div id="stats" class="status-content">
+                    Chọn ga và chạy thuật toán để hiển thị lộ trình.
+                </div>
+            </section>
+
+            <section class="status-card">
+                <div class="status-head">
+                    <h3>Ga đi qua</h3>
+                </div>
+                <div id="routeStationsList" class="route-stations">
+                    Chưa có dữ liệu.
+                </div>
+            </section>
+        </div>
+    </aside>
+
+    <aside class="glass-panel detail-panel hidden" id="stationInfo">
+        <div class="panel-header">
+            <div>
+                <p class="eyebrow">Station detail</p>
+                <h2 id="stationName">Metro station</h2>
+            </div>
+            <button class="icon-btn" type="button" onclick="closeStationPanel()" aria-label="Đóng">×</button>
         </div>
 
-        <div class="button-group">
-            <button class="btn-primary" onclick="findPath()">🔎 Find Path</button>
-            <button class="btn-secondary" onclick="togglePathVisibility()">👁️ Toggle Path</button>
+        <div class="detail-grid">
+            <div>
+                <span class="detail-label">English</span>
+                <strong id="stationNameEn">-</strong>
+            </div>
+            <div>
+                <span class="detail-label">Line</span>
+                <strong id="stationLine">-</strong>
+            </div>
+            <div>
+                <span class="detail-label">Stop IDs</span>
+                <strong id="stationStops">-</strong>
+            </div>
+            <div>
+                <span class="detail-label">Coordinates</span>
+                <strong id="stationCoords">-</strong>
+            </div>
         </div>
-        <div id="routeMessage" style="margin-top: 8px; color: #ffd700; font-size: 0.9rem; text-align: center;"></div>
 
-        <div class="control-group">
-            <label>📊 Statistics:</label>
-            <div id="stats"></div>
+        <div class="button-stack detail-actions">
+            <button class="btn btn-primary" type="button" id="useAsStartBtn">Đặt làm ga đi</button>
+            <button class="btn btn-ghost" type="button" id="useAsEndBtn">Đặt làm ga đến</button>
         </div>
+    </aside>
 
-        <div class="button-group">
-            <button class="btn-primary" onclick="centerMap()">🧭 Center</button>
-            <button class="btn-secondary" onclick="toggleStations()">🔍 Stations</button>
-            <button class="btn-secondary" onclick="toggleEdges()">🛤️ Lines</button>
-            <button class="btn-danger" onclick="clearAll()">🗑️ Clear</button>
-        </div>
-    </div>
-
-    <div id="stationInfo" class="station-panel">
-        <span class="close-btn" onclick="closeStationPanel()">×</span>
-        <h4 id="stationName"></h4>
-        <p><strong>Russian:</strong> <span id="stationNameRu"></span></p>
-        <p><strong>Type:</strong> <span id="stationType"></span></p>
-        <p><strong>Coordinates:</strong> <span id="stationCoords"></span></p>
-    </div>
+    <div class="mobile-drawer-handle" id="mobileDrawerHandle">Route panel</div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="auth.js"></script>
     <script src="script.js"></script>
+    <script>
+        const username = requireAuth();
+        if (username) {
+            document.getElementById("displayUsername").innerText = username;
+        }
+        if (localStorage.getItem("metro_user_role") !== "admin") {
+            document.getElementById("adminShortcut").style.display = "none";
+        }
+    </script>
 </body>
 </html>
