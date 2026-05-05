@@ -4,8 +4,7 @@ annotated-types==0.7.0
 anyio==4.13.0
 asttokens==3.0.1
 attrs==26.1.0
-blinker @ file:///C:/miniconda3/conda-bld/blinker_1764332326951/work
-branca==0.8.2
+blinker
 cachetools==7.0.5
 certifi==2026.2.25
 charset-normalizer==3.4.7
@@ -16,19 +15,18 @@ debugpy==1.8.17
 decorator==5.2.1
 executing==2.2.1
 fastapi==0.136.1
-Flask @ file:///C:/Users/task_177209709961382/croot/flask_1772097162042/work
+Flask
 folium==0.20.0
 gitdb==4.0.12
 GitPython==3.1.46
-h11 @ file:///C:/miniconda3/conda-bld/h11_1761931384726/work
+h11
 idna==3.11
 ipykernel==7.1.0
 ipython==9.8.0
 ipython_pygments_lexers==1.1.1
-itsdangerous @ file:///C:/Users/dev-admin/buildout/croot/itsdangerous_1732929022589/work
+itsdangerous
 jedi==0.19.2
-Jinja2 @ file:///C:/b/abs_920kup4e6u/croot/jinja2_1741711580669/work
-jsonschema==4.26.0
+Jinja2
 jsonschema-specifications==2025.9.1
 jupyter_client==8.6.3
 jupyter_core==5.9.1
@@ -71,9 +69,9 @@ typing-inspection==0.4.2
 typing_extensions==4.15.0
 tzdata==2026.1
 urllib3==2.6.3
-uvicorn @ file:///C:/Users/task_176822560232336/croot/uvicorn-split_1768226502339/work
+uvicorn
 watchdog==6.0.0
 wcwidth==0.2.14
-Werkzeug @ file:///C:/Users/task_177249115475958/croot/werkzeug_1772491268876/work
+Werkzeug
 wheel==0.46.3
 xyzservices==2026.3.0
