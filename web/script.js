@@ -15,6 +15,7 @@ const state = {
     stationByRouteStop: new Map(),
     edgeById: new Map(),
     adjacency: new Map(),
+    networkSummary: null,
     reachableEndIds: null,
     panelCollapsed: false,
 };
@@ -27,6 +28,9 @@ function initMapPage() {
     buildMap();
     bindUiEvents();
     loadAppData();
+    renderRouteHistory();
+    updateRouteSummary();
+    updateStationToggleButton();
 }
 
 function buildMap() {
@@ -48,18 +52,21 @@ function bindUiEvents() {
     document.getElementById("togglePanelBtn").addEventListener("click", togglePanel);
     document.getElementById("mobileDrawerHandle").addEventListener("click", togglePanel);
     document.getElementById("startStation").addEventListener("change", onStartStationChange);
+    document.getElementById("endStation").addEventListener("change", updateSelectionSummary);
 }
 
 async function loadAppData() {
-    setStatus("Đang tải dữ liệu ga và cạnh từ API...");
+    setStatus("Đang tải...");
 
     try {
-        const [stationCatalog, routeStops, edgeList] = await Promise.all([
+        const [summary, stationCatalog, routeStops, edgeList] = await Promise.all([
+            fetchJson(API_ENDPOINTS.networkSummary),
             fetchJson(API_ENDPOINTS.stationCatalog),
             fetchJson(API_ENDPOINTS.routeStations),
             fetchJson(API_ENDPOINTS.edgeList),
         ]);
 
+        state.networkSummary = summary;
         state.stationCatalog = stationCatalog;
         state.routeStops = routeStops;
         state.routeStopIds = new Set(routeStops.map((station) => station.id));
@@ -70,29 +77,33 @@ async function loadAppData() {
         buildStationOptionIndex();
         populateStationSelects();
         renderStationMarkers();
+        updateStationBlockedVisuals();
+        renderNetworkSummary();
         renderClosureSummary();
-        setStatus("Dữ liệu đã sẵn sàng. Chọn ga hoặc click vào marker để bắt đầu.");
+        updateSelectionSummary();
+        setStatus("Sẵn sàng.");
     } catch (error) {
-        setStatus(`Không tải được dữ liệu: ${error.message}`, true);
+        setStatus(`Lỗi tải: ${error.message}`, true);
     }
 }
 
 function buildStationOptionIndex() {
     const stationOptions = [];
+    state.stationById.clear();
+    state.stationByRouteStop.clear();
 
     for (const station of state.stationCatalog) {
         const validStops = Array.isArray(station.stops)
             ? station.stops.filter((stopId) => state.routeStopIds.has(stopId))
             : [];
 
-        const routeStopId = validStops[0] || null;
-        if (!routeStopId) {
+        if (validStops.length === 0) {
             continue;
         }
 
         const option = {
             stationId: station.id,
-            routeStopId,
+            routeStopId: validStops[0],
             name: station.name || "Unknown",
             nameEn: station.name_en || "",
             colour: station.colour || "gray",
@@ -103,7 +114,6 @@ function buildStationOptionIndex() {
 
         stationOptions.push(option);
         state.stationById.set(option.stationId, option);
-        state.stationByRouteStop.set(option.routeStopId, option);
         for (const stopId of validStops) {
             state.stationByRouteStop.set(stopId, option);
         }
@@ -122,21 +132,31 @@ function populateStationSelects() {
     startSelect.innerHTML = "";
     endSelect.innerHTML = "";
 
-    const placeholderStart = new Option("Chọn ga đi", "");
-    const placeholderEnd = new Option("Chọn ga đến", "");
-    startSelect.add(placeholderStart);
-    endSelect.add(placeholderEnd);
+    startSelect.add(new Option("Chọn ga đi", ""));
+    endSelect.add(new Option("Chọn ga đến", ""));
+
+    let reachableCount = 0;
 
     for (const station of state.stationOptions) {
         const label = `[${station.lineId}] ${station.name}${station.nameEn ? ` / ${station.nameEn}` : ""}`;
-        startSelect.add(new Option(label, station.routeStopId));
-        if (!state.reachableEndIds || state.reachableEndIds.has(station.routeStopId)) {
-            endSelect.add(new Option(label, station.routeStopId));
+        startSelect.add(new Option(label, station.stationId));
+        if (!state.reachableEndIds || state.reachableEndIds.has(station.stationId)) {
+            endSelect.add(new Option(label, station.stationId));
+            if (state.reachableEndIds) {
+                reachableCount += 1;
+            }
         }
     }
 
-    startSelect.value = currentStart && state.stationOptions.some((station) => station.routeStopId === currentStart) ? currentStart : "";
+    startSelect.value = currentStart && state.stationById.has(currentStart) ? currentStart : "";
     endSelect.value = currentEnd && [...endSelect.options].some((option) => option.value === currentEnd) ? currentEnd : "";
+
+    const reachableLabel = document.getElementById("reachableCountValue");
+    if (!state.reachableEndIds) {
+        reachableLabel.innerText = "Chưa lọc";
+    } else {
+        reachableLabel.innerText = `${Math.max(reachableCount - 1, 0)} ga đích`;
+    }
 }
 
 function renderStationMarkers() {
@@ -148,12 +168,13 @@ function renderStationMarkers() {
             continue;
         }
 
+        const color = resolveLineColor(station.colour);
         const marker = L.circleMarker([lat, lon], {
             radius: 5,
-            color: resolveLineColor(station.colour),
+            color,
             weight: 1.5,
-            fillColor: resolveLineColor(station.colour),
-            fillOpacity: 0.9,
+            fillColor: color,
+            fillOpacity: 0.92,
         });
 
         marker.on("click", () => openStationPanel(station));
@@ -161,6 +182,42 @@ function renderStationMarkers() {
         marker.addTo(state.stationLayer);
         station.marker = marker;
     }
+
+    updateVisibleStationCount();
+}
+
+function updateStationBlockedVisuals() {
+    const blockedNodes = new Set(getBlockedConfig().blockedNodes);
+
+    for (const station of state.stationOptions) {
+        if (!station.marker) {
+            continue;
+        }
+
+        const blocked = isStationFullyBlocked(station, blockedNodes);
+        station.marker.setStyle({
+            radius: blocked ? 6 : 5,
+            color: blocked ? "#9f2440" : resolveLineColor(station.colour),
+            fillColor: blocked ? "#9f2440" : resolveLineColor(station.colour),
+            fillOpacity: blocked ? 0.38 : 0.92,
+            opacity: blocked ? 0.8 : 1,
+            weight: blocked ? 2.2 : 1.5,
+        });
+    }
+}
+
+function isStationFullyBlocked(station, blockedNodes = new Set(getBlockedConfig().blockedNodes)) {
+    return station.stops.length > 0 && station.stops.every((stopId) => blockedNodes.has(stopId));
+}
+
+function renderNetworkSummary() {
+    const summary = state.networkSummary || {};
+    const lineCount = summary.lines ? Object.keys(summary.lines).length : "--";
+
+    document.getElementById("summaryStationCount").innerText = formatNumber(summary.station_nodes);
+    document.getElementById("summaryEdgeCount").innerText = formatNumber(summary.edges);
+    document.getElementById("summaryLineCount").innerText = formatNumber(lineCount);
+
 }
 
 function onSearchInput(event) {
@@ -178,6 +235,11 @@ function onSearchInput(event) {
     }).slice(0, 8);
 
     resultsContainer.innerHTML = "";
+
+    if (matches.length === 0) {
+        resultsContainer.innerHTML = '<div class="empty-state">Không tìm thấy ga phù hợp.</div>';
+        return;
+    }
 
     for (const station of matches) {
         const button = document.createElement("button");
@@ -213,6 +275,7 @@ function focusStation(station) {
 
 function openStationPanel(station) {
     const panel = document.getElementById("stationInfo");
+    const closeStationButton = document.getElementById("closeStationBtn");
     panel.classList.remove("hidden");
 
     document.getElementById("stationName").innerText = station.name;
@@ -222,53 +285,146 @@ function openStationPanel(station) {
     document.getElementById("stationCoords").innerText = `${station.geometry[1].toFixed(5)}, ${station.geometry[0].toFixed(5)}`;
 
     document.getElementById("useAsStartBtn").onclick = () => {
-        setStartStation(station.routeStopId);
+        setStartStation(station.stationId);
     };
     document.getElementById("useAsEndBtn").onclick = () => {
-        document.getElementById("endStation").value = station.routeStopId;
+        document.getElementById("endStation").value = station.stationId;
+        updateSelectionSummary();
     };
+
+    if (localStorage.getItem(STORAGE_KEYS.role) === "admin") {
+        closeStationButton.classList.remove("hidden");
+        closeStationButton.innerText = isStationFullyBlocked(station) ? "Ga đã đóng" : "Đóng ga";
+        closeStationButton.disabled = isStationFullyBlocked(station);
+        closeStationButton.onclick = () => closeStationFromPanel(station);
+    } else {
+        closeStationButton.classList.add("hidden");
+        closeStationButton.onclick = null;
+    }
 }
 
 function closeStationPanel() {
     document.getElementById("stationInfo").classList.add("hidden");
 }
 
+function closeStationFromPanel(station) {
+    const blockedConfig = getBlockedConfig();
+    const blockedNodes = dedupe([...blockedConfig.blockedNodes, ...station.stops]);
+
+    saveBlockedConfig({
+        blockedNodes,
+        blockedEdges: dedupe(blockedConfig.blockedEdges),
+    });
+
+    renderClosureSummary();
+    updateStationBlockedVisuals();
+
+    const startStationId = document.getElementById("startStation").value;
+    if (startStationId) {
+        state.reachableEndIds = getReachableDestinations(startStationId);
+        populateStationSelects();
+    }
+    updateSelectionSummary();
+
+    const closeStationButton = document.getElementById("closeStationBtn");
+    closeStationButton.innerText = "Ga đã đóng";
+    closeStationButton.disabled = true;
+
+    setStatus(`Đã đóng ${station.name}.`);
+}
+
 async function findPath() {
-    const startId = document.getElementById("startStation").value;
-    const endId = document.getElementById("endStation").value;
+    const startStationId = document.getElementById("startStation").value;
+    const endStationId = document.getElementById("endStation").value;
     const algorithm = document.getElementById("algorithm").value;
     const blockedConfig = getBlockedConfig();
+    const findButton = document.getElementById("findPathBtn");
 
-    if (!startId || !endId) {
-        setStatus("Chọn đủ ga đi và ga đến trước khi chạy.", true);
+    if (!startStationId || !endStationId) {
+        setStatus("Thiếu ga đi/đến.", true);
         return;
     }
 
-    if (startId === endId) {
-        setStatus("Ga đi và ga đến đang trùng nhau.", true);
+    if (startStationId === endStationId) {
+        setStatus("Ga đi trùng ga đến.", true);
         return;
     }
 
-    setStatus("Đang tính lộ trình từ API...");
+    const startStation = state.stationById.get(startStationId);
+    const endStation = state.stationById.get(endStationId);
+
+    if (!startStation || !endStation) {
+        setStatus("Ga không hợp lệ.", true);
+        return;
+    }
+
+    const blockedNodes = new Set(blockedConfig.blockedNodes);
+    const startCandidates = startStation.stops.filter((stopId) => !blockedNodes.has(stopId));
+    const endCandidates = endStation.stops.filter((stopId) => !blockedNodes.has(stopId));
+
+    if (startCandidates.length === 0 || endCandidates.length === 0) {
+        setStatus("Ga đang bị đóng.", true);
+        return;
+    }
+
+    setStatus(`Đang tìm ${startStation.name} → ${endStation.name}...`);
     setMetricValues("--", "--", "--");
+    findButton.disabled = true;
+    findButton.innerText = "Đang tìm...";
 
     try {
-        const payload = await fetchJson(API_ENDPOINTS.findPath, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                start_id: startId,
-                target_id: endId,
-                blocked_edges: blockedConfig.blockedEdges,
-                blocked_nodes: blockedConfig.blockedNodes,
-            }),
-        });
-
-        renderPath(payload.result, algorithm);
+        const result = await findBestPath(startCandidates, endCandidates, blockedConfig);
+        renderPath(result, algorithm);
     } catch (error) {
         clearRouteLayer();
-        setStatus(`Không tìm được lộ trình: ${error.message}`, true);
+        setStatus(`Không tìm được: ${error.message}`, true);
+    } finally {
+        findButton.disabled = false;
+        findButton.innerText = "Tìm đường";
     }
+}
+
+async function findBestPath(startCandidates, endCandidates, blockedConfig) {
+    const attempts = [];
+
+    for (const startId of startCandidates) {
+        for (const endId of endCandidates) {
+            if (startId !== endId) {
+                attempts.push({ startId, endId });
+            }
+        }
+    }
+
+    const errors = [];
+    let bestResult = null;
+
+    for (const attempt of attempts) {
+        try {
+            const payload = await fetchJson(API_ENDPOINTS.findPath, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    start_id: attempt.startId,
+                    target_id: attempt.endId,
+                    blocked_edges: blockedConfig.blockedEdges,
+                    blocked_nodes: blockedConfig.blockedNodes,
+                }),
+            });
+
+            const result = payload.result;
+            if (!bestResult || Number(result.total_distance_meters) < Number(bestResult.total_distance_meters)) {
+                bestResult = result;
+            }
+        } catch (error) {
+            errors.push(error.message);
+        }
+    }
+
+    if (!bestResult) {
+        throw new Error(errors[0] || "Không tìm được đường.");
+    }
+
+    return bestResult;
 }
 
 function renderPath(result, algorithm) {
@@ -277,7 +433,7 @@ function renderPath(result, algorithm) {
     const latLngs = [];
     for (const edgeId of result.path_edges || []) {
         const edge = state.edgeById.get(edgeId);
-        if (!edge) {
+        if (!edge || !Array.isArray(edge.geometry)) {
             continue;
         }
 
@@ -294,25 +450,25 @@ function renderPath(result, algorithm) {
 
     if (latLngs.length > 1) {
         const polyline = L.polyline(latLngs, {
-            color: "#ff6b4a",
+            color: "#f97316",
             weight: 6,
-            opacity: 0.9,
+            opacity: 0.92,
             lineJoin: "round",
         }).addTo(state.routeLayer);
 
         const startMarker = L.circleMarker(latLngs[0], {
             radius: 8,
-            color: "#ffe082",
+            color: "#fde68a",
             weight: 2,
-            fillColor: "#ffe082",
+            fillColor: "#fde68a",
             fillOpacity: 1,
         }).addTo(state.routeLayer);
 
         const endMarker = L.circleMarker(latLngs[latLngs.length - 1], {
             radius: 8,
-            color: "#74f0b2",
+            color: "#6ee7b7",
             weight: 2,
-            fillColor: "#74f0b2",
+            fillColor: "#6ee7b7",
             fillOpacity: 1,
         }).addTo(state.routeLayer);
 
@@ -325,25 +481,32 @@ function renderPath(result, algorithm) {
     const blockedConfig = getBlockedConfig();
     const startStation = state.stationByRouteStop.get(result.path_nodes?.[0]);
     const endStation = state.stationByRouteStop.get(result.path_nodes?.[result.path_nodes.length - 1]);
+    const startName = startStation?.name || result.origin || "Unknown";
+    const endName = endStation?.name || result.destination || "Unknown";
 
-    setMetricValues(formatCost(result.total_distance_meters), String(result.node_count || 0), `${algorithm.toUpperCase()}`);
+    setMetricValues(formatDistance(result.total_distance_meters), String(result.node_count || 0), formatElapsed(result.elapsed_ms));
     setStatus(`
-        <strong>${startStation?.name || "Unknown"}</strong> đến <strong>${endStation?.name || "Unknown"}</strong><br>
-        Cost từ API: <strong>${formatCost(result.total_distance_meters)}</strong><br>
-        Số node duyệt trên route: <strong>${result.node_count}</strong><br>
-        Blocked stations: <strong>${blockedConfig.blockedNodes.length}</strong>,
-        blocked edges: <strong>${blockedConfig.blockedEdges.length}</strong>
+        <strong>${startName}</strong> đến <strong>${endName}</strong><br>
+        Quãng đường: <strong>${formatDistance(result.total_distance_meters)}</strong><br>
+        Thời gian tính: <strong>${formatElapsed(result.elapsed_ms)}</strong><br>
+        Điểm: <strong>${result.node_count}</strong><br>
+        Ga đóng: <strong>${blockedConfig.blockedNodes.length}</strong>,
+        cạnh chặn: <strong>${blockedConfig.blockedEdges.length}</strong>
     `);
+
+    document.getElementById("routeSummaryTitle").innerText = `${startName} → ${endName}`;
+    document.getElementById("routeSummaryMeta").innerText = `${stationNames.length} ga · ${formatDistance(result.total_distance_meters)}`;
 
     renderRouteStations(stationNames);
     saveRouteHistory({
-        start: startStation?.name || result.origin,
-        end: endStation?.name || result.destination,
+        start: startName,
+        end: endName,
         algorithm,
         cost: result.total_distance_meters,
         nodeCount: result.node_count,
         timestamp: new Date().toISOString(),
     });
+    renderRouteHistory();
 }
 
 function extractRouteStationNames(pathNodes) {
@@ -368,7 +531,7 @@ function renderRouteStations(stationNames) {
     container.innerHTML = "";
 
     if (stationNames.length === 0) {
-        container.innerText = "Không có ga để hiển thị.";
+        container.innerHTML = '<div class="empty-state">Không có dữ liệu.</div>';
         return;
     }
 
@@ -404,6 +567,30 @@ function renderClosureSummary() {
     `;
 }
 
+function renderRouteHistory() {
+    const container = document.getElementById("historyList");
+    const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.routeHistory) || "[]");
+    container.innerHTML = "";
+
+    if (history.length === 0) {
+        container.innerHTML = '<div class="empty-state">Chưa có lịch sử.</div>';
+        return;
+    }
+
+    for (const item of history.slice(0, 6)) {
+        const row = document.createElement("div");
+        row.className = "history-item";
+        row.innerHTML = `
+            <div>
+                <strong>${item.start} → ${item.end}</strong>
+                <span>${item.algorithm?.toUpperCase() || "A*"} | ${formatDistance(item.cost)} | ${item.nodeCount || 0} điểm</span>
+            </div>
+            <time>${formatHistoryTime(item.timestamp)}</time>
+        `;
+        container.appendChild(row);
+    }
+}
+
 function toggleStations() {
     state.stationMarkersVisible = !state.stationMarkersVisible;
     if (state.stationMarkersVisible) {
@@ -411,6 +598,8 @@ function toggleStations() {
     } else {
         state.stationLayer.remove();
     }
+    updateStationToggleButton();
+    updateVisibleStationCount();
 }
 
 function centerMap() {
@@ -425,7 +614,10 @@ function clearAll() {
     document.getElementById("searchResults").innerHTML = "";
     renderRouteStations([]);
     setMetricValues("--", "--", "--");
-    setStatus("Đã xóa route hiện tại.");
+    setStatus("Đã xóa.");
+    document.getElementById("routeSummaryTitle").innerText = "Chưa có lộ trình";
+    document.getElementById("routeSummaryMeta").innerText = "Chọn ga đi và ga đến.";
+    updateSelectionSummary();
 }
 
 function clearRouteLayer() {
@@ -444,6 +636,7 @@ function swapStations() {
 function togglePanel() {
     state.panelCollapsed = !state.panelCollapsed;
     document.querySelector(".route-panel").classList.toggle("collapsed", state.panelCollapsed);
+    document.getElementById("togglePanelBtn").innerText = state.panelCollapsed ? "+" : "−";
 }
 
 function setStatus(message, isError = false) {
@@ -463,6 +656,25 @@ function formatCost(value) {
         return "--";
     }
     return `${Number(value).toFixed(2)}`;
+}
+
+function formatDistance(value) {
+    if (value === undefined || value === null || Number.isNaN(Number(value))) {
+        return "--";
+    }
+
+    const meters = Number(value);
+    if (meters >= 1000) {
+        return `${(meters / 1000).toFixed(2)} km`;
+    }
+    return `${meters.toFixed(0)} m`;
+}
+
+function formatElapsed(value) {
+    if (value === undefined || value === null || Number.isNaN(Number(value))) {
+        return "--";
+    }
+    return `${Number(value).toFixed(1)} ms`;
 }
 
 function resolveLineColor(rawColor) {
@@ -506,33 +718,44 @@ function buildAdjacency(edgeList) {
 }
 
 function onStartStationChange() {
-    const startId = document.getElementById("startStation").value;
-    state.reachableEndIds = startId ? getReachableDestinations(startId) : null;
+    const startStationId = document.getElementById("startStation").value;
+    state.reachableEndIds = startStationId ? getReachableDestinations(startStationId) : null;
     populateStationSelects();
+    updateSelectionSummary();
 
     const endSelect = document.getElementById("endStation");
-    if (startId && !endSelect.value) {
-        setStatus(`Đã lọc ${Math.max((state.reachableEndIds?.size || 1) - 1, 0)} ga đích có thể đi đến từ ga xuất phát hiện tại.`);
+    if (startStationId && !endSelect.value) {
+        setStatus(`${Math.max((state.reachableEndIds?.size || 1) - 1, 0)} ga đích khả dụng.`);
     }
 }
 
-function setStartStation(routeStopId) {
-    document.getElementById("startStation").value = routeStopId;
+function setStartStation(stationId) {
+    document.getElementById("startStation").value = stationId;
     onStartStationChange();
 }
 
-function getReachableDestinations(startId) {
+function getReachableDestinations(startStationId) {
+    const startStation = state.stationById.get(startStationId);
+    if (!startStation) {
+        return new Set();
+    }
+
     const blockedConfig = getBlockedConfig();
     const blockedNodes = new Set(blockedConfig.blockedNodes);
     const blockedEdges = new Set(blockedConfig.blockedEdges);
     const visited = new Set();
-    const queue = [startId];
+    const queue = [];
 
-    if (blockedNodes.has(startId)) {
-        return new Set();
+    for (const stopId of startStation.stops) {
+        if (!blockedNodes.has(stopId)) {
+            visited.add(stopId);
+            queue.push(stopId);
+        }
     }
 
-    visited.add(startId);
+    if (queue.length === 0) {
+        return new Set();
+    }
 
     while (queue.length > 0) {
         const current = queue.shift();
@@ -549,12 +772,63 @@ function getReachableDestinations(startId) {
 
     const reachableStations = new Set();
     for (const station of state.stationOptions) {
-        if (visited.has(station.routeStopId) && station.routeStopId !== startId) {
-            reachableStations.add(station.routeStopId);
+        if (station.stationId === startStationId) {
+            continue;
+        }
+        if (station.stops.some((stopId) => visited.has(stopId))) {
+            reachableStations.add(station.stationId);
         }
     }
 
     return reachableStations;
+}
+
+function updateSelectionSummary() {
+    const startStationId = document.getElementById("startStation").value;
+    const endStationId = document.getElementById("endStation").value;
+    document.getElementById("activeStartValue").innerText = getStationLabelById(startStationId) || "Chưa chọn";
+    document.getElementById("activeEndValue").innerText = getStationLabelById(endStationId) || "Chưa chọn";
+}
+
+function updateRouteSummary() {
+    document.getElementById("routeSummaryTitle").innerText = "Chưa có lộ trình";
+    document.getElementById("routeSummaryMeta").innerText = "Chọn ga đi và ga đến.";
+}
+
+function updateStationToggleButton() {
+    const button = document.getElementById("toggleStationsBtn");
+    button.innerText = state.stationMarkersVisible ? "Ẩn ga" : "Hiện ga";
+}
+
+function updateVisibleStationCount() {
+    const count = state.stationMarkersVisible ? state.stationOptions.length : 0;
+    document.getElementById("visibleStationCount").innerText = `${count} ga hiển thị`;
+}
+
+function getStationLabelById(stationId) {
+    const station = state.stationById.get(stationId);
+    if (!station) {
+        return "";
+    }
+    return station.nameEn ? `${station.name} / ${station.nameEn}` : station.name;
+}
+
+function formatHistoryTime(timestamp) {
+    if (!timestamp) {
+        return "--";
+    }
+
+    const date = new Date(timestamp);
+    if (Number.isNaN(date.getTime())) {
+        return "--";
+    }
+
+    return new Intl.DateTimeFormat("vi-VN", {
+        day: "2-digit",
+        month: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+    }).format(date);
 }
 
 document.addEventListener("DOMContentLoaded", initMapPage);

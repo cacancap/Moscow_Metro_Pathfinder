@@ -1,14 +1,20 @@
-from flask import Flask, Response, jsonify, request, send_from_directory
+from __future__ import annotations
+
 import json
 import os
 import sys
-from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
+import time
+from functools import lru_cache
+
+from flask import Flask, jsonify, request, send_from_directory
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-API_ROOT = "http://127.0.0.1:8000"
-STOP_DICT_COORD_PATH = os.path.join(PROJECT_ROOT, "data", "processed", "outputs", "stop_dict_coord.json")
-ADJACENCY_LIST_PATH = os.path.join(PROJECT_ROOT, "data", "processed", "outputs", "adjacency_list.json")
+DATA_OUTPUT_DIR = os.path.join(PROJECT_ROOT, "data", "processed", "outputs")
+STOP_DICT_COORD_PATH = os.path.join(DATA_OUTPUT_DIR, "stop_dict_coord.json")
+ADJACENCY_LIST_PATH = os.path.join(DATA_OUTPUT_DIR, "adjacency_list.json")
+STATION_DICT_PATH = os.path.join(DATA_OUTPUT_DIR, "station_dict.json")
+EDGE_LIST_PATH = os.path.join(DATA_OUTPUT_DIR, "edge_list.json")
+WAY_TO_LINE_PATH = os.path.join(DATA_OUTPUT_DIR, "way_to_line.json")
 
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
@@ -18,92 +24,89 @@ from algorithm.astar import a_star_search
 
 app = Flask(__name__, static_folder=".")
 
-GRAPH_DATA = None
-NODES_FULL_DATA = None
+
+def _load_json(path):
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Missing data file: {path}")
+
+    with open(path, "r", encoding="utf-8") as file:
+        return json.load(file)
 
 
-def _proxy_json(path, method="GET", body=None):
-    url = f"{API_ROOT}{path}"
-    headers = {"User-Agent": "Mozilla/5.0"}
-    if body is not None:
-        headers["Content-Type"] = "application/json"
-
-    request_obj = Request(url, data=body, headers=headers, method=method)
-    with urlopen(request_obj, timeout=15) as response:
-        payload = response.read()
-        return Response(payload, status=response.getcode(), content_type="application/json")
+@lru_cache(maxsize=1)
+def _coord_data():
+    raw = _load_json(STOP_DICT_COORD_PATH)
+    return {value["id"]: value for value in raw.values()}
 
 
-def _ensure_local_graph_loaded():
-    global GRAPH_DATA, NODES_FULL_DATA
-
-    if GRAPH_DATA is not None and NODES_FULL_DATA is not None:
-        return
-
-    with open(STOP_DICT_COORD_PATH, "r", encoding="utf-8") as file:
-        coord_data = json.load(file)
-        NODES_FULL_DATA = {value["id"]: value for value in coord_data.values()}
-
-    with open(ADJACENCY_LIST_PATH, "r", encoding="utf-8") as file:
-        GRAPH_DATA = json.load(file)
+@lru_cache(maxsize=1)
+def _adjacency_data():
+    return _load_json(ADJACENCY_LIST_PATH)
 
 
-def _load_station_fallback():
-    _ensure_local_graph_loaded()
+@lru_cache(maxsize=1)
+def _station_data():
+    return _load_json(STATION_DICT_PATH)
+
+
+@lru_cache(maxsize=1)
+def _edge_data():
+    return _load_json(EDGE_LIST_PATH)
+
+
+@lru_cache(maxsize=1)
+def _way_to_line_data():
+    if not os.path.exists(WAY_TO_LINE_PATH):
+        return {}
+    return _load_json(WAY_TO_LINE_PATH)
+
+
+def _route_stations():
     stations = [
-        {"id": info["id"], "name": info["name"]}
-        for info in NODES_FULL_DATA.values()
+        {"id": info["id"], "name": info.get("name", info["id"])}
+        for info in _coord_data().values()
         if "fake/" not in info["id"]
     ]
     return sorted(stations, key=lambda item: item["name"])
 
 
-def _find_path_local(payload):
-    _ensure_local_graph_loaded()
+def _station_catalog():
+    station_list = []
+    for station_id, station in _station_data().items():
+        station_list.append(
+            {
+                "id": station_id,
+                "name": station.get("name", ""),
+                "name_en": station.get("name_en", ""),
+                "colour": station.get("colour", ""),
+                "line_id": station.get("line_id", ""),
+                "geometry": station.get("geometry", []),
+                "stops": station.get("stops", []),
+            }
+        )
+    return sorted(station_list, key=lambda item: (str(item["line_id"]), item["name"]))
 
-    start_id = payload.get("start_id")
-    target_id = payload.get("target_id")
-    blocked_edges = payload.get("blocked_edges") or []
-    blocked_nodes = payload.get("blocked_nodes") or []
 
-    if start_id not in NODES_FULL_DATA:
-        return jsonify({"detail": f"Ga đi (ID: {start_id}) không tồn tại."}), 400
-    if target_id not in NODES_FULL_DATA:
-        return jsonify({"detail": f"Ga đến (ID: {target_id}) không tồn tại."}), 400
+def _line_summary():
+    summary = {}
+    for edge in _edge_data():
+        line_id = str(edge.get("line_id") or "unknown")
+        summary[line_id] = summary.get(line_id, 0) + 1
+    return dict(sorted(summary.items(), key=lambda item: item[0]))
 
-    path, cost = a_star_search(
-        adjacency_list=GRAPH_DATA,
-        nodes_data=NODES_FULL_DATA,
-        start_node=start_id,
-        target_node=target_id,
-        blocked_edges=blocked_edges,
-        blocked_nodes=blocked_nodes,
-    )
 
-    if path is None:
-        return jsonify({
-            "detail": "Không tìm thấy lộ trình. Có thể các ga mục tiêu đã bị đóng cửa hoặc đường đi bị phong tỏa."
-        }), 404
-
+def _path_edge_ids(path_nodes):
+    graph = _adjacency_data()
     path_edges = []
-    for index in range(len(path) - 1):
-        source = path[index]
-        target = path[index + 1]
-        edge_info = GRAPH_DATA.get(source, {}).get(target, {})
-        if isinstance(edge_info, dict) and "edge_id" in edge_info:
+
+    for index in range(len(path_nodes) - 1):
+        source = path_nodes[index]
+        target = path_nodes[index + 1]
+        edge_info = graph.get(source, {}).get(target, {})
+        if isinstance(edge_info, dict) and edge_info.get("edge_id"):
             path_edges.append(edge_info["edge_id"])
 
-    return jsonify({
-        "status": "success",
-        "result": {
-            "origin": NODES_FULL_DATA[start_id].get("name"),
-            "destination": NODES_FULL_DATA[target_id].get("name"),
-            "total_distance_meters": round(cost, 2),
-            "node_count": len(path),
-            "path_nodes": path,
-            "path_edges": path_edges,
-        },
-    })
+    return path_edges
 
 
 @app.route("/")
@@ -116,80 +119,117 @@ def serve_static(filename):
     return send_from_directory(".", filename)
 
 
+@app.route("/api/health")
+def health_check():
+    try:
+        _coord_data()
+        _adjacency_data()
+        _station_data()
+        _edge_data()
+    except Exception as exc:
+        return jsonify({
+            "status": "error",
+            "data_source": DATA_OUTPUT_DIR,
+            "error": str(exc),
+        }), 500
+
+    return jsonify({
+        "status": "ok",
+        "data_source": DATA_OUTPUT_DIR,
+        "station_nodes": len(_route_stations()),
+        "station_groups": len(_station_data()),
+        "edges": len(_edge_data()),
+    })
+
+
+@app.route("/api/network-summary")
+def get_network_summary():
+    try:
+        return jsonify({
+            "data_source": DATA_OUTPUT_DIR,
+            "station_nodes": len(_route_stations()),
+            "station_groups": len(_station_data()),
+            "edges": len(_edge_data()),
+            "lines": _line_summary(),
+            "ways": len(_way_to_line_data()),
+        })
+    except Exception as exc:
+        return jsonify({"error": str(exc)}), 500
+
+
 @app.route("/api/edge_list")
 def get_edge_list():
-    edge_list_path = os.path.join(PROJECT_ROOT, "data", "processed", "outputs", "edge_list.json")
     try:
-        with open(edge_list_path, "r", encoding="utf-8") as file:
-            return jsonify(json.load(file))
+        return jsonify(_edge_data())
     except Exception as exc:
         return jsonify({"error": str(exc)}), 500
 
 
 @app.route("/api/station_list")
 def get_station_list():
-    station_dict_path = os.path.join(PROJECT_ROOT, "data", "processed", "outputs", "station_dict.json")
     try:
-        with open(station_dict_path, "r", encoding="utf-8") as file:
-            stations = json.load(file)
-
-        station_list = []
-        for station_id, station_data in stations.items():
-            station_list.append(
-                {
-                    "id": station_id,
-                    "name": station_data.get("name", ""),
-                    "name_en": station_data.get("name_en", ""),
-                    "colour": station_data.get("colour", ""),
-                    "line_id": station_data.get("line_id", ""),
-                    "geometry": station_data.get("geometry", []),
-                    "stops": station_data.get("stops", []),
-                }
-            )
-        return jsonify(station_list)
+        return jsonify(_station_catalog())
     except Exception as exc:
         return jsonify({"error": str(exc)}), 500
 
 
 @app.route("/api/stations")
-def proxy_stations():
+def get_all_stations():
     try:
-        return _proxy_json("/stations")
-    except HTTPError as exc:
-        return jsonify({"error": f"Root API returned {exc.code}: {exc.reason}"}), exc.code
-    except URLError as exc:
-        try:
-            return jsonify(_load_station_fallback())
-        except Exception:
-            return jsonify({"error": f"Cannot reach root API: {exc.reason}"}), 502
+        return jsonify(_route_stations())
     except Exception as exc:
-        try:
-            return jsonify(_load_station_fallback())
-        except Exception:
-            return jsonify({"error": str(exc)}), 500
+        return jsonify({"error": str(exc)}), 500
 
 
 @app.route("/api/find-path", methods=["POST"])
-def proxy_find_path():
+def find_path():
     payload = request.get_json(silent=True) or {}
+    nodes = _coord_data()
+    graph = _adjacency_data()
 
-    try:
-        return _proxy_json("/find-path", method="POST", body=request.get_data())
-    except HTTPError as exc:
-        try:
-            payload = exc.read().decode("utf-8")
-            return Response(payload, status=exc.code, content_type="application/json")
-        except Exception:
-            return jsonify({"error": f"Root API returned {exc.code}: {exc.reason}"}), exc.code
-    except URLError as exc:
-        return _find_path_local(payload)
-    except Exception as exc:
-        return _find_path_local(payload)
+    start_id = payload.get("start_id")
+    target_id = payload.get("target_id")
+    blocked_edges = payload.get("blocked_edges") or []
+    blocked_nodes = payload.get("blocked_nodes") or []
+
+    if start_id not in nodes:
+        return jsonify({"detail": f"Ga đi (ID: {start_id}) không tồn tại."}), 400
+    if target_id not in nodes:
+        return jsonify({"detail": f"Ga đến (ID: {target_id}) không tồn tại."}), 400
+
+    started_at = time.perf_counter()
+    path, cost = a_star_search(
+        adjacency_list=graph,
+        nodes_data=nodes,
+        start_node=start_id,
+        target_node=target_id,
+        blocked_edges=blocked_edges,
+        blocked_nodes=blocked_nodes,
+    )
+    elapsed_ms = (time.perf_counter() - started_at) * 1000
+
+    if path is None:
+        return jsonify({
+            "detail": "Không tìm thấy lộ trình. Có thể ga đã đóng hoặc các đoạn nối đang bị chặn."
+        }), 404
+
+    return jsonify({
+        "status": "success",
+        "result": {
+            "origin": nodes[start_id].get("name"),
+            "destination": nodes[target_id].get("name"),
+            "total_distance_meters": round(cost, 2),
+            "node_count": len(path),
+            "elapsed_ms": round(elapsed_ms, 2),
+            "path_nodes": path,
+            "path_edges": _path_edge_ids(path),
+        },
+    })
 
 
 if __name__ == "__main__":
-    print("Moscow Metro Pathfinder - Web Frontend")
+    print("Moscow Metro Pathfinder")
     print("=" * 50)
-    print("Frontend Server running at: http://localhost:5000")
-    print("Press Ctrl+C to stop")
+    print(f"Data source: {DATA_OUTPUT_DIR}")
+    print("Web server: http://127.0.0.1:5000")
     app.run(debug=True, port=5000)

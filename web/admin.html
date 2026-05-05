@@ -12,16 +12,16 @@
 <body class="admin-page">
     <div class="admin-shell">
         <aside class="admin-sidebar">
-            <div>
-                <p class="eyebrow">Control room</p>
-                <h1>Metro Admin</h1>
-                <p class="sidebar-copy">Quản lý ga đóng, cạnh bị chặn, và trạng thái routing dùng chung cho bản đồ chính.</p>
-            </div>
+            <div class="sidebar-stack">
+                <div>
+                    <h1>Metro Admin</h1>
+                </div>
 
-            <nav class="admin-nav">
-                <a class="active" href="admin.html">Rerouting</a>
-                <a href="map.html">Map workspace</a>
-            </nav>
+                <nav class="admin-nav">
+                    <a class="active" href="admin.html">Bảng điều khiển</a>
+                    <a href="map.html">Mở bản đồ</a>
+                </nav>
+            </div>
 
             <div class="sidebar-footer">
                 <div class="welcome-badge admin-badge">
@@ -35,31 +35,55 @@
         <main class="admin-main">
             <header class="admin-header">
                 <div>
-                    <p class="eyebrow">Network controls</p>
-                    <h2>Dynamic rerouting</h2>
+                    <h2>Rerouting</h2>
                 </div>
                 <div class="toolbar-row">
-                    <button class="btn btn-ghost" type="button" id="refreshAdminBtn">Làm mới dữ liệu</button>
-                    <button class="btn btn-primary" type="button" id="saveClosuresBtn">Lưu cấu hình</button>
+                    <button class="btn btn-ghost" type="button" id="refreshAdminBtn">Tải lại</button>
+                    <button class="btn btn-primary" type="button" id="saveClosuresBtn">Lưu</button>
                 </div>
             </header>
 
             <section class="admin-stats" id="adminStats">
                 <article class="metric-card">
-                    <span>Total stations</span>
+                    <span>Ga</span>
                     <strong id="adminStationCount">--</strong>
                 </article>
                 <article class="metric-card">
-                    <span>Total edges</span>
+                    <span>Cạnh</span>
                     <strong id="adminEdgeCount">--</strong>
                 </article>
                 <article class="metric-card">
-                    <span>Blocked stations</span>
+                    <span>Ga đóng</span>
                     <strong id="adminBlockedStations">--</strong>
                 </article>
                 <article class="metric-card">
-                    <span>Blocked edges</span>
+                    <span>Cạnh chặn</span>
                     <strong id="adminBlockedEdges">--</strong>
+                </article>
+            </section>
+
+            <section class="admin-overview-grid">
+                <article class="workspace-card overview-card">
+                    <div class="status-head">
+                        <h3>Đang chọn</h3>
+                    </div>
+                    <div class="note-grid single-row">
+                        <div>
+                            <span class="detail-label">Ga</span>
+                            <strong id="adminStationSelectionCount">0 mục</strong>
+                        </div>
+                        <div>
+                            <span class="detail-label">Cạnh</span>
+                            <strong id="adminEdgeSelectionCount">0 mục</strong>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="workspace-card overview-card">
+                    <div class="status-head">
+                        <h3>Trạng thái</h3>
+                    </div>
+                    <div class="admin-status-banner" id="adminStatusText">Chưa có thay đổi chưa lưu.</div>
                 </article>
             </section>
 
@@ -74,7 +98,10 @@
                         <input type="text" id="adminStationSearch" placeholder="Nhập tên ga">
                     </label>
                     <div id="adminStationResults" class="search-results admin-results"></div>
-                    <div id="blockedStationsList" class="chip-list"></div>
+                    <div class="selection-block">
+                        <span class="detail-label">Đã chọn</span>
+                        <div id="blockedStationsList" class="chip-list"></div>
+                    </div>
                 </article>
 
                 <article class="workspace-card">
@@ -87,28 +114,11 @@
                         <input type="text" id="adminEdgeSearch" placeholder="Nhập edge id, line id hoặc tên ga">
                     </label>
                     <div id="adminEdgeResults" class="search-results admin-results"></div>
-                    <div id="blockedEdgesList" class="chip-list"></div>
+                    <div class="selection-block">
+                        <span class="detail-label">Đã chọn</span>
+                        <div id="blockedEdgesList" class="chip-list"></div>
+                    </div>
                 </article>
-            </section>
-
-            <section class="workspace-card">
-                <div class="status-head">
-                    <h3>Ghi chú triển khai</h3>
-                </div>
-                <div class="note-grid">
-                    <div>
-                        <span class="detail-label">API dùng trong trang này</span>
-                        <strong>`/api/station_list`, `/api/edge_list`, `/api/find-path`, `/api/stations`</strong>
-                    </div>
-                    <div>
-                        <span class="detail-label">Cơ chế</span>
-                        <strong>Cấu hình được lưu trong `localStorage` và áp dụng ngay cho trang bản đồ.</strong>
-                    </div>
-                    <div>
-                        <span class="detail-label">Trạng thái</span>
-                        <strong id="adminStatusText">Chưa có thay đổi chưa lưu.</strong>
-                    </div>
-                </div>
             </section>
         </main>
     </div>
