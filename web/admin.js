@@ -2,7 +2,10 @@ const adminState = {
     routeStations: [],
     stationCatalog: [],
     edgeList: [],
+    networkSummary: null,
+    routeStopIds: new Set(),
     routeStopNameById: new Map(),
+    stationNameByStopId: new Map(),
     selectedNodes: new Set(),
     selectedEdges: new Set(),
 };
@@ -28,36 +31,40 @@ function bindAdminEvents() {
     document.getElementById("clearStationsBtn").addEventListener("click", () => {
         adminState.selectedNodes.clear();
         refreshAdminSelections();
-        setAdminStatus("Đã xóa toàn bộ ga bị khóa khỏi danh sách chờ lưu.");
+        setAdminStatus("Đã xóa ga.");
     });
     document.getElementById("clearEdgesBtn").addEventListener("click", () => {
         adminState.selectedEdges.clear();
         refreshAdminSelections();
-        setAdminStatus("Đã xóa toàn bộ cạnh bị khóa khỏi danh sách chờ lưu.");
+        setAdminStatus("Đã xóa cạnh.");
     });
 }
 
 async function loadAdminData() {
-    setAdminStatus("Đang tải dữ liệu quản trị...");
+    setAdminStatus("Đang tải...");
 
     try {
-        const [routeStations, stationCatalog, edgeList] = await Promise.all([
+        const [summary, routeStations, stationCatalog, edgeList] = await Promise.all([
+            fetchJson(API_ENDPOINTS.networkSummary),
             fetchJson(API_ENDPOINTS.routeStations),
             fetchJson(API_ENDPOINTS.stationCatalog),
             fetchJson(API_ENDPOINTS.edgeList),
         ]);
 
+        adminState.networkSummary = summary;
         adminState.routeStations = routeStations;
         adminState.stationCatalog = stationCatalog;
         adminState.edgeList = edgeList;
+        adminState.routeStopIds = new Set(routeStations.map((station) => station.id));
         adminState.routeStopNameById = new Map(routeStations.map((station) => [station.id, station.name]));
+        adminState.stationNameByStopId = buildStationNameByStopId(stationCatalog);
 
         refreshAdminSelections();
         renderStationResults();
         renderEdgeResults();
-        setAdminStatus("Dữ liệu đã tải xong. Thay đổi sẽ có hiệu lực ở trang bản đồ sau khi lưu.");
+        setAdminStatus("Sẵn sàng.");
     } catch (error) {
-        setAdminStatus(`Không tải được dữ liệu quản trị: ${error.message}`);
+        setAdminStatus(`Lỗi tải: ${error.message}`, true);
     }
 }
 
@@ -66,22 +73,42 @@ function renderStationResults() {
     const container = document.getElementById("adminStationResults");
     container.innerHTML = "";
 
-    const results = adminState.routeStations
-        .filter((station) => !query || station.name.toLowerCase().includes(query))
+    const results = adminState.stationCatalog
+        .map((station) => ({
+            ...station,
+            validStops: Array.isArray(station.stops)
+                ? station.stops.filter((stopId) => adminState.routeStopIds.has(stopId))
+                : [],
+            searchText: [
+                station.name,
+                station.name_en,
+                Array.isArray(station.line_id) ? station.line_id.join(" ") : station.line_id,
+            ].join(" ").toLowerCase(),
+        }))
+        .filter((station) => station.validStops.length > 0)
+        .filter((station) => !query || station.searchText.includes(query))
         .slice(0, 12);
+
+    if (results.length === 0) {
+        container.innerHTML = '<div class="empty-state">Không tìm thấy ga phù hợp.</div>';
+        return;
+    }
 
     for (const station of results) {
         const item = document.createElement("button");
         item.type = "button";
         item.className = "result-item";
+        const lineId = Array.isArray(station.line_id) ? station.line_id.join(", ") : station.line_id;
         item.innerHTML = `
             <strong>${station.name}</strong>
-            <span>${station.id}</span>
+            <span>${station.name_en || "Không có tên tiếng Anh"} | line ${lineId || "?"} | ${station.validStops.length} stop/node</span>
         `;
         item.addEventListener("click", () => {
-            adminState.selectedNodes.add(station.id);
+            for (const stopId of station.validStops) {
+                adminState.selectedNodes.add(stopId);
+            }
             refreshAdminSelections();
-            setAdminStatus(`Đã thêm ga ${station.name} vào danh sách block.`);
+            setAdminStatus(`Đã thêm ${station.name}.`);
         });
         container.appendChild(item);
     }
@@ -99,29 +126,34 @@ function renderEdgeResults() {
                 edge.edge_id,
                 edge.line_id,
                 edge.edge_type,
-                adminState.routeStopNameById.get(edge.source_id) || edge.source_id,
-                adminState.routeStopNameById.get(edge.dest_id) || edge.dest_id,
+                adminState.stationNameByStopId.get(edge.source_id) || adminState.routeStopNameById.get(edge.source_id) || edge.source_id,
+                adminState.stationNameByStopId.get(edge.dest_id) || adminState.routeStopNameById.get(edge.dest_id) || edge.dest_id,
             ].join(" "),
         }))
         .filter((item) => !query || item.label.toLowerCase().includes(query))
         .slice(0, 12);
 
+    if (results.length === 0) {
+        container.innerHTML = '<div class="empty-state">Không tìm thấy edge phù hợp.</div>';
+        return;
+    }
+
     for (const item of results) {
         const edge = item.edge;
-        const sourceName = adminState.routeStopNameById.get(edge.source_id) || edge.source_id;
-        const targetName = adminState.routeStopNameById.get(edge.dest_id) || edge.dest_id;
+        const sourceName = adminState.stationNameByStopId.get(edge.source_id) || adminState.routeStopNameById.get(edge.source_id) || edge.source_id;
+        const targetName = adminState.stationNameByStopId.get(edge.dest_id) || adminState.routeStopNameById.get(edge.dest_id) || edge.dest_id;
 
         const button = document.createElement("button");
         button.type = "button";
         button.className = "result-item";
         button.innerHTML = `
             <strong>${edge.edge_id}</strong>
-            <span>${sourceName} -> ${targetName} | line ${edge.line_id || "?"}</span>
+            <span>${sourceName} → ${targetName} | line ${edge.line_id || "?"}</span>
         `;
         button.addEventListener("click", () => {
             adminState.selectedEdges.add(edge.edge_id);
             refreshAdminSelections();
-            setAdminStatus(`Đã thêm cạnh ${edge.edge_id} vào danh sách block.`);
+            setAdminStatus(`Đã thêm ${edge.edge_id}.`);
         });
         container.appendChild(button);
     }
@@ -132,7 +164,7 @@ function refreshAdminSelections() {
         document.getElementById("blockedStationsList"),
         [...adminState.selectedNodes].map((stopId) => ({
             id: stopId,
-            label: adminState.routeStopNameById.get(stopId) || stopId,
+            label: adminState.stationNameByStopId.get(stopId) || adminState.routeStopNameById.get(stopId) || stopId,
         })),
         (stopId) => {
             adminState.selectedNodes.delete(stopId);
@@ -152,17 +184,36 @@ function refreshAdminSelections() {
         }
     );
 
-    document.getElementById("adminStationCount").innerText = String(adminState.routeStations.length);
-    document.getElementById("adminEdgeCount").innerText = String(adminState.edgeList.length);
+    document.getElementById("adminStationCount").innerText = formatNumber(adminState.routeStations.length);
+    document.getElementById("adminEdgeCount").innerText = formatNumber(adminState.edgeList.length);
     document.getElementById("adminBlockedStations").innerText = String(adminState.selectedNodes.size);
     document.getElementById("adminBlockedEdges").innerText = String(adminState.selectedEdges.size);
+    document.getElementById("adminStationSelectionCount").innerText = `${adminState.selectedNodes.size} mục`;
+    document.getElementById("adminEdgeSelectionCount").innerText = `${adminState.selectedEdges.size} mục`;
+    const dataSourceNode = document.getElementById("adminDataSource");
+    if (adminState.networkSummary && dataSourceNode) {
+        dataSourceNode.innerText = "data/processed/outputs";
+    }
+}
+
+function buildStationNameByStopId(stationCatalog) {
+    const mapping = new Map();
+
+    for (const station of stationCatalog) {
+        const label = station.name_en ? `${station.name} / ${station.name_en}` : station.name;
+        for (const stopId of station.stops || []) {
+            mapping.set(stopId, label);
+        }
+    }
+
+    return mapping;
 }
 
 function renderChipList(container, items, onRemove) {
     container.innerHTML = "";
 
     if (items.length === 0) {
-        container.innerHTML = `<span class="muted-text">Chưa có phần tử nào.</span>`;
+        container.innerHTML = '<span class="muted-text">Chưa có phần tử nào.</span>';
         return;
     }
 
@@ -181,11 +232,13 @@ function saveClosures() {
         blockedNodes: dedupe([...adminState.selectedNodes]),
         blockedEdges: dedupe([...adminState.selectedEdges]),
     });
-    setAdminStatus("Đã lưu cấu hình rerouting vào trình duyệt. Trang bản đồ sẽ dùng ngay cấu hình này.");
+    setAdminStatus("Đã lưu.");
 }
 
-function setAdminStatus(message) {
-    document.getElementById("adminStatusText").innerText = message;
+function setAdminStatus(message, isError = false) {
+    const node = document.getElementById("adminStatusText");
+    node.innerText = message;
+    node.classList.toggle("is-error", isError);
 }
 
 document.addEventListener("DOMContentLoaded", initAdminPage);

@@ -37,7 +37,7 @@ conda activate Moscow_Metro_Pathfinder
 **Bước 6:** Chạy ứng dụng Moscow Metro Pathfinder
 
 ## Cách chạy đơn giản (Khuyến nghị)
-Chỉ cần chạy 1 lệnh duy nhất để khởi động cả backend và frontend:
+Chỉ cần chạy 1 lệnh duy nhất để khởi động web app và các endpoint `/api`:
 
 ### Windows:
 ```bash
@@ -55,21 +55,21 @@ chmod +x run.sh
 ./run.sh
 ```
 
-## Cách chạy riêng lẻ (Advanced)
-Nếu muốn chạy riêng từng phần:
+Ứng dụng sẽ đọc dữ liệu trực tiếp từ `data/processed/outputs`.
 
-### Backend (FastAPI - Port 8000):
+## Cách chạy riêng lẻ (Advanced)
+Nếu muốn chạy FastAPI trực tiếp:
 ```bash
-uvicorn api:app --host 127.0.0.1 --port 8000 --reload
+uvicorn server:app --host 127.0.0.1 --port 5000 --reload
 ```
 
-### Frontend (Flask - Port 5000):
+Hoặc chạy Flask fallback:
 ```bash
 python web/app.py
 ```
 
 ## Truy cập ứng dụng
 - **Web App**: http://localhost:5000
-- **API Docs**: http://localhost:8000/docs
+- **API Docs**: http://localhost:5000/docs nếu đang chạy bằng FastAPI/uvicorn
 
 *

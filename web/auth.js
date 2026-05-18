@@ -1,4 +1,6 @@
 const API_ENDPOINTS = {
+    health: "/api/health",
+    networkSummary: "/api/network-summary",
     routeStations: "/api/stations",
     stationCatalog: "/api/station_list",
     edgeList: "/api/edge_list",
@@ -121,4 +123,11 @@ async function fetchJson(url, options = {}) {
 
 function dedupe(items) {
     return [...new Set(items)];
+}
+
+function formatNumber(value) {
+    if (value === undefined || value === null || Number.isNaN(Number(value))) {
+        return "--";
+    }
+    return new Intl.NumberFormat("vi-VN").format(Number(value));
 }
