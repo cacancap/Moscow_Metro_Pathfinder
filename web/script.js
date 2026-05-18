@@ -32,9 +32,8 @@ function initMapPage() {
 function buildMap() {
     state.map = L.map("map", { zoomControl: false, preferCanvas: true }).setView(moscowCenter, 11);
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-        attribution: "&copy; OpenStreetMap &copy; CARTO",
-        subdomains: "abcd",
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
         maxZoom: 19,
     }).addTo(state.map);
 
@@ -440,6 +439,7 @@ function swapStations() {
     endSelect.value = temp;
     onStartStationChange();
 }
+
 
 function togglePanel() {
     state.panelCollapsed = !state.panelCollapsed;
