@@ -2,7 +2,7 @@
 
 ## Tổng quan dự án
 
-Hệ thống tìm đường tàu điện ngầm Moscow sử dụng thuật toán AI (A\*, Dijkstra, BFS) trên dữ liệu OSM thực tế. Giao diện web bằng Streamlit + Folium.
+Hệ thống tìm đường tàu điện ngầm Moscow sử dụng thuật toán AI (A\*) trên dữ liệu OSM thực tế. Giao diện web thuần HTML/CSS/JS + Leaflet, backend Flask (`web/app.py`). Xem chi tiết frontend tại `docs/frontend.md`.
 
 **Nhóm 14 — Nhập môn AI 2025.2**
 

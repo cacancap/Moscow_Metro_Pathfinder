@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metro Admin</title>
+    <title>Metro Admin — Moscow Metro Pathfinder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -11,15 +11,25 @@
 </head>
 <body class="admin-page">
     <div class="admin-shell">
+
+        <!-- Sidebar -->
         <aside class="admin-sidebar">
             <div class="sidebar-stack">
-                <div>
-                    <h1>Metro Admin</h1>
+                <div class="sidebar-logo">
+                    <div class="sidebar-logo-icon">М</div>
+                    <div>
+                        <h1>Metro Admin</h1>
+                    </div>
+                </div>
+
+                <div class="sidebar-spotlight">
+                    <span class="eyebrow">Quản trị</span>
+                    <strong>Đóng ga hoặc chặn cạnh để mô phỏng sự cố. Người dùng sẽ bị tìm đường vòng.</strong>
                 </div>
 
                 <nav class="admin-nav">
-                    <a class="active" href="admin.html">Bảng điều khiển</a>
-                    <a href="map.html">Mở bản đồ</a>
+                    <a class="active" href="admin.html">📊 Bảng điều khiển</a>
+                    <a href="map.html">🗺 Mở bản đồ</a>
                 </nav>
             </div>
 
@@ -32,36 +42,41 @@
             </div>
         </aside>
 
+        <!-- Main content -->
         <main class="admin-main">
+
             <header class="admin-header">
                 <div>
-                    <h2>Rerouting</h2>
+                    <h2>Rerouting — Quản lý sự cố</h2>
+                    <p class="section-copy">Đóng ga hoặc chặn cạnh để kích hoạt tìm đường vòng tự động.</p>
                 </div>
                 <div class="toolbar-row">
-                    <button class="btn btn-ghost" type="button" id="refreshAdminBtn">Tải lại</button>
-                    <button class="btn btn-primary" type="button" id="saveClosuresBtn">Lưu</button>
+                    <button class="btn btn-ghost" type="button" id="refreshAdminBtn">↻ Tải lại</button>
+                    <button class="btn btn-primary" type="button" id="saveClosuresBtn">💾 Lưu thay đổi</button>
                 </div>
             </header>
 
+            <!-- Stats -->
             <section class="admin-stats" id="adminStats">
                 <article class="metric-card">
-                    <span>Ga</span>
+                    <span>Tổng ga</span>
                     <strong id="adminStationCount">--</strong>
                 </article>
                 <article class="metric-card">
-                    <span>Cạnh</span>
+                    <span>Tổng cạnh</span>
                     <strong id="adminEdgeCount">--</strong>
                 </article>
                 <article class="metric-card">
-                    <span>Ga đóng</span>
+                    <span>Ga đang đóng</span>
                     <strong id="adminBlockedStations">--</strong>
                 </article>
                 <article class="metric-card">
-                    <span>Cạnh chặn</span>
+                    <span>Cạnh đang chặn</span>
                     <strong id="adminBlockedEdges">--</strong>
                 </article>
             </section>
 
+            <!-- Overview -->
             <section class="admin-overview-grid">
                 <article class="workspace-card overview-card">
                     <div class="status-head">
@@ -69,11 +84,11 @@
                     </div>
                     <div class="note-grid single-row">
                         <div>
-                            <span class="detail-label">Ga</span>
+                            <span class="detail-label">Ga đã chọn</span>
                             <strong id="adminStationSelectionCount">0 mục</strong>
                         </div>
                         <div>
-                            <span class="detail-label">Cạnh</span>
+                            <span class="detail-label">Cạnh đã chọn</span>
                             <strong id="adminEdgeSelectionCount">0 mục</strong>
                         </div>
                     </div>
@@ -87,39 +102,43 @@
                 </article>
             </section>
 
+            <!-- Action grid -->
             <section class="admin-grid">
+                <!-- Close stations -->
                 <article class="workspace-card">
                     <div class="status-head">
-                        <h3>Đóng ga</h3>
-                        <button class="btn btn-ghost" type="button" id="clearStationsBtn">Xóa danh sách</button>
+                        <h3>🚫 Đóng ga</h3>
+                        <button class="btn btn-ghost" type="button" id="clearStationsBtn">Xóa tất cả</button>
                     </div>
                     <label class="field">
-                        <span>Tìm ga</span>
-                        <input type="text" id="adminStationSearch" placeholder="Nhập tên ga">
+                        <span>Tìm ga cần đóng</span>
+                        <input type="text" id="adminStationSearch" placeholder="Nhập tên ga tiếng Nga hoặc tiếng Anh">
                     </label>
                     <div id="adminStationResults" class="search-results admin-results"></div>
                     <div class="selection-block">
-                        <span class="detail-label">Đã chọn</span>
+                        <span class="detail-label">Ga đã chọn để đóng</span>
                         <div id="blockedStationsList" class="chip-list"></div>
                     </div>
                 </article>
 
+                <!-- Block edges -->
                 <article class="workspace-card">
                     <div class="status-head">
-                        <h3>Chặn cạnh</h3>
-                        <button class="btn btn-ghost" type="button" id="clearEdgesBtn">Xóa danh sách</button>
+                        <h3>⛔ Chặn cạnh</h3>
+                        <button class="btn btn-ghost" type="button" id="clearEdgesBtn">Xóa tất cả</button>
                     </div>
                     <label class="field">
-                        <span>Tìm edge</span>
-                        <input type="text" id="adminEdgeSearch" placeholder="Nhập edge id, line id hoặc tên ga">
+                        <span>Tìm cạnh cần chặn</span>
+                        <input type="text" id="adminEdgeSearch" placeholder="Nhập edge ID, line ID hoặc tên ga">
                     </label>
                     <div id="adminEdgeResults" class="search-results admin-results"></div>
                     <div class="selection-block">
-                        <span class="detail-label">Đã chọn</span>
+                        <span class="detail-label">Cạnh đã chọn để chặn</span>
                         <div id="blockedEdgesList" class="chip-list"></div>
                     </div>
                 </article>
             </section>
+
         </main>
     </div>
 

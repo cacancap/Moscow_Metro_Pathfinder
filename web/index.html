@@ -11,24 +11,36 @@
 </head>
 <body class="auth-page">
     <div class="auth-shell">
+
         <section class="auth-hero">
             <h1>Moscow Metro Pathfinder</h1>
+            <p class="hero-copy">
+                Tìm lộ trình tối ưu trên mạng tàu điện ngầm Moscow với thuật toán A* — dữ liệu OSM thực tế, 20 tuyến, hơn 200 ga.
+            </p>
+            <div class="hero-badge-row">
+                <span class="hero-badge">A* · Dijkstra · BFS</span>
+                <span class="hero-badge">20 tuyến</span>
+                <span class="hero-badge">200+ ga</span>
+                <span class="hero-badge">Dữ liệu OSM</span>
+            </div>
         </section>
 
         <section class="auth-card">
             <div class="auth-card-header">
-                <h2 id="authTitle">Đăng nhập hệ thống</h2>
+                <div class="topbar-logo" style="width:40px;height:40px;font-size:1.25rem;margin-bottom:.9rem">М</div>
+                <h2 id="authTitle">Đăng nhập</h2>
+                <p class="auth-copy">Nhập bất kỳ username để dùng thử. Admin: <strong>admin</strong> / <strong>admin12321</strong></p>
             </div>
 
             <form id="authForm" class="auth-form" onsubmit="handleAuth(event)">
                 <label class="field">
                     <span>Username</span>
-                    <input type="text" id="username" placeholder="admin hoặc tài khoản bất kỳ" required>
+                    <input type="text" id="username" placeholder="Tên tài khoản" required autocomplete="username">
                 </label>
 
                 <label class="field">
                     <span>Password</span>
-                    <input type="password" id="password" placeholder="Nhập mật khẩu" required>
+                    <input type="password" id="password" placeholder="Mật khẩu" required autocomplete="current-password">
                 </label>
 
                 <button type="submit" class="btn btn-primary btn-block" id="authBtn">Đăng nhập</button>
@@ -37,14 +49,11 @@
             <button type="button" class="auth-toggle" onclick="toggleAuthMode()">
                 <span id="authToggleText">Chưa có tài khoản? Đăng ký ngay</span>
             </button>
-
         </section>
+
     </div>
 
     <script src="auth.js"></script>
-    <script>
-        checkAlreadyLoggedIn();
-
-    </script>
+    <script>checkAlreadyLoggedIn();</script>
 </body>
 </html>

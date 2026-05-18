@@ -104,17 +104,22 @@ function saveRouteHistory(entry) {
 }
 
 async function fetchJson(url, options = {}) {
-    const response = await fetch(url, options);
-    let payload = null;
+    let response;
+    try {
+        response = await fetch(url, options);
+    } catch (networkErr) {
+        throw new Error(`Không kết nối được server (${networkErr.message}). Hãy chạy: python run.py`);
+    }
 
+    let payload = null;
     try {
         payload = await response.json();
-    } catch (error) {
+    } catch (_) {
         payload = null;
     }
 
     if (!response.ok) {
-        const message = payload?.detail || payload?.error || "Request failed";
+        const message = payload?.detail || payload?.error || `HTTP ${response.status} ${response.statusText}`;
         throw new Error(message);
     }
 
