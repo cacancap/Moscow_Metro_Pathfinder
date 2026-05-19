@@ -1,0 +1,7 @@
+{
+  "total_stations": 271,
+  "reachable_stations": 271,
+  "connectivity_pct": 100.0,
+  "avg_search_time_sec": 0.0027998995780944822,
+  "status": "PASS"
+}

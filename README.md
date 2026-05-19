@@ -72,4 +72,17 @@ python web/app.py
 - **Web App**: http://localhost:5000
 - **API Docs**: http://localhost:5000/docs nếu đang chạy bằng FastAPI/uvicorn
 
-*
+## Tài khoản mặc định
+| Username | Password | Quyền |
+|---|---|---|
+| `admin` | `admin12321` | Admin — đóng ga, chặn cạnh |
+| bất kỳ | bất kỳ | User — chỉ tìm đường |
+
+## Tài liệu kỹ thuật
+| File | Nội dung |
+|---|---|
+| `docs/frontend.md` | Cấu trúc UI, design system, API calls |
+| `docs/api_contracts.md` | Hợp đồng API giữa nhóm Algorithm ↔ Web |
+| `docs/algorithm_summary.md` | Tóm tắt thuật toán A*, Dijkstra, BFS |
+| `CLAUDE.md` | Hướng dẫn cho AI assistant |
+

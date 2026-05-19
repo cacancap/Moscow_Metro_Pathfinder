@@ -177,7 +177,10 @@ function renderStationMarkers() {
         });
 
         marker.on("click", () => openStationPanel(station));
-        marker.bindTooltip(station.name, { direction: "top", opacity: 0.9 });
+        marker.bindTooltip(
+            station.nameEn ? `${station.name} / ${station.nameEn}` : station.name,
+            { direction: "top", opacity: 0.95 }
+        );
         marker.addTo(state.stationLayer);
         station.marker = marker;
     }
@@ -244,9 +247,13 @@ function onSearchInput(event) {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "result-item";
+        const color = resolveLineColor(station.colour);
         button.innerHTML = `
-            <strong>${station.name}</strong>
-            <span>${station.nameEn || station.lineId}</span>
+            <div class="line-dot" style="background:${color}"></div>
+            <div class="result-item-text">
+                <strong>${station.name}</strong>
+                <span>${station.nameEn ? station.nameEn + " · " : ""}tuyến ${station.lineId}</span>
+            </div>
         `;
         button.addEventListener("click", () => {
             focusStation(station);
@@ -509,35 +516,39 @@ function renderPath(result, algorithm) {
 }
 
 function extractRouteStationNames(pathNodes) {
-    const stationNames = [];
-    let previous = null;
+    const stations = [];
+    let previousName = null;
 
     for (const nodeId of pathNodes) {
         const station = state.stationByRouteStop.get(nodeId);
         const name = station?.name || state.routeStopNameById.get(nodeId) || null;
-        if (!name || name === previous) {
+        if (!name || name === previousName) {
             continue;
         }
-        stationNames.push(name);
-        previous = name;
+        stations.push({ name, colour: station?.colour || "" });
+        previousName = name;
     }
 
-    return stationNames;
+    return stations;
 }
 
-function renderRouteStations(stationNames) {
+function renderRouteStations(stations) {
     const container = document.getElementById("routeStationsList");
     container.innerHTML = "";
 
-    if (stationNames.length === 0) {
-        container.innerHTML = '<div class="empty-state">Không có dữ liệu.</div>';
+    if (stations.length === 0) {
+        container.innerHTML = '<div class="empty-state">Không có dữ liệu ga.</div>';
         return;
     }
 
-    for (const [index, name] of stationNames.entries()) {
+    for (const [index, { name, colour }] of stations.entries()) {
         const item = document.createElement("div");
         item.className = "route-station-item";
-        item.innerHTML = `<span>${String(index + 1).padStart(2, "0")}</span><strong>${name}</strong>`;
+        const color = resolveLineColor(colour);
+        const dot = colour
+            ? `<div class="line-dot" style="background:${color};flex-shrink:0"></div>`
+            : "";
+        item.innerHTML = `<span>${String(index + 1).padStart(2, "0")}</span>${dot}<strong>${name}</strong>`;
         container.appendChild(item);
     }
 }

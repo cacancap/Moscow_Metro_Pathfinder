@@ -112,7 +112,6 @@ def create_edge(source_id, dest_id, weight, line_id, edge_type, colour, geometry
         'source_id': source_id,
         'dest_id': dest_id,
         'weight': round(weight, 2),
-        'weight_secs': round(weight / 40000 * 3600, 2),
         'line_id': line_id,
         'edge_type': edge_type,
         'colour': colour,
@@ -215,7 +214,7 @@ def build_way_dict():
                         else: stop_dict_id[cur_node['id']]['colour'] = colour
 
                     if (prev_node != None and prev_node != cur_node):   # Found a prev node => add 
-                        create_edge(prev_node.get('id'), cur_node.get('id'), current_distance, line_id, 'subway', colour, current_geometry)
+                        create_edge(prev_node.get('id'), cur_node.get('id'), current_distance / 40000 * 3600, line_id, 'subway', colour, current_geometry)
                         current_geometry = [cur_coord]
                         current_distance = 0
                     
@@ -244,8 +243,8 @@ def stop_clustering(max_distance, transfer_penalty):
                     create_edge(stop_A['id'], stop_B['id'], 0, 'walk', 'swap', 'black', [coord_A, coord_B])
                     create_edge(stop_B['id'], stop_A['id'], 0, 'walk', 'swap', 'black', [coord_B, coord_A])
                 else:
-                    create_edge(stop_A['id'], stop_B['id'], distance * 20, 'walk', 'transfer', 'purple', [coord_A, coord_B])
-                    create_edge(stop_B['id'], stop_A['id'], distance * 20, 'walk', 'transfer', 'purple', [coord_B, coord_A])
+                    create_edge(stop_A['id'], stop_B['id'], weight_secs * 20, 'walk', 'transfer', 'purple', [coord_A, coord_B])
+                    create_edge(stop_B['id'], stop_A['id'], weight_secs * 20, 'walk', 'transfer', 'purple', [coord_B, coord_A])
                 transfer_count += 2
             
     return transfer_count

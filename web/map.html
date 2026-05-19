@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metro Pathfinder Workspace</title>
+    <title>Moscow Metro Pathfinder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -13,65 +13,72 @@
 <body class="app-page">
     <div id="map"></div>
 
+    <!-- Top bar -->
     <header class="app-topbar">
         <div class="topbar-brand">
-            <h1>Moscow Metro Pathfinder</h1>
+            <div class="topbar-logo">М</div>
+            <div>
+                <h1>Moscow Metro Pathfinder</h1>
+                <p class="topbar-copy">Tìm đường tàu điện ngầm — A* · Dijkstra · BFS</p>
+            </div>
         </div>
-
         <div class="topbar-actions">
             <div class="welcome-badge">
                 <span>Signed in as</span>
                 <strong id="displayUsername">User</strong>
             </div>
-            <a id="adminShortcut" class="btn btn-ghost" href="admin.html">Vào admin</a>
+            <a id="adminShortcut" class="btn btn-ghost" href="admin.html" title="Cần đăng nhập bằng tài khoản admin">⚙ Admin</a>
             <button class="btn btn-danger" type="button" onclick="logout()">Đăng xuất</button>
         </div>
     </header>
 
+    <!-- Side panel -->
     <aside class="glass-panel route-panel">
         <div class="panel-header">
-            <div>
-                <h2>Tạo lộ trình</h2>
-            </div>
-            <button class="icon-btn" type="button" id="togglePanelBtn" aria-label="Thu gọn panel">−</button>
+            <h2>Lộ trình</h2>
+            <button class="icon-btn" type="button" id="togglePanelBtn" aria-label="Thu gọn">−</button>
         </div>
 
         <div class="panel-body" id="routePanelBody">
+
+            <!-- Route summary -->
             <section class="hero-strip">
-                <div>
-                    <strong id="routeSummaryTitle">Chưa có lộ trình</strong>
-                </div>
-                <p id="routeSummaryMeta" class="hero-strip-copy">Chọn ga đi và ga đến.</p>
+                <strong id="routeSummaryTitle">Chưa có lộ trình</strong>
+                <p id="routeSummaryMeta" class="hero-strip-copy">Chọn ga đi và ga đến để bắt đầu.</p>
             </section>
 
+            <!-- Map controls -->
             <div class="toolbar-row toolbar-grid">
-                <button class="btn btn-ghost" type="button" onclick="centerMap()">Về trung tâm</button>
+                <button class="btn btn-ghost" type="button" onclick="centerMap()">⊕ Trung tâm</button>
                 <button class="btn btn-ghost" type="button" id="toggleStationsBtn" onclick="toggleStations()">Ẩn ga</button>
-                <button class="btn btn-ghost" type="button" onclick="clearAll()">Xóa lộ trình</button>
+                <button class="btn btn-ghost" type="button" onclick="clearAll()">Xóa</button>
             </div>
 
+            <!-- Network stats -->
             <section class="status-card compact-card">
                 <div class="status-head">
-                    <h3>Mạng</h3>
-                    <span class="chip chip-muted" id="visibleStationCount">0 ga hiển thị</span>
+                    <h3>Mạng lưới</h3>
+                    <span class="chip chip-muted" id="visibleStationCount">0 ga</span>
                 </div>
                 <div class="network-pill-row">
-                    <span class="network-pill"><strong id="summaryStationCount">--</strong> ga</span>
-                    <span class="network-pill"><strong id="summaryEdgeCount">--</strong> cạnh</span>
-                    <span class="network-pill"><strong id="summaryLineCount">--</strong> tuyến</span>
+                    <span class="network-pill"><strong id="summaryStationCount">--</strong>ga</span>
+                    <span class="network-pill"><strong id="summaryEdgeCount">--</strong>cạnh</span>
+                    <span class="network-pill"><strong id="summaryLineCount">--</strong>tuyến</span>
                 </div>
                 <div id="closureSummary" class="closure-summary"></div>
             </section>
 
+            <!-- Station search -->
             <label class="field">
-                <span>Tìm ga</span>
-                <input type="text" id="stationSearch" placeholder="Nhập tên ga tiếng Nga hoặc tiếng Anh">
+                <span>🔍 Tìm ga</span>
+                <input type="text" id="stationSearch" placeholder="Nhập tên ga (tiếng Nga hoặc tiếng Anh)">
             </label>
             <div id="searchResults" class="search-results"></div>
 
+            <!-- Route planner -->
             <section class="status-card planner-form-card">
                 <div class="status-head">
-                    <h3>Route</h3>
+                    <h3>Tạo lộ trình</h3>
                     <span class="mini-tag">A* Search</span>
                 </div>
 
@@ -81,7 +88,7 @@
                         <strong id="activeStartValue">Chưa chọn</strong>
                     </div>
                     <div class="selection-chip">
-                        <span>Ga đích</span>
+                        <span>Ga đến</span>
                         <strong id="activeEndValue">Chưa chọn</strong>
                     </div>
                 </div>
@@ -89,14 +96,14 @@
                 <div class="swap-row">
                     <label class="field">
                         <span>Ga xuất phát</span>
-                        <select id="startStation" class="input-select"></select>
+                        <select id="startStation"></select>
                     </label>
-                    <button class="icon-btn swap-btn" type="button" onclick="swapStations()" aria-label="Đổi ga đi và ga đến">⇄</button>
+                    <button class="icon-btn swap-btn" type="button" onclick="swapStations()" title="Đổi chiều">⇄</button>
                 </div>
 
                 <label class="field">
                     <span>Ga đích</span>
-                    <select id="endStation" class="input-select"></select>
+                    <select id="endStation"></select>
                 </label>
 
                 <div class="inline-helper-row">
@@ -105,16 +112,21 @@
 
                 <label class="field">
                     <span>Thuật toán</span>
-                    <select id="algorithm" class="input-select">
-                        <option value="astar">A* Search</option>
+                    <select id="algorithm">
+                        <option value="astar">A* Search (mặc định)</option>
+                        <option value="dijkstra">Dijkstra</option>
+                        <option value="bfs">BFS — ít ga nhất</option>
                     </select>
                 </label>
 
                 <div class="button-stack">
-                    <button class="btn btn-primary btn-block" type="button" id="findPathBtn" onclick="findPath()">Tìm đường</button>
+                    <button class="btn btn-primary btn-block" type="button" id="findPathBtn" onclick="findPath()">
+                        Tìm đường
+                    </button>
                 </div>
             </section>
 
+            <!-- Result metrics -->
             <section class="stats-grid" id="statsGrid">
                 <article>
                     <span class="stats-label">Quãng đường</span>
@@ -125,59 +137,60 @@
                     <strong id="stationsValue">--</strong>
                 </article>
                 <article>
-                    <span class="stats-label">Thời gian</span>
+                    <span class="stats-label">Tính toán</span>
                     <strong id="elapsedValue">--</strong>
                 </article>
             </section>
 
+            <!-- Status log -->
             <section class="status-card">
                 <div class="status-head">
                     <h3>Kết quả</h3>
                 </div>
-                <div id="stats" class="status-content">
-                    Chưa chạy.
-                </div>
+                <div id="stats" class="status-content">Chưa chạy thuật toán.</div>
             </section>
 
+            <!-- Stations along route -->
             <section class="status-card">
                 <div class="status-head">
-                    <h3>Ga qua</h3>
+                    <h3>Các ga đi qua</h3>
                 </div>
                 <div id="routeStationsList" class="route-stations">
-                    Chưa có dữ liệu.
+                    <div class="empty-state">Chưa có lộ trình.</div>
                 </div>
             </section>
 
+            <!-- Route history -->
             <section class="status-card">
                 <div class="status-head">
-                    <h3>Lịch sử</h3>
+                    <h3>Lịch sử tìm kiếm</h3>
                 </div>
                 <div id="historyList" class="history-list">
-                    Chưa có lịch sử.
+                    <div class="empty-state">Chưa có lịch sử.</div>
                 </div>
             </section>
+
         </div>
     </aside>
 
+    <!-- Station detail panel -->
     <aside class="glass-panel detail-panel hidden" id="stationInfo">
         <div class="panel-header">
-            <div>
-                <h2 id="stationName">Metro station</h2>
-            </div>
+            <h2 id="stationName">Ga tàu điện ngầm</h2>
             <button class="icon-btn" type="button" onclick="closeStationPanel()" aria-label="Đóng">×</button>
         </div>
 
         <div class="detail-grid">
             <div>
-                <span class="detail-label">Tên EN</span>
+                <span class="detail-label">Tên tiếng Anh</span>
                 <strong id="stationNameEn">-</strong>
             </div>
             <div>
-                <span class="detail-label">Tuyến</span>
+                <span class="detail-label">Tuyến (Line ID)</span>
                 <strong id="stationLine">-</strong>
             </div>
             <div>
-                <span class="detail-label">Stop ID</span>
+                <span class="detail-label">Stop nodes</span>
                 <strong id="stationStops">-</strong>
             </div>
             <div>
@@ -188,12 +201,13 @@
 
         <div class="button-stack detail-actions">
             <button class="btn btn-primary" type="button" id="useAsStartBtn">Đặt làm ga đi</button>
-            <button class="btn btn-ghost" type="button" id="useAsEndBtn">Đặt làm ga đến</button>
+            <button class="btn btn-ghost"   type="button" id="useAsEndBtn">Đặt làm ga đến</button>
             <button class="btn btn-danger hidden" type="button" id="closeStationBtn">Đóng ga</button>
         </div>
     </aside>
 
-    <div class="mobile-drawer-handle" id="mobileDrawerHandle">Route panel</div>
+    <!-- Mobile handle -->
+    <div class="mobile-drawer-handle" id="mobileDrawerHandle">☰ Lộ trình</div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="auth.js"></script>
@@ -203,8 +217,17 @@
         if (username) {
             document.getElementById("displayUsername").innerText = username;
         }
+        const adminBtn = document.getElementById("adminShortcut");
         if (localStorage.getItem("metro_user_role") !== "admin") {
-            document.getElementById("adminShortcut").style.display = "none";
+            // Non-admin: show button but clicking logs out + goes to login
+            adminBtn.removeAttribute("href");
+            adminBtn.style.opacity = "0.55";
+            adminBtn.title = "Cần tài khoản admin — đăng xuất rồi đăng nhập lại bằng admin/admin12321";
+            adminBtn.onclick = () => {
+                if (confirm("Bạn cần đăng nhập bằng tài khoản admin.\n\nUsername: admin\nPassword: admin12321\n\nĐăng xuất ngay?")) {
+                    logout();
+                }
+            };
         }
     </script>
 </body>

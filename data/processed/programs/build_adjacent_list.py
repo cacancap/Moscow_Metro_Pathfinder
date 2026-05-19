@@ -60,7 +60,6 @@ def build_adjacency_map():
             adj_map[source][dest] = {
                 'edge_id': edge.get('edge_id'),
                 'weight': edge.get('weight'),
-                'weight_secs': edge.get('weight_secs'),
                 'edge_type': edge.get('edge_type'),
                 'line_id': edge.get('line_id'),
                 'colour': edge.get('colour'),
