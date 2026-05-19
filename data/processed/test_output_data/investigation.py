@@ -16,6 +16,7 @@ raw_relation_path = project_root / "data" / "raw" / "subway_relation02.geojson"
 stop_dict_id_path = project_root / "data" / "processed" / "outputs" / "stop_dict_id.json"
 stop_dict_coord_path = project_root / "data" / "processed" / "outputs" / "stop_dict_coord.json"
 way_dict_path = project_root / "data" / "processed" / "outputs" / "way_dict_id.json"
+edge_list_path = project_root / "data" / "processed" / "outputs" / "edge_list.json"
 station_dict_path = project_root / "data" / "processed" / "outputs" / "station_dict.json"
 adjacency_list_path = project_root / "data" / "processed" / "outputs" / "adjacency_list.json"
 raw_nodes_edges_path = project_root / "data" / "raw" / "subway_nodes-edges.geojson"
@@ -35,6 +36,8 @@ try:
         adjacency_list = json.load(f)
     with open(station_dict_path, 'r', encoding='utf-8') as f:
         station_dict = json.load(f)
+    with open(edge_list_path, 'r', encoding='utf-8') as f:
+        edge_list = json.load(f)
 except FileNotFoundError as e:
     raise FileNotFoundError(f"Lỗi: Không tìm thấy file: {e}")
     
@@ -156,9 +159,16 @@ def investigate_node_line():
             line_02_list.append(stop.get('id'))
     return line_02_list
 
+def investigate_edge_list():
+    count = 0
+    for edge in edge_list:
+        count += 1
+
+    return count
 
 if __name__ == "__main__":
     test_string = "orange;violet"
     
     final_colour = test_string.split(';')[0] if ';' in test_string else test_string
     print(final_colour)
+    print("edge_count: ", investigate_edge_list())
