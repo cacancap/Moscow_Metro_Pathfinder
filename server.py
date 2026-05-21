@@ -22,6 +22,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from algorithm.astar import a_star_search
+from algorithm.dijkstra import dijkstra_search
+from algorithm.bfs import bfs_search
 
 
 app = FastAPI(title="Moscow Metro Pathfinder")
@@ -40,6 +42,7 @@ WAY_TO_LINE_PATH = DATA_OUTPUT_DIR / "way_to_line.json"
 class PathRequest(BaseModel):
     start_id: str
     target_id: str
+    algorithm: str = "astar"  # "astar", "dijkstra", or "bfs"
     blocked_edges: Optional[list[str]] = []
     blocked_nodes: Optional[list[str]] = []
 
@@ -204,14 +207,37 @@ def find_path(payload: PathRequest):
         raise HTTPException(status_code=400, detail=f"Ga đến (ID: {payload.target_id}) không tồn tại.")
 
     started_at = time.perf_counter()
-    path, cost = a_star_search(
-        adjacency_list=graph,
-        nodes_data=nodes,
-        start_node=payload.start_id,
-        target_node=payload.target_id,
-        blocked_edges=payload.blocked_edges or [],
-        blocked_nodes=payload.blocked_nodes or [],
-    )
+    
+    # Route to appropriate algorithm
+    algorithm = payload.algorithm.lower() if payload.algorithm else "astar"
+    if algorithm == "dijkstra":
+        path, cost = dijkstra_search(
+            adjacency_list=graph,
+            nodes_data=nodes,
+            start_node=payload.start_id,
+            target_node=payload.target_id,
+            blocked_edges=payload.blocked_edges or [],
+            blocked_nodes=payload.blocked_nodes or [],
+        )
+    elif algorithm == "bfs":
+        path, cost = bfs_search(
+            adjacency_list=graph,
+            nodes_data=nodes,
+            start_node=payload.start_id,
+            target_node=payload.target_id,
+            blocked_edges=payload.blocked_edges or [],
+            blocked_nodes=payload.blocked_nodes or [],
+        )
+    else:  # default to astar
+        path, cost = a_star_search(
+            adjacency_list=graph,
+            nodes_data=nodes,
+            start_node=payload.start_id,
+            target_node=payload.target_id,
+            blocked_edges=payload.blocked_edges or [],
+            blocked_nodes=payload.blocked_nodes or [],
+        )
+    
     elapsed_ms = (time.perf_counter() - started_at) * 1000
 
     if path is None:

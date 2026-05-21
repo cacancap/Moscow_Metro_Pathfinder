@@ -379,7 +379,7 @@ async function findPath() {
     findButton.innerText = "Đang tìm...";
 
     try {
-        const result = await findBestPath(startCandidates, endCandidates, blockedConfig);
+        const result = await findBestPath(startCandidates, endCandidates, blockedConfig, algorithm);
         renderPath(result, algorithm);
     } catch (error) {
         clearRouteLayer();
@@ -390,7 +390,7 @@ async function findPath() {
     }
 }
 
-async function findBestPath(startCandidates, endCandidates, blockedConfig) {
+async function findBestPath(startCandidates, endCandidates, blockedConfig, algorithm) {
     const attempts = [];
 
     for (const startId of startCandidates) {
@@ -412,6 +412,7 @@ async function findBestPath(startCandidates, endCandidates, blockedConfig) {
                 body: JSON.stringify({
                     start_id: attempt.startId,
                     target_id: attempt.endId,
+                    algorithm: algorithm || "astar",
                     blocked_edges: blockedConfig.blockedEdges,
                     blocked_nodes: blockedConfig.blockedNodes,
                 }),
