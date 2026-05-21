@@ -196,6 +196,57 @@ def get_route_stations():
         return JSONResponse({"error": str(exc)}, status_code=500)
 
 
+@app.get("/api/nearest-station")
+def get_nearest_station(lat: float, lon: float):
+    """Find nearest station from coordinates (lat, lon)"""
+    try:
+        from algorithm.heuristics import calculate_haversine_distance
+        
+        coords_data = _coord_data()
+        station_data = _station_data()
+        
+        # Find nearest real station (not fake nodes)
+        nearest_station = None
+        min_distance = float('infinity')
+        
+        for station_id, station in station_data.items():
+            # Skip if station has no stops or coordinates
+            if not station.get('stops') or not station.get('geometry'):
+                continue
+            
+            # Use first stop to get coordinates
+            first_stop_id = station['stops'][0]
+            if first_stop_id not in coords_data:
+                continue
+            
+            stop_info = coords_data[first_stop_id]
+            stop_lon = stop_info.get('lon')
+            stop_lat = stop_info.get('lat')
+            
+            if stop_lon is None or stop_lat is None:
+                continue
+            
+            distance = calculate_haversine_distance(lon, lat, stop_lon, stop_lat)
+            
+            if distance < min_distance:
+                min_distance = distance
+                nearest_station = {
+                    "id": station_id,
+                    "name": station.get("name", ""),
+                    "name_en": station.get("name_en", ""),
+                    "distance_meters": round(distance, 2),
+                    "lat": stop_lat,
+                    "lon": stop_lon,
+                }
+        
+        if nearest_station is None:
+            return JSONResponse({"error": "No station found"}, status_code=404)
+        
+        return JSONResponse(nearest_station)
+    except Exception as exc:
+        return JSONResponse({"error": str(exc)}, status_code=500)
+
+
 @app.post("/api/find-path")
 def find_path(payload: PathRequest):
     nodes = _coord_data()
