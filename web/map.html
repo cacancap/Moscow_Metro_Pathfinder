@@ -73,6 +73,14 @@
                 <span>🔍 Tìm ga</span>
                 <input type="text" id="stationSearch" placeholder="Nhập tên ga (tiếng Nga hoặc tiếng Anh)">
             </label>
+            <div class="note-text" style="margin-bottom: 0.75rem; color: #6b7280; font-size: 0.9rem;">
+                Nhấn nút bên dưới, rồi click vào bản đồ để tìm ga gần nhất.
+            </div>
+            <div class="button-stack" style="margin-bottom: 0.75rem;">
+                <button class="btn btn-ghost" type="button" id="clickStationModeBtn" onclick="toggleClickStationMode()">
+                    Click tìm ga gần nhất
+                </button>
+            </div>
             <div id="searchResults" class="search-results"></div>
 
             <!-- Route planner -->

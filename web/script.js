@@ -26,6 +26,9 @@ function initMapPage() {
     }
 
     buildMap();
+    if (typeof initMapClickHandler === "function") {
+        initMapClickHandler();
+    }
     bindUiEvents();
     loadAppData();
     renderRouteHistory();
@@ -169,11 +172,11 @@ function renderStationMarkers() {
 
         const color = resolveLineColor(station.colour);
         const marker = L.circleMarker([lat, lon], {
-            radius: 5,
+            radius: 9,
             color,
-            weight: 1.5,
+            weight: 2.5,
             fillColor: color,
-            fillOpacity: 0.92,
+            fillOpacity: 0.98,
         });
 
         marker.on("click", () => openStationPanel(station));
@@ -481,6 +484,7 @@ function renderPath(result, algorithm) {
 
         startMarker.bindTooltip("Start", { permanent: false });
         endMarker.bindTooltip("End", { permanent: false });
+        
         state.map.fitBounds(polyline.getBounds(), { padding: [64, 64] });
     }
 

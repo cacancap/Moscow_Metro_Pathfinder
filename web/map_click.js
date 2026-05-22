@@ -3,50 +3,47 @@
  */
 
 let clickMarker = null;
+let nearestStationMarker = null;
 let nearestStationPopup = null;
+let clickSearchMode = false;
+let mapClickHandlerAttached = false;
+const STATION_CLICK_THRESHOLD_METERS = 30;
 
 /**
  * Xử lý khi người dùng click trên bản đồ
  */
 function handleMapClick(e) {
+    if (!clickSearchMode) {
+        return;
+    }
+
     const { lat, lng } = e.latlng;
-    
-    // Xóa marker cũ nếu có
-    if (clickMarker) {
-        map.removeLayer(clickMarker);
-        clickMarker = null;
-    }
-    
-    if (nearestStationPopup) {
-        map.closePopup(nearestStationPopup);
-        nearestStationPopup = null;
-    }
-    
-    // Thêm marker mới tại điểm click
-    clickMarker = L.circleMarker([lat, lng], {
-        radius: 8,
-        fillColor: "#ef4444",
-        color: "#dc2626",
-        weight: 2,
-        opacity: 1,
-        fillOpacity: 0.8,
-    })
-        .addTo(map)
-        .bindPopup(
-            `<div style="font-size:0.85rem; text-align:center;">
-                <div><strong>Điểm Click</strong></div>
-                <div>Lat: ${lat.toFixed(4)}</div>
-                <div>Lon: ${lng.toFixed(4)}</div>
-                <div style="margin-top: 6px; font-size: 0.75rem; color: #666;">Tìm ga gần nhất...</div>
-            </div>`
-        );
-    
-    clickMarker.openPopup();
-    
-    // Tìm ga gần nhất
     findNearestStation(lat, lng);
 }
 
+/**
+ * Bật/tắt chế độ click tìm ga gần nhất
+ */
+function toggleClickStationMode() {
+    clickSearchMode = !clickSearchMode;
+    const button = document.getElementById("clickStationModeBtn");
+    if (!button) {
+        return;
+    }
+
+    if (clickSearchMode) {
+        button.classList.remove("btn-ghost");
+        button.classList.add("btn-primary");
+        button.innerText = "Chế độ click tìm ga: BẬT";
+        setStatus("Chế độ click tìm ga gần nhất đã bật. Hãy click vào bản đồ.");
+    } else {
+        button.classList.remove("btn-primary");
+        button.classList.add("btn-ghost");
+        button.innerText = "Click tìm ga gần nhất";
+        setStatus("Chế độ click tìm ga gần nhất đã tắt.");
+        clearNearestSearchMarkers();
+    }
+}
 /**
  * Gọi API để tìm ga gần nhất
  */
@@ -60,15 +57,22 @@ async function findNearestStation(lat, lon) {
         
         const station = await response.json();
         
-        // Thêm marker cho ga gần nhất
-        const stationMarker = L.circleMarker([station.lat, station.lon], {
-            radius: 7,
-            fillColor: "#10b981",
-            color: "#059669",
-            weight: 2,
-            opacity: 1,
-            fillOpacity: 0.7,
-        }).addTo(map);
+        clearNearestSearchMarkers();
+        
+        const isStationClick = station.distance_meters <= STATION_CLICK_THRESHOLD_METERS;
+        if (!isStationClick) {
+            clickMarker = L.marker([lat, lon]).addTo(state.map);
+            clickMarker.bindPopup(
+                `<div style="font-size:0.85rem; text-align:center;">
+                    <div><strong>Điểm Click</strong></div>
+                    <div>Lat: ${lat.toFixed(4)}</div>
+                    <div>Lon: ${lon.toFixed(4)}</div>
+                    <div style="margin-top: 6px; font-size: 0.75rem; color: #666;">Ga gần nhất đang hiển thị phía dưới.</div>
+                </div>`
+            ).openPopup();
+        }
+        
+        nearestStationMarker = L.marker([station.lat, station.lon]).addTo(state.map);
         
         const popupContent = `
             <div style="font-size: 0.85rem; width: 180px;">
@@ -92,16 +96,19 @@ async function findNearestStation(lat, lon) {
             </div>
         `;
         
-        stationMarker.bindPopup(popupContent).openPopup();
-        nearestStationPopup = stationMarker;
+        nearestStationMarker.bindPopup(popupContent).openPopup();
+        nearestStationPopup = nearestStationMarker.getPopup();
     } catch (error) {
         console.error("Error finding nearest station:", error);
-        if (clickMarker) {
-            clickMarker.setPopupContent(
-                `<div style="font-size:0.85rem; text-align:center; color: red;">
-                    <div>Lỗi: ${error.message}</div>
-                </div>`
-            );
+        if (clickMarker && clickMarker.getPopup) {
+            const popup = clickMarker.getPopup();
+            if (popup) {
+                popup.setContent(
+                    `<div style="font-size:0.85rem; text-align:center; color: red;">
+                        <div>Lỗi: ${error.message}</div>
+                    </div>`
+                );
+            }
         }
     }
 }
@@ -117,6 +124,27 @@ function formatDistanceSmall(meters) {
     return `${Math.round(m)} m`;
 }
 
+function clearNearestSearchMarkers() {
+    if (nearestStationPopup) {
+        if (state.map) {
+            state.map.closePopup(nearestStationPopup);
+        }
+        nearestStationPopup = null;
+    }
+    if (nearestStationMarker) {
+        if (state.map) {
+            state.map.removeLayer(nearestStationMarker);
+        }
+        nearestStationMarker = null;
+    }
+    if (clickMarker) {
+        if (state.map) {
+            state.map.removeLayer(clickMarker);
+        }
+        clickMarker = null;
+    }
+}
+
 /**
  * Đặt ga gần nhất làm điểm khởi đầu
  */
@@ -125,14 +153,7 @@ function setAsStart(stationId) {
     if (station) {
         document.getElementById("startStation").value = stationId;
         closeStationPanel();
-        if (clickMarker) {
-            map.removeLayer(clickMarker);
-            clickMarker = null;
-        }
-        if (nearestStationPopup) {
-            map.closePopup(nearestStationPopup);
-            nearestStationPopup = null;
-        }
+        clearNearestSearchMarkers();
         setStatus(`Đã chọn ga đi: ${station.name}`);
     }
 }
@@ -145,14 +166,7 @@ function setAsEnd(stationId) {
     if (station) {
         document.getElementById("endStation").value = stationId;
         closeStationPanel();
-        if (clickMarker) {
-            map.removeLayer(clickMarker);
-            clickMarker = null;
-        }
-        if (nearestStationPopup) {
-            map.closePopup(nearestStationPopup);
-            nearestStationPopup = null;
-        }
+        clearNearestSearchMarkers();
         setStatus(`Đã chọn ga đến: ${station.name}`);
     }
 }
@@ -160,11 +174,22 @@ function setAsEnd(stationId) {
 /**
  * Khởi tạo click handler khi bản đồ sẵn sàng
  */
-function initMapClickHandler() {
-    if (typeof map !== "undefined" && map) {
-        map.on("click", handleMapClick);
+function attachMapClickHandler() {
+    if (!state.map || mapClickHandlerAttached) {
+        return;
     }
+
+    state.map.on("click", handleMapClick);
+    mapClickHandlerAttached = true;
 }
 
-// Gọi khi script được load
-initMapClickHandler();
+function initMapClickHandler() {
+    if (state.map) {
+        attachMapClickHandler();
+        return;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        attachMapClickHandler();
+    });
+}
