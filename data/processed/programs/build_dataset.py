@@ -244,8 +244,8 @@ def stop_clustering(max_distance, transfer_penalty):
                     create_edge(stop_A['id'], stop_B['id'], 0, 'walk', 'swap', 'black', [coord_A, coord_B])
                     create_edge(stop_B['id'], stop_A['id'], 0, 'walk', 'swap', 'black', [coord_B, coord_A])
                 else:
-                    create_edge(stop_A['id'], stop_B['id'], distance * 20, 'walk', 'transfer', 'purple', [coord_A, coord_B])
-                    create_edge(stop_B['id'], stop_A['id'], distance * 20, 'walk', 'transfer', 'purple', [coord_B, coord_A])
+                    create_edge(stop_A['id'], stop_B['id'], distance + 1500, 'walk', 'transfer', 'purple', [coord_A, coord_B])
+                    create_edge(stop_B['id'], stop_A['id'], distance + 1500, 'walk', 'transfer', 'purple', [coord_B, coord_A])
                 transfer_count += 2
             
     return transfer_count
