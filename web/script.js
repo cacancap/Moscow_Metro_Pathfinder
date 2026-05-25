@@ -6,6 +6,9 @@ const state = {
     routeLayer: null,
     stationLayer: null,
     highlightedMarker: null,
+    adminBombMode: false,
+    bombOverlay: null,
+    bombCenterMarker: null,
     stationCatalog: [],
     routeStops: [],
     routeStopIds: new Set(),
@@ -47,6 +50,7 @@ function buildMap() {
     L.control.zoom({ position: "bottomright" }).addTo(state.map);
     state.routeLayer = L.layerGroup().addTo(state.map);
     state.stationLayer = L.layerGroup().addTo(state.map);
+    state.map.on("click", handleAdminBombClick);
 }
 
 function bindUiEvents() {
@@ -55,6 +59,127 @@ function bindUiEvents() {
     document.getElementById("mobileDrawerHandle").addEventListener("click", togglePanel);
     document.getElementById("startStation").addEventListener("change", onStartStationChange);
     document.getElementById("endStation").addEventListener("change", updateSelectionSummary);
+
+    const bombModeBtn = document.getElementById("bombModeBtn");
+    const bombRadiusInput = document.getElementById("bombRadiusInput");
+    if (bombModeBtn && bombRadiusInput) {
+        bombModeBtn.addEventListener("click", toggleAdminBombMode);
+        updateAdminBombControls();
+    }
+}
+
+function updateAdminBombControls() {
+    const bombModeBtn = document.getElementById("bombModeBtn");
+    const bombRadiusInput = document.getElementById("bombRadiusInput");
+    if (!bombModeBtn || !bombRadiusInput) {
+        return;
+    }
+
+    const isAdmin = localStorage.getItem(STORAGE_KEYS.role) === "admin";
+    bombModeBtn.style.display = isAdmin ? "inline-flex" : "none";
+    bombRadiusInput.style.display = isAdmin ? "inline-flex" : "none";
+
+    if (!isAdmin) {
+        state.adminBombMode = false;
+        return;
+    }
+
+    bombModeBtn.innerText = state.adminBombMode ? "Tắt thả bom" : "Bật thả bom";
+}
+
+function toggleAdminBombMode() {
+    const isAdmin = localStorage.getItem(STORAGE_KEYS.role) === "admin";
+    if (!isAdmin) {
+        setStatus("Chỉ admin mới có thể thả bom.", true);
+        return;
+    }
+
+    state.adminBombMode = !state.adminBombMode;
+    updateAdminBombControls();
+    if (!state.adminBombMode) {
+        setStatus("Chế độ thả bom đã tắt.");
+    } else {
+        setStatus("Chế độ thả bom đã bật. Click vào bản đồ để chọn tâm.");
+    }
+}
+
+async function handleAdminBombClick(e) {
+    if (!state.adminBombMode) {
+        return;
+    }
+
+    const isAdmin = localStorage.getItem(STORAGE_KEYS.role) === "admin";
+    if (!isAdmin) {
+        setStatus("Chỉ admin mới có thể thả bom.", true);
+        return;
+    }
+
+    const radiusInput = document.getElementById("bombRadiusInput");
+    const radius = radiusInput ? Number(radiusInput.value) : NaN;
+    if (!Number.isFinite(radius) || radius <= 0) {
+        setStatus("Bán kính thả bom không hợp lệ.", true);
+        return;
+    }
+
+    const { lat, lng } = e.latlng;
+    await deployBombZone(lat, lng, radius);
+}
+
+async function deployBombZone(lat, lng, radius) {
+    clearBombOverlay();
+
+    state.bombCenterMarker = L.circleMarker([lat, lng], {
+        radius: 6,
+        color: "#b91c1c",
+        weight: 2,
+        fillColor: "#fca5a5",
+        fillOpacity: 1,
+    }).addTo(state.map);
+
+    state.bombOverlay = L.circle([lat, lng], {
+        radius,
+        color: "#ef4444",
+        fillColor: "#fca5a5",
+        fillOpacity: 0.18,
+        weight: 2,
+        dashArray: "6,4",
+    }).addTo(state.map);
+
+    try {
+        const payload = {
+            lat,
+            lon: lng,
+            radius_meters: radius,
+        };
+        const result = await fetchJson("/api/admin/bomb-closure", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+
+        const existingConfig = getBlockedConfig();
+        saveBlockedConfig({
+            blockedNodes: dedupe([...(existingConfig.blockedNodes || []), ...(result.blocked_nodes || [])]),
+            blockedEdges: dedupe([...(existingConfig.blockedEdges || []), ...(result.blocked_edges || [])]),
+        });
+
+        updateStationBlockedVisuals();
+        renderClosureSummary();
+        setStatus(`Thả bom xong! Đã cấm ${result.blocked_node_count || 0} ga và ${result.blocked_edge_count || 0} cạnh.`);
+    } catch (error) {
+        setStatus(`Lỗi thả bom: ${error.message}`, true);
+    }
+}
+
+function clearBombOverlay() {
+    if (state.bombOverlay) {
+        state.map.removeLayer(state.bombOverlay);
+        state.bombOverlay = null;
+    }
+    if (state.bombCenterMarker) {
+        state.map.removeLayer(state.bombCenterMarker);
+        state.bombCenterMarker = null;
+    }
 }
 
 async function loadAppData() {
@@ -665,13 +790,6 @@ function setMetricValues(distance, stations, elapsed) {
     document.getElementById("distanceValue").innerText = distance;
     document.getElementById("stationsValue").innerText = stations;
     document.getElementById("elapsedValue").innerText = elapsed;
-}
-
-function formatCost(value) {
-    if (value === undefined || value === null || Number.isNaN(Number(value))) {
-        return "--";
-    }
-    return `${Number(value).toFixed(2)}`;
 }
 
 function formatDistance(value) {

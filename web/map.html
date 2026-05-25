@@ -53,6 +53,14 @@
                 <button class="btn btn-ghost" type="button" id="toggleStationsBtn" onclick="toggleStations()">Ẩn ga</button>
                 <button class="btn btn-ghost" type="button" onclick="clearAll()">Xóa</button>
             </div>
+            <div class="toolbar-row" style="gap:0.5rem; align-items:center; margin-top:0.5rem;">
+                <select id="bombRadiusInput" class="input" style="width:130px; display:none;">
+                    <option value="100">100 m</option>
+                    <option value="300" selected>300 m</option>
+                    <option value="1000">1 km</option>
+                </select>
+                <button class="btn btn-danger" type="button" id="bombModeBtn" style="display:none;">Bật thả bom</button>
+            </div>
 
             <!-- Network stats -->
             <section class="status-card compact-card">
@@ -222,10 +230,8 @@
     <script src="script.js"></script>
     <script src="map_click.js"></script>
     <script>
-        const username = requireAuth();
-        if (username) {
-            document.getElementById("displayUsername").innerText = username;
-        }
+        const username = getCurrentUsername();
+        document.getElementById("displayUsername").innerText = username;
         const adminBtn = document.getElementById("adminShortcut");
         if (localStorage.getItem("metro_user_role") !== "admin") {
             // Non-admin: show button but clicking logs out + goes to login
