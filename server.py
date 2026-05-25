@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -47,6 +47,12 @@ class PathRequest(BaseModel):
     blocked_nodes: Optional[list[str]] = []
 
 
+class BombRequest(BaseModel):
+    lat: float
+    lon: float
+    radius_meters: float
+
+
 def _load_json(path: Path) -> Any:
     if not path.exists():
         raise FileNotFoundError(f"Missing data file: {path}")
@@ -74,6 +80,11 @@ def _station_data() -> dict[str, dict[str, Any]]:
 @lru_cache(maxsize=1)
 def _edge_data() -> list[dict[str, Any]]:
     return _load_json(EDGE_LIST_PATH)
+
+
+@app.get("/", include_in_schema=False)
+def root_redirect():
+    return RedirectResponse(url="/map.html")
 
 
 @lru_cache(maxsize=1)
@@ -247,6 +258,61 @@ def get_nearest_station(lat: float, lon: float):
         return JSONResponse({"error": str(exc)}, status_code=500)
 
 
+@app.post("/api/admin/bomb-closure")
+def admin_bomb_closure(payload: BombRequest):
+    try:
+        from algorithm.heuristics import calculate_haversine_distance
+
+        coords_data = _coord_data()
+        station_data = _station_data()
+        edge_data = _edge_data()
+
+        blocked_nodes: set[str] = set()
+        blocked_edges: set[str] = set()
+
+        for station in station_data.values():
+            if not station.get("stops") or not station.get("geometry"):
+                continue
+
+            first_stop_id = station["stops"][0]
+            if first_stop_id not in coords_data:
+                continue
+
+            stop_info = coords_data[first_stop_id]
+            stop_lon = stop_info.get("lon")
+            stop_lat = stop_info.get("lat")
+            if stop_lon is None or stop_lat is None:
+                continue
+
+            distance = calculate_haversine_distance(payload.lon, payload.lat, stop_lon, stop_lat)
+            if distance > payload.radius_meters:
+                continue
+
+            for stop_id in station["stops"]:
+                if stop_id in coords_data:
+                    blocked_nodes.add(stop_id)
+
+        for edge in edge_data:
+            source_id = edge.get("source_id")
+            dest_id = edge.get("dest_id")
+            edge_id = edge.get("edge_id")
+            if not edge_id or not source_id or not dest_id:
+                continue
+            if source_id in blocked_nodes or dest_id in blocked_nodes:
+                blocked_edges.add(edge_id)
+
+        return JSONResponse(
+            {
+                "blocked_nodes": sorted(blocked_nodes),
+                "blocked_edges": sorted(blocked_edges),
+                "blocked_node_count": len(blocked_nodes),
+                "blocked_edge_count": len(blocked_edges),
+            }
+        )
+    except Exception as exc:
+        return JSONResponse({"error": str(exc)}, status_code=500)
+
+
 @app.post("/api/find-path")
 def find_path(payload: PathRequest):
     nodes = _coord_data()
@@ -312,4 +378,4 @@ def find_path(payload: PathRequest):
 
 
 app.mount("/data", StaticFiles(directory=str(BASE_DIR / "data")), name="data")
-app.mount("/", StaticFiles(directory=str(WEB_DIR), html=True), name="web")
+app.mount("/", StaticFiles(directory=str(WEB_DIR), html=False), name="web")

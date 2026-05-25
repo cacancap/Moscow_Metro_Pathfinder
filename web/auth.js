@@ -79,6 +79,14 @@ function requireAuth(allowedRole = null) {
     return localStorage.getItem(STORAGE_KEYS.username);
 }
 
+function getCurrentUsername() {
+    return localStorage.getItem(STORAGE_KEYS.username) || "Guest";
+}
+
+function isAuthenticated() {
+    return Boolean(localStorage.getItem(STORAGE_KEYS.role));
+}
+
 function logout() {
     localStorage.removeItem(STORAGE_KEYS.role);
     localStorage.removeItem(STORAGE_KEYS.username);
