@@ -48,6 +48,7 @@
                 <button class="btn btn-ghost" type="button" onclick="centerMap()">Về trung tâm</button>
                 <button class="btn btn-ghost" type="button" id="toggleStationsBtn" onclick="toggleStations()">Ẩn ga</button>
                 <button class="btn btn-ghost" type="button" onclick="clearAll()">Xóa lộ trình</button>
+                <button class="btn btn-bomb hidden" type="button" id="bombModeBtn">💣 Thả bom</button>
             </div>
 
             <section class="status-card compact-card">
@@ -156,8 +157,30 @@
                     Chưa có lịch sử.
                 </div>
             </section>
+
+            <section class="status-card" id="bombSection">
+                <div class="status-head">
+                    <h3>💣 Vụ nổ</h3>
+                    <button class="btn btn-ghost hidden" type="button" id="clearBombsBtn">Xóa tất cả</button>
+                </div>
+                <div id="bombList" class="bomb-list">
+                    Chưa có vụ nổ nào.
+                </div>
+            </section>
         </div>
     </aside>
+
+    <div id="bombPopup" class="bomb-popup hidden">
+        <div class="bomb-popup-header">
+            <strong>💣 Bán kính vụ nổ</strong>
+            <button class="icon-btn" id="cancelBombBtn" aria-label="Hủy">×</button>
+        </div>
+        <label class="field">
+            <span>Bán kính (km)</span>
+            <input type="number" id="bombRadiusInput" min="0.01" step="0.5" placeholder="Nhập số km...">
+        </label>
+        <button class="btn btn-danger btn-block" id="confirmBombBtn">💥 Kích nổ</button>
+    </div>
 
     <aside class="glass-panel detail-panel hidden" id="stationInfo">
         <div class="panel-header">
