@@ -26,6 +26,9 @@ function initMapPage() {
     }
 
     buildMap();
+    if (typeof initMapClickHandler === "function") {
+        initMapClickHandler();
+    }
     bindUiEvents();
     loadAppData();
     renderRouteHistory();
@@ -36,9 +39,8 @@ function initMapPage() {
 function buildMap() {
     state.map = L.map("map", { zoomControl: false, preferCanvas: true }).setView(moscowCenter, 11);
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-        attribution: "&copy; OpenStreetMap &copy; CARTO",
-        subdomains: "abcd",
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
         maxZoom: 19,
     }).addTo(state.map);
 
@@ -170,11 +172,11 @@ function renderStationMarkers() {
 
         const color = resolveLineColor(station.colour);
         const marker = L.circleMarker([lat, lon], {
-            radius: 5,
+            radius: 9,
             color,
-            weight: 1.5,
+            weight: 2.5,
             fillColor: color,
-            fillOpacity: 0.92,
+            fillOpacity: 0.98,
         });
 
         marker.on("click", () => openStationPanel(station));
@@ -380,7 +382,7 @@ async function findPath() {
     findButton.innerText = "Đang tìm...";
 
     try {
-        const result = await findBestPath(startCandidates, endCandidates, blockedConfig);
+        const result = await findBestPath(startCandidates, endCandidates, blockedConfig, algorithm);
         renderPath(result, algorithm);
     } catch (error) {
         clearRouteLayer();
@@ -391,7 +393,7 @@ async function findPath() {
     }
 }
 
-async function findBestPath(startCandidates, endCandidates, blockedConfig) {
+async function findBestPath(startCandidates, endCandidates, blockedConfig, algorithm) {
     const attempts = [];
 
     for (const startId of startCandidates) {
@@ -413,6 +415,7 @@ async function findBestPath(startCandidates, endCandidates, blockedConfig) {
                 body: JSON.stringify({
                     start_id: attempt.startId,
                     target_id: attempt.endId,
+                    algorithm: algorithm || "astar",
                     blocked_edges: blockedConfig.blockedEdges,
                     blocked_nodes: blockedConfig.blockedNodes,
                 }),
@@ -481,6 +484,7 @@ function renderPath(result, algorithm) {
 
         startMarker.bindTooltip("Start", { permanent: false });
         endMarker.bindTooltip("End", { permanent: false });
+        
         state.map.fitBounds(polyline.getBounds(), { padding: [64, 64] });
     }
 
@@ -643,6 +647,7 @@ function swapStations() {
     endSelect.value = temp;
     onStartStationChange();
 }
+
 
 function togglePanel() {
     state.panelCollapsed = !state.panelCollapsed;
