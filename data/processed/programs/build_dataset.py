@@ -242,8 +242,8 @@ def stop_clustering(max_distance, transfer_penalty):
             if (distance < max_distance):
                 # swap between 2 stops in the same station
                 if (stop_A.get('name') == stop_B.get('name') and stop_A.get('colour') == stop_B.get('colour')):
-                    create_edge(stop_A['id'], stop_B['id'], 0, 0, 'walk', 'swap', 'black', [coord_A, coord_B])
-                    create_edge(stop_B['id'], stop_A['id'], 0, 0, 'walk', 'swap', 'black', [coord_B, coord_A])
+                    create_edge(stop_A['id'], stop_B['id'], distance, distance, 'walk', 'swap', 'black', [coord_A, coord_B])
+                    create_edge(stop_B['id'], stop_A['id'], distance, distance, 'walk', 'swap', 'black', [coord_B, coord_A])
                 else:   # Create transfer edge
                     create_edge(stop_A['id'], stop_B['id'], distance + 1500, distance, 'walk', 'transfer', 'purple', [coord_A, coord_B])
                     create_edge(stop_B['id'], stop_A['id'], distance + 1500, distance, 'walk', 'transfer', 'purple', [coord_B, coord_A])
