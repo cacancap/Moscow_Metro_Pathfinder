@@ -28,16 +28,8 @@ function bindAdminEvents() {
     document.getElementById("adminEdgeSearch").addEventListener("input", renderEdgeResults);
     document.getElementById("saveClosuresBtn").addEventListener("click", saveClosures);
     document.getElementById("refreshAdminBtn").addEventListener("click", loadAdminData);
-    document.getElementById("clearStationsBtn").addEventListener("click", () => {
-        adminState.selectedNodes.clear();
-        refreshAdminSelections();
-        setAdminStatus("Đã xóa ga.");
-    });
-    document.getElementById("clearEdgesBtn").addEventListener("click", () => {
-        adminState.selectedEdges.clear();
-        refreshAdminSelections();
-        setAdminStatus("Đã xóa cạnh.");
-    });
+    document.getElementById("clearStationsBtn").addEventListener("click", unblockAll);
+    document.getElementById("clearEdgesBtn").addEventListener("click", unblockAll);
 }
 
 async function loadAdminData() {
@@ -227,12 +219,100 @@ function renderChipList(container, items, onRemove) {
     }
 }
 
-function saveClosures() {
-    saveBlockedConfig({
-        blockedNodes: dedupe([...adminState.selectedNodes]),
-        blockedEdges: dedupe([...adminState.selectedEdges]),
-    });
-    setAdminStatus("Đã lưu.");
+async function saveClosures() {
+    setAdminStatus("Đang lưu vào database...");
+    const btn = document.getElementById("saveClosuresBtn");
+    btn.disabled = true;
+
+    try {
+        const requests = [];
+
+        for (const stopId of adminState.selectedNodes) {
+            requests.push(fetchJson(API_ENDPOINTS.adminStatus, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    target_type: "stop",
+                    target_id: stopId,
+                    is_blocked: 1,
+                }),
+            }));
+        }
+
+        for (const edgeId of adminState.selectedEdges) {
+            requests.push(fetchJson(API_ENDPOINTS.adminStatus, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    target_type: "edge",
+                    target_id: edgeId,
+                    is_blocked: 1,
+                }),
+            }));
+        }
+
+        await Promise.all(requests);
+
+        // Vẫn lưu localStorage để đồng bộ UI
+        saveBlockedConfig({
+            blockedNodes: dedupe([...adminState.selectedNodes]),
+            blockedEdges: dedupe([...adminState.selectedEdges]),
+        });
+
+        setAdminStatus(`Đã lưu ${adminState.selectedNodes.size} ga, ${adminState.selectedEdges.size} cạnh vào database.`);
+
+    } catch (error) {
+        setAdminStatus(`Lỗi: ${error.message}`, true);
+    } finally {
+        btn.disabled = false;
+    }
+}
+async function unblockAll() {
+    setAdminStatus("Đang mở khóa...");
+
+    try {
+        const requests = [];
+
+        // Lấy snapshot trước khi clear
+        const nodesToUnblock = [...adminState.selectedNodes];
+        const edgesToUnblock = [...adminState.selectedEdges];
+
+        for (const stopId of nodesToUnblock) {
+            requests.push(fetchJson(API_ENDPOINTS.adminStatus, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    target_type: "stop",
+                    target_id: stopId,
+                    is_blocked: 0,
+                }),
+            }));
+        }
+
+        for (const edgeId of edgesToUnblock) {
+            requests.push(fetchJson(API_ENDPOINTS.adminStatus, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    target_type: "edge",
+                    target_id: edgeId,
+                    is_blocked: 0,
+                }),
+            }));
+        }
+
+        await Promise.all(requests);   // ← đợi tất cả xong
+
+        // SAU KHI API thành công mới clear
+        adminState.selectedNodes.clear();
+        adminState.selectedEdges.clear();
+        saveBlockedConfig({ blockedNodes: [], blockedEdges: [] });
+        refreshAdminSelections();
+        setAdminStatus("Đã mở khóa tất cả.");
+
+    } catch (error) {
+        setAdminStatus(`Lỗi: ${error.message}`, true);
+    }
 }
 
 function setAdminStatus(message, isError = false) {

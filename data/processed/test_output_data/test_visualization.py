@@ -42,34 +42,36 @@ def visualize_point(lon, lat, colour):
         icon=folium.Icon(color=colour, icon="star")
     ).add_to(m)
 
+
 def visualize_node(node_id, colour):
-    indicated_node = stop_dict_id[node_id]
-    if (indicated_node is None):
-        print("Error")
-        return
-    name = indicated_node.get('name')
-    lat = indicated_node.get('lat')
-    lon = indicated_node.get('lon')
-    
-    popup_html = f"<b>Node:</b> {name}  <b>id: </b> {node_id} <br> {lat}, {lon}" 
-    
+    # Sử dụng .get() thay vì dùng dấu [] để tránh bị lỗi KeyError nếu gặp node ảo
+    indicated_node = stop_dict_id.get(node_id)
+
+    # NẾU LÀ NODE THẬT (Tìm thấy trong stop_dict_id)
+    if indicated_node is not None:
+        name = indicated_node.get('name', 'N/A')
+        lat = indicated_node.get('lat')
+        lon = indicated_node.get('lon')
+        popup_html = f"<b>Node:</b> {name}<br><b>ID: </b> {node_id}<br>{lat}, {lon}"
+
+    # NẾU LÀ NODE ẢO (Không có trong từ điển stop_dict_id, ví dụ các trạm dạng fake/...)
+    else:
+        name = "Nút ảo / Điểm kỹ thuật"
+        # Vì không có trong stop_dict_id, chúng ta sẽ tạm thời không vẽ hoặc
+        # Nếu muốn vẽ thì phải tìm tọa độ từ nguồn khác.
+        # Ở đây, cách an toàn nhất cho hàm test là bỏ qua không vẽ marker cho node ảo này, hoặc chỉ print ra log.
+        print(f"[Thông báo] Bỏ qua vẽ Marker cho Node ảo: {node_id}")
+        return  # Thoát hàm, không vẽ để tránh crash
+
+    # Vẽ lên bản đồ (Chỉ chạy với Node thật)
     folium.CircleMarker(
         location=[lat, lon],
         radius=5,
         popup=folium.Popup(popup_html, max_width=300, parse_html=True),
-        color=colour
+        color=colour,
+        fill=True,
+        fill_color=colour
     ).add_to(m)
-    
-def visualize_way(way_id):
-    indicated_way = way_dict_id[way_id]
-    if (indicated_way is None):
-        print(f"Error: way {way_id} not found!")
-        return
-
-    coords = indicated_way.get('geometry')
-    colour = indicated_way.get('colour')
-    for coord in coords:
-        visualize_point(coord[0], coord[1], colour)
  
 def get_bearing(p1, p2):
     """Tính góc định hướng (bearing) giữa 2 tọa độ (lat, lon)"""
@@ -356,13 +358,83 @@ def visualize_specific_path(adj_list_data, path_edge_ids, m):
 
 # 2. Vẽ cạnh và mũi tên
 
-visualize_adjacency_list(adjacency_list, m)
+# visualize_adjacency_list(adjacency_list, m)
 # visualize_raw_data()
 #visualize_specific_path(adjacency_list, ['e_298', 'e_68', 'e_69', 'e_467', 'e_468', 'e_464', 'e_465', 'e_466', 'e_98', 'e_994', 'e_162', 'e_163', 'e_164', 'e_172', 'e_173', 'e_171', 'e_99', 'e_100', 'e_303', 'e_300', 'e_1604', 'e_146', 'e_147', 'e_127', 'e_942', 'e_101', 'e_102', 'e_175', 'e_717', 'e_1640', 'e_205', 'e_206', 'e_216', 'e_217', 'e_28', 'e_66', 'e_67', 'e_72', 'e_73', 'e_243', 'e_222', 'e_223', 'e_226'], m)
-visualize_raw_nodes(geojson_data, m)
-visualize_stations_only(station_dict, m)
-visualize_all_stops(stop_dict_id, m)
+# visualize_raw_nodes(geojson_data, m)
+# visualize_all_stops(stop_dict_id, m)
+visualize_node('6950639206', 'black')
+visualize_node('6950639207', 'black')
+
 output_file = "visualization_output.html"
 m.save(output_file)
 print("Thành công! Đã vẽ xong dữ liệu thô.")
 print(f"Hãy mở file '{output_file}' để xem các nút và đường ray mới.")
+
+
+# ==============================================================================
+# PHẦN CODE TEST: TÌM NODE KỀ VÀ VẼ ĐƯỜNG ĐI
+# ==============================================================================
+#
+# # 1. Chọn một Node ID bạn muốn kiểm tra (Ví dụ lấy luôn ID có sẵn của bạn)
+# NODE_TO_TEST = '5202080143'
+#
+# if NODE_TO_TEST in adjacency_list:
+#     # Lấy danh sách tất cả các Node mục tiêu kề với Node đang test
+#     target_nodes = adjacency_list[NODE_TO_TEST]
+#     edge_ids_to_draw = []
+#
+#     print(f"\n================ KHẢO SÁT NODE: {NODE_TO_TEST} ================")
+#     source_name = stop_dict_id.get(NODE_TO_TEST, {}).get('name', 'Không rõ tên')
+#     print(f"Tên trạm gốc: {source_name}")
+#     print("Các node kề tìm thấy:")
+#
+#     for target_id, edge_data in target_nodes.items():
+#         edge_id = edge_data.get('edge_id')
+#         edge_ids_to_draw.append(edge_id)
+#
+#         # Tìm tên của trạm kề trong từ điển để in ra màn hình console
+#         target_name = stop_dict_id.get(target_id, {}).get('name', 'Không rõ tên (Node ảo)')
+#         print(
+#             f"  -> Đến Node: {target_id} ({target_name}) | Qua Cạnh ID: {edge_id} | Trọng số: {edge_data.get('weight')}m")
+#
+#         # Đánh dấu các Node KỀ bằng màu XANH LÁ trên bản đồ để dễ nhìn
+#         visualize_node(target_id, 'green')
+#
+#     print(f"Tổng số đường đi xuất phát từ node này: {len(edge_ids_to_draw)}")
+#     print("===============================================================\n")
+#
+#     # Đánh dấu Node GỐC đang test bằng màu ĐỎ làm trung tâm
+#     visualize_node(NODE_TO_TEST, 'red')
+#
+#     # Vẽ các cạnh nối từ Node gốc đến các Node kề (kèm mũi tên chỉ hướng chạy)
+#     visualize_specific_path(adjacency_list, edge_ids_to_draw, m)
+#
+# else:
+#     print(f"\n[Cảnh báo]: Node {NODE_TO_TEST} không có trong danh sách kề hoặc là node cụt không đi tiếp được!")
+#     # Nếu node không đi tiếp được, ít nhất hãy vẽ vị trí của nó để check
+#     if NODE_TO_TEST in stop_dict_id:
+#         visualize_node(NODE_TO_TEST, 'black')
+#
+# # 2. Lưu bản đồ thành file HTML như cũ
+# output_file = "visualization_output.html"
+# m.save(output_file)
+# print(f"Thành công! Đã xuất dữ liệu test ra file '{output_file}'. Hãy mở file này để kiểm tra.")
+# # ==============================================================================
+# # ĐOẠN CODE ĐẾM SỐ LƯỢNG STATION VÀ EDGE
+# # ==============================================================================
+# print("\n================ THỐNG KÊ HỆ THỐNG ================")
+#
+# # 1. Đếm số lượng Stations
+# # Vì station_dict là một từ điển (Dictionary), số lượng key chính là số lượng station
+# total_stations = len(station_dict)
+# print(f"Tổng số Nhà ga (Stations): {total_stations}")
+#
+# # 2. Đếm số lượng Edges từ danh sách kề (adjacency_list)
+# # Vì adjacency_list cấu trúc theo dạng: { source_id: { target_id: edge_data } }
+# total_edges = 0
+# for source_id, targets in adjacency_list.items():
+#     total_edges += len(targets) # Cộng dồn số lượng nút kề của từng nút gốc
+#
+# print(f"Tổng số Cạnh nối (Edges): {total_edges}")
+# print("===================================================\n")

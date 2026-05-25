@@ -53,6 +53,7 @@ function bindUiEvents() {
     document.getElementById("mobileDrawerHandle").addEventListener("click", togglePanel);
     document.getElementById("startStation").addEventListener("change", onStartStationChange);
     document.getElementById("endStation").addEventListener("change", updateSelectionSummary);
+    document.getElementById("findPathBtn").addEventListener("click", findPath);
 }
 
 async function loadAppData() {
@@ -217,7 +218,6 @@ function renderNetworkSummary() {
     document.getElementById("summaryStationCount").innerText = formatNumber(summary.station_nodes);
     document.getElementById("summaryEdgeCount").innerText = formatNumber(summary.edges);
     document.getElementById("summaryLineCount").innerText = formatNumber(lineCount);
-
 }
 
 function onSearchInput(event) {
@@ -333,10 +333,11 @@ function closeStationFromPanel(station) {
     setStatus(`Đã đóng ${station.name}.`);
 }
 
+
 async function findPath() {
     const startStationId = document.getElementById("startStation").value;
     const endStationId = document.getElementById("endStation").value;
-    const algorithm = document.getElementById("algorithm").value;
+    const algorithm = document.getElementById("algorithm")?.value || "astar";
     const blockedConfig = getBlockedConfig();
     const findButton = document.getElementById("findPathBtn");
 
@@ -353,28 +354,27 @@ async function findPath() {
     const startStation = state.stationById.get(startStationId);
     const endStation = state.stationById.get(endStationId);
 
-    if (!startStation || !endStation) {
-        setStatus("Ga không hợp lệ.", true);
-        return;
-    }
-
-    const blockedNodes = new Set(blockedConfig.blockedNodes);
-    const startCandidates = startStation.stops.filter((stopId) => !blockedNodes.has(stopId));
-    const endCandidates = endStation.stops.filter((stopId) => !blockedNodes.has(stopId));
-
-    if (startCandidates.length === 0 || endCandidates.length === 0) {
-        setStatus("Ga đang bị đóng.", true);
-        return;
-    }
-
-    setStatus(`Đang tìm ${startStation.name} → ${endStation.name}...`);
+    setStatus(`Đang tìm ${startStation?.name} → ${endStation?.name}...`);
     setMetricValues("--", "--", "--");
     findButton.disabled = true;
     findButton.innerText = "Đang tìm...";
 
     try {
-        const result = await findBestPath(startCandidates, endCandidates, blockedConfig);
+        // Gửi trực tiếp station_id lên Backend V2
+        const payload = await fetchJson(API_ENDPOINTS.findPath, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                start_station_id: startStationId,
+                target_station_id: endStationId,
+                blocked_edges: blockedConfig.blockedEdges,
+                blocked_nodes: blockedConfig.blockedNodes,
+            }),
+        });
+
+        const result = { ...payload.result, elapsed_ms: payload.elapsed_ms };
         renderPath(result, algorithm);
+
     } catch (error) {
         clearRouteLayer();
         setStatus(`Không tìm được: ${error.message}`, true);
@@ -383,126 +383,80 @@ async function findPath() {
         findButton.innerText = "Tìm đường";
     }
 }
-
-async function findBestPath(startCandidates, endCandidates, blockedConfig) {
-    const attempts = [];
-
-    for (const startId of startCandidates) {
-        for (const endId of endCandidates) {
-            if (startId !== endId) {
-                attempts.push({ startId, endId });
-            }
-        }
-    }
-
-    const errors = [];
-    let bestResult = null;
-
-    for (const attempt of attempts) {
-        try {
-            const payload = await fetchJson(API_ENDPOINTS.findPath, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    start_id: attempt.startId,
-                    target_id: attempt.endId,
-                    blocked_edges: blockedConfig.blockedEdges,
-                    blocked_nodes: blockedConfig.blockedNodes,
-                }),
-            });
-
-            const result = payload.result;
-            if (!bestResult || Number(result.total_distance_meters) < Number(bestResult.total_distance_meters)) {
-                bestResult = result;
-            }
-        } catch (error) {
-            errors.push(error.message);
-        }
-    }
-
-    if (!bestResult) {
-        throw new Error(errors[0] || "Không tìm được đường.");
-    }
-
-    return bestResult;
-}
-
 function renderPath(result, algorithm) {
     clearRouteLayer();
 
-    const latLngs = [];
-    for (const edgeId of result.path_edges || []) {
-        const edge = state.edgeById.get(edgeId);
-        if (!edge || !Array.isArray(edge.geometry)) {
-            continue;
-        }
+    let drawLatLngs = [];
 
-        const segment = edge.geometry.map(([lon, lat]) => [lat, lon]);
-        if (latLngs.length > 0 && segment.length > 0) {
-            const [prevLat, prevLng] = latLngs[latLngs.length - 1];
-            const [nextLat, nextLng] = segment[0];
-            if (prevLat === nextLat && prevLng === nextLng) {
-                segment.shift();
-            }
-        }
-        latLngs.push(...segment);
+    // 1. Lấy chuỗi tọa độ thực tế uốn lượn từ Backend
+    if (result.geometry_polyline && result.geometry_polyline.length > 0) {
+        drawLatLngs = result.geometry_polyline.map(coord => [coord[1], coord[0]]);
     }
 
-    if (latLngs.length > 1) {
-        const polyline = L.polyline(latLngs, {
-            color: "#f97316",
-            weight: 6,
-            opacity: 0.92,
-            lineJoin: "round",
+    if (drawLatLngs.length > 1) {
+        // 2. Vẽ đường đi (Polyline) - Nét liền
+        const polyline = L.polyline(drawLatLngs, {
+            color: '#ff4500',
+            weight: 5,
+            opacity: 0.9,
+            lineJoin: 'round'
         }).addTo(state.routeLayer);
 
-        const startMarker = L.circleMarker(latLngs[0], {
+        // Đẩy đường đi xuống dưới cùng để các điểm luôn ở trên
+        polyline.bringToBack();
+
+        // 3. Vẽ Node Start và End với zIndexOffset cao để luôn đè lên đường
+        const startMarker = L.circleMarker(drawLatLngs[0], {
             radius: 8,
             color: "#fde68a",
             weight: 2,
             fillColor: "#fde68a",
             fillOpacity: 1,
+            zIndexOffset: 1000 // Ép layer cao nhất
         }).addTo(state.routeLayer);
 
-        const endMarker = L.circleMarker(latLngs[latLngs.length - 1], {
+        const endMarker = L.circleMarker(drawLatLngs[drawLatLngs.length - 1], {
             radius: 8,
             color: "#6ee7b7",
             weight: 2,
             fillColor: "#6ee7b7",
             fillOpacity: 1,
+            zIndexOffset: 1000 // Ép layer cao nhất
         }).addTo(state.routeLayer);
 
         startMarker.bindTooltip("Start", { permanent: false });
         endMarker.bindTooltip("End", { permanent: false });
+
+        // Tự động căn chỉnh bản đồ
         state.map.fitBounds(polyline.getBounds(), { padding: [64, 64] });
     }
 
+    // 4. Hiển thị thông số lộ trình
     const stationNames = extractRouteStationNames(result.path_nodes || []);
     const blockedConfig = getBlockedConfig();
     const startStation = state.stationByRouteStop.get(result.path_nodes?.[0]);
     const endStation = state.stationByRouteStop.get(result.path_nodes?.[result.path_nodes.length - 1]);
-    const startName = startStation?.name || result.origin || "Unknown";
-    const endName = endStation?.name || result.destination || "Unknown";
+    const startName = startStation?.name || result.origin_node_name || "Unknown";
+    const endName = endStation?.name || result.destination_node_name || "Unknown";
+    const distanceValue = result.total_cost_meters_or_secs;
 
-    setMetricValues(formatDistance(result.total_distance_meters), String(result.node_count || 0), formatElapsed(result.elapsed_ms));
+    setMetricValues(formatDistance(distanceValue), String(result.node_count || 0), formatElapsed(result.elapsed_ms));
     setStatus(`
         <strong>${startName}</strong> đến <strong>${endName}</strong><br>
-        Quãng đường: <strong>${formatDistance(result.total_distance_meters)}</strong><br>
-        Thời gian tính: <strong>${formatElapsed(result.elapsed_ms)}</strong><br>
-        Điểm: <strong>${result.node_count}</strong><br>
-        Ga đóng: <strong>${blockedConfig.blockedNodes.length}</strong>,
-        cạnh chặn: <strong>${blockedConfig.blockedEdges.length}</strong>
+        Quãng đường: <strong>${formatDistance(distanceValue)}</strong><br>
+        Thời gian: <strong>${formatElapsed(result.elapsed_ms)}</strong><br>
+        Điểm: <strong>${result.node_count}</strong>
     `);
 
     document.getElementById("routeSummaryTitle").innerText = `${startName} → ${endName}`;
-    document.getElementById("routeSummaryMeta").innerText = `${stationNames.length} ga · ${formatDistance(result.total_distance_meters)}`;
+    document.getElementById("routeSummaryMeta").innerText = `${stationNames.length} ga · ${formatDistance(distanceValue)}`;
 
     renderRouteStations(stationNames);
     saveRouteHistory({
         start: startName,
         end: endName,
         algorithm,
-        cost: result.total_distance_meters,
+        cost: distanceValue,
         nodeCount: result.node_count,
         timestamp: new Date().toISOString(),
     });

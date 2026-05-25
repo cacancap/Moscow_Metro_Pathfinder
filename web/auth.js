@@ -1,10 +1,13 @@
+const API_BASE = "http://127.0.0.1:5000";
+
 const API_ENDPOINTS = {
-    health: "/api/health",
-    networkSummary: "/api/network-summary",
-    routeStations: "/api/stations",
-    stationCatalog: "/api/station_list",
-    edgeList: "/api/edge_list",
-    findPath: "/api/find-path",
+    // Trỏ toàn bộ các đầu API về đúng máy chủ Backend FastAPI V2
+    networkSummary: `${API_BASE}/api/network-summary`,
+    stationCatalog: `${API_BASE}/api/station_list`,
+    routeStations: `${API_BASE}/api/stations`,
+    edgeList: `${API_BASE}/api/edge_list`,
+    findPath: `${API_BASE}/api/path/by-stations`,
+    adminStatus: `${API_BASE}/api/admin/network/status`
 };
 
 const STORAGE_KEYS = {

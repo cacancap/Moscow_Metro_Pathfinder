@@ -22,3 +22,5 @@ CLAUDE.md
 .claude
 AGENTS.md
 docs/
+
+.env

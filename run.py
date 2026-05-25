@@ -1,42 +1,7 @@
-#!/usr/bin/env python3
-"""Moscow Metro Pathfinder runner."""
+import uvicorn
 
-import importlib.util
-import subprocess
-import sys
-
-
-def main():
-    has_fastapi_stack = importlib.util.find_spec("fastapi") and importlib.util.find_spec("uvicorn")
-    command = (
-        [
-            sys.executable,
-            "-m",
-            "uvicorn",
-            "server:app",
-            "--host",
-            "127.0.0.1",
-            "--port",
-            "5000",
-            "--reload",
-        ]
-        if has_fastapi_stack
-        else [sys.executable, "web/app.py"]
-    )
-
-    print("Moscow Metro Pathfinder")
-    print("=" * 50)
-    print("Web app: http://127.0.0.1:5000")
-    if has_fastapi_stack:
-        print("API docs: http://127.0.0.1:5000/docs")
-    print("Data source: data/processed/outputs")
-    if not has_fastapi_stack:
-        print("FastAPI/uvicorn not found, running Flask fallback.")
-    print("Press Ctrl+C to stop")
-    print("=" * 50)
-
-    subprocess.run(command, check=False)
-
-
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    print("🚀 Đang khởi động Server FastAPI (Moscow Metro V2)...")
+    # "api:app" nghĩa là tìm biến 'app' ở trong file 'api.py'
+    # Chạy ở cổng 5000 để khớp 100% với file auth.js bên Frontend
+    uvicorn.run("api:app", host="127.0.0.1", port=5000, reload=True)
