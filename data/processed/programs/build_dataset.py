@@ -104,7 +104,7 @@ def build_stop_dicts():
             
 # Creating an edge
 # Cần cải tiến: vừa đọc, vừa ghi từ điển chứ không nên build dict sau edge_list
-def create_edge(source_id, dest_id, weight, line_id, edge_type, colour, geometry):
+def create_edge(source_id, dest_id, weight, distance, line_id, edge_type, colour, geometry):
     global edge_counter
     
     new_edge = {
@@ -112,6 +112,7 @@ def create_edge(source_id, dest_id, weight, line_id, edge_type, colour, geometry
         'source_id': source_id,
         'dest_id': dest_id,
         'weight': round(weight, 2),
+        'distance': round(distance, 2),
         'line_id': line_id,
         'edge_type': edge_type,
         'colour': colour,
@@ -214,7 +215,7 @@ def build_way_dict():
                         else: stop_dict_id[cur_node['id']]['colour'] = colour
 
                     if (prev_node != None and prev_node != cur_node):   # Found a prev node => add 
-                        create_edge(prev_node.get('id'), cur_node.get('id'), current_distance / 40000 * 3600, line_id, 'subway', colour, current_geometry)
+                        create_edge(prev_node.get('id'), cur_node.get('id'), current_distance, current_distance, line_id, 'subway', colour, current_geometry)
                         current_geometry = [cur_coord]
                         current_distance = 0
                     
@@ -239,12 +240,13 @@ def stop_clustering(max_distance, transfer_penalty):
             # if (distance < max_distance and (f"{stop_A.get('name')},{stop_A.get('colour')}" == f"{stop_B.get('name')}"))
             
             if (distance < max_distance):
+                # swap between 2 stops in the same station
                 if (stop_A.get('name') == stop_B.get('name') and stop_A.get('colour') == stop_B.get('colour')):
-                    create_edge(stop_A['id'], stop_B['id'], 0, 'walk', 'swap', 'black', [coord_A, coord_B])
-                    create_edge(stop_B['id'], stop_A['id'], 0, 'walk', 'swap', 'black', [coord_B, coord_A])
-                else:
-                    create_edge(stop_A['id'], stop_B['id'], weight_secs * 20, 'walk', 'transfer', 'purple', [coord_A, coord_B])
-                    create_edge(stop_B['id'], stop_A['id'], weight_secs * 20, 'walk', 'transfer', 'purple', [coord_B, coord_A])
+                    create_edge(stop_A['id'], stop_B['id'], 0, 0, 'walk', 'swap', 'black', [coord_A, coord_B])
+                    create_edge(stop_B['id'], stop_A['id'], 0, 0, 'walk', 'swap', 'black', [coord_B, coord_A])
+                else:   # Create transfer edge
+                    create_edge(stop_A['id'], stop_B['id'], distance + 1500, distance, 'walk', 'transfer', 'purple', [coord_A, coord_B])
+                    create_edge(stop_B['id'], stop_A['id'], distance + 1500, distance, 'walk', 'transfer', 'purple', [coord_B, coord_A])
                 transfer_count += 2
             
     return transfer_count
