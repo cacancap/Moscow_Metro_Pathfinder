@@ -7,8 +7,7 @@ const API_ENDPOINTS = {
     routeStations: `${API_BASE}/api/stations`,
     edgeList: `${API_BASE}/api/edge_list`,
     findPath: `${API_BASE}/api/path/by-stations`,
-    adminStatus: `${API_BASE}/api/admin/network/status`,
-    bombs: `${API_BASE}/api/bombs`
+    adminStatus: `${API_BASE}/api/admin/network/status`
 };
 
 const STORAGE_KEYS = {

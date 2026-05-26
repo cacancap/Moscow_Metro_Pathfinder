@@ -850,13 +850,7 @@ function formatHistoryTime(timestamp) {
 
 // ===================== BOMB SYSTEM =====================
 
-async function initBombs() {
-    try {
-        const bombsFromDb = await fetchJson(API_ENDPOINTS.bombs);
-        saveBombs(bombsFromDb);
-    } catch (err) {
-        console.warn("Không load được bombs từ DB, dùng localStorage:", err.message);
-    }
+function initBombs() {
     redrawAllBombs();
     renderClosureSummary();
     if (localStorage.getItem("metro_user_role") === "admin") {
@@ -953,20 +947,6 @@ function confirmBomb() {
     const bombs = getBombs();
     bombs.push(bomb);
     saveBombs(bombs);
-
-    fetchJson(API_ENDPOINTS.bombs, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            id: bomb.id,
-            lat: bomb.lat,
-            lng: bomb.lng,
-            radius: bomb.radius,
-            timestamp: bomb.timestamp,
-            affected_nodes: bomb.affectedNodes,
-            affected_edges: bomb.affectedEdges,
-        }),
-    }).catch(err => console.warn("Lưu bomb vào DB thất bại:", err.message));
 
     syncBlockedToServer(bomb.affectedNodes, bomb.affectedEdges, 1);
 
@@ -1232,9 +1212,6 @@ function removeBomb(bombId) {
     const newBombs = getBombs().filter(b => b.id !== bombId);
     saveBombs(newBombs);
 
-    fetchJson(`${API_ENDPOINTS.bombs}/${bombId}`, { method: "DELETE" })
-        .catch(err => console.warn("Xóa bomb khỏi DB thất bại:", err.message));
-
     if (nodeIds.length > 0 || edgeIds.length > 0) {
         syncBlockedToServer(nodeIds, edgeIds, 0);
     }
@@ -1273,9 +1250,6 @@ function clearAllBombs() {
     if (bombOnlyNodeIds.length > 0 || bombOnlyEdgeIds.length > 0) {
         syncBlockedToServer(bombOnlyNodeIds, bombOnlyEdgeIds, 0);
     }
-
-    fetchJson(API_ENDPOINTS.bombs, { method: "DELETE" })
-        .catch(err => console.warn("Xóa tất cả bomb khỏi DB thất bại:", err.message));
 
     saveBombs([]);
     state.bombLayer.clearLayers();
