@@ -616,6 +616,14 @@ select {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-xs {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.72rem;
+    border-radius: var(--radius-sm);
+    margin-left: auto;
 }
 
 .chip-list,

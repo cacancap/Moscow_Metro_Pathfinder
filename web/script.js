@@ -66,7 +66,7 @@ function bindUiEvents() {
     document.getElementById("bombModeBtn").addEventListener("click", toggleBombMode);
     document.getElementById("cancelBombBtn").addEventListener("click", cancelBomb);
     document.getElementById("confirmBombBtn").addEventListener("click", confirmBomb);
-    document.getElementById("clearBombsBtn").addEventListener("click", clearAllBombs);
+    // clearBombsBtn is now rendered inline inside renderClosureSummary()
     document.getElementById("bombRadiusInput").addEventListener("keydown", onBombRadiusKey);
     document.getElementById("bombRadiusInput").addEventListener("input", previewBombCircle);
 }
@@ -516,6 +516,7 @@ function renderClosureSummary() {
     const container = document.getElementById("closureSummary");
     const blockedConfig = getEffectiveBlockedConfig();
     const bombs = getBombs();
+    const isAdmin = localStorage.getItem("metro_user_role") === "admin";
 
     const blockedStationNames = blockedConfig.blockedNodes
         .map((stopId) => state.stationByRouteStop.get(stopId)?.name || state.routeStopNameById.get(stopId) || stopId)
@@ -523,8 +524,42 @@ function renderClosureSummary() {
 
     const blockedEdgeNames = blockedConfig.blockedEdges.slice(0, 4);
 
+    let bombHtml = "";
+    if (bombs.length > 0) {
+        const cardsHtml = bombs.map((bomb, index) => {
+            const dt = new Date(bomb.timestamp);
+            const timeStr = dt.toLocaleString("vi-VN", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+            const latStr = `${Math.abs(bomb.lat).toFixed(4)}°${bomb.lat >= 0 ? "N" : "S"}`;
+            const lngStr = `${Math.abs(bomb.lng).toFixed(4)}°${bomb.lng >= 0 ? "E" : "W"}`;
+            return `
+                <div class="bomb-card" data-bomb-id="${bomb.id}">
+                    <div class="bomb-card-header">
+                        <span class="bomb-card-title">💣 #${index + 1}</span>
+                        <div class="bomb-card-actions">
+                            <button class="btn btn-ghost bomb-fly-btn" type="button" data-lat="${bomb.lat}" data-lng="${bomb.lng}" title="Tới vị trí">📍</button>
+                            ${isAdmin ? `<button class="btn btn-danger bomb-remove-btn" type="button" data-bomb-id="${bomb.id}">Xóa</button>` : ""}
+                        </div>
+                    </div>
+                    <div class="bomb-card-body">
+                        <div class="bomb-stat-row"><span class="detail-label">Tọa độ</span><strong>${latStr}, ${lngStr}</strong></div>
+                        <div class="bomb-stat-row"><span class="detail-label">Bán kính</span><strong>${bomb.radius} km</strong></div>
+                        <div class="bomb-stat-row"><span class="detail-label">Phá hủy</span><strong>${bomb.affectedNodes.length} ga · ${bomb.affectedEdges.length} cạnh</strong></div>
+                        <div class="bomb-stat-row"><span class="detail-label">Lúc</span><strong>${timeStr}</strong></div>
+                    </div>
+                </div>`;
+        }).join("");
+
+        bombHtml = `
+            <div class="closure-line">
+                <span>💣 Vụ nổ</span>
+                <strong>${bombs.length}</strong>
+                ${isAdmin ? `<button class="btn btn-ghost btn-xs closure-clear-bombs" type="button">Xóa tất cả</button>` : ""}
+            </div>
+            ${cardsHtml}`;
+    }
+
     container.innerHTML = `
-        ${bombs.length > 0 ? `<div class="closure-line"><span>💣 Vụ nổ</span><strong>${bombs.length}</strong></div>` : ""}
+        ${bombHtml}
         <div class="closure-line">
             <span>Ga đang khóa</span>
             <strong>${blockedConfig.blockedNodes.length}</strong>
@@ -536,6 +571,17 @@ function renderClosureSummary() {
         </div>
         <div class="closure-chip-row">${blockedEdgeNames.map((item) => `<span class="chip chip-muted">${item}</span>`).join("") || '<span class="muted-text">Không có</span>'}</div>
     `;
+
+    container.querySelectorAll(".bomb-fly-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            state.map.flyTo([parseFloat(btn.dataset.lat), parseFloat(btn.dataset.lng)], 13, { duration: 0.9 });
+        });
+    });
+    container.querySelectorAll(".bomb-remove-btn").forEach(btn => {
+        btn.addEventListener("click", () => removeBomb(btn.dataset.bombId));
+    });
+    const clearAllBtn = container.querySelector(".closure-clear-bombs");
+    if (clearAllBtn) clearAllBtn.addEventListener("click", clearAllBombs);
 }
 
 function renderRouteHistory() {
@@ -806,10 +852,9 @@ function formatHistoryTime(timestamp) {
 
 function initBombs() {
     redrawAllBombs();
-    renderBombList();
+    renderClosureSummary();
     if (localStorage.getItem("metro_user_role") === "admin") {
         document.getElementById("bombModeBtn").classList.remove("hidden");
-        document.getElementById("clearBombsBtn").classList.remove("hidden");
     }
 }
 
@@ -1125,68 +1170,7 @@ function countRestoredByRemoval(bombId) {
 }
 
 function renderBombList() {
-    const container = document.getElementById("bombList");
-    if (!container) return;
-
-    const bombs = getBombs();
-    const isAdmin = localStorage.getItem("metro_user_role") === "admin";
-
-    if (bombs.length === 0) {
-        container.innerHTML = '<div class="empty-state">Chưa có vụ nổ nào.</div>';
-        return;
-    }
-
-    container.innerHTML = "";
-
-    bombs.forEach((bomb, index) => {
-        const dt = new Date(bomb.timestamp);
-        const timeStr = dt.toLocaleString("vi-VN", {
-            day: "2-digit", month: "2-digit",
-            hour: "2-digit", minute: "2-digit",
-        });
-        const latStr = `${Math.abs(bomb.lat).toFixed(4)}°${bomb.lat >= 0 ? "N" : "S"}`;
-        const lngStr = `${Math.abs(bomb.lng).toFixed(4)}°${bomb.lng >= 0 ? "E" : "W"}`;
-
-        const card = document.createElement("div");
-        card.className = "bomb-card";
-        card.innerHTML = `
-            <div class="bomb-card-header">
-                <span class="bomb-card-title">💣 Vụ nổ #${index + 1}</span>
-                <div class="bomb-card-actions">
-                    <button class="btn btn-ghost bomb-fly-btn" type="button" title="Tới vị trí trên bản đồ">📍</button>
-                    ${isAdmin ? `<button class="btn btn-danger bomb-remove-btn" type="button">Xóa</button>` : ""}
-                </div>
-            </div>
-            <div class="bomb-card-body">
-                <div class="bomb-stat-row">
-                    <span class="detail-label">Tọa độ tâm</span>
-                    <strong>${latStr},&nbsp;${lngStr}</strong>
-                </div>
-                <div class="bomb-stat-row">
-                    <span class="detail-label">Bán kính</span>
-                    <strong>${bomb.radius} km</strong>
-                </div>
-                <div class="bomb-stat-row">
-                    <span class="detail-label">Phá hủy</span>
-                    <strong>${bomb.affectedNodes.length} ga · ${bomb.affectedEdges.length} cạnh</strong>
-                </div>
-                <div class="bomb-stat-row">
-                    <span class="detail-label">Kích nổ lúc</span>
-                    <strong>${timeStr}</strong>
-                </div>
-            </div>
-        `;
-
-        card.querySelector(".bomb-fly-btn").addEventListener("click", () => {
-            state.map.flyTo([bomb.lat, bomb.lng], 13, { duration: 0.9 });
-        });
-
-        if (isAdmin) {
-            card.querySelector(".bomb-remove-btn").addEventListener("click", () => removeBomb(bomb.id));
-        }
-
-        container.appendChild(card);
-    });
+    renderClosureSummary();
 }
 
 function removeBomb(bombId) {
