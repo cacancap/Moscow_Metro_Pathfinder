@@ -111,9 +111,26 @@ def load_metro_network_to_ram():
     except Exception as e:
         print(f"❌ Thất bại: {e}")
 
+def ensure_bombs_table():
+    db = sqlite3.connect(DB_PATH)
+    db.execute("""
+        CREATE TABLE IF NOT EXISTS bombs (
+            id TEXT PRIMARY KEY,
+            lat REAL NOT NULL,
+            lng REAL NOT NULL,
+            radius REAL NOT NULL,
+            timestamp TEXT NOT NULL,
+            affected_nodes TEXT NOT NULL DEFAULT '[]',
+            affected_edges TEXT NOT NULL DEFAULT '[]'
+        )
+    """)
+    db.commit()
+    db.close()
+
 @app.on_event("startup")
 def startup_event():
     load_metro_network_to_ram()
+    ensure_bombs_table()
 
 
 # =================================================================
@@ -194,6 +211,15 @@ class AdminStatusUpdate(BaseModel):
     target_type: str
     target_id: str
     is_blocked: int
+
+class BombRecord(BaseModel):
+    id: str
+    lat: float
+    lng: float
+    radius: float
+    timestamp: str
+    affected_nodes: List[str] = []
+    affected_edges: List[str] = []
 
 
 def find_nearest_station_by_first_stop(lat: float, lon: float) -> Optional[str]:
@@ -385,6 +411,76 @@ def admin_update_network_status(payload: AdminStatusUpdate):
 
     status_text = "Chặn" if payload.is_blocked == 1 else "Mở khóa"
     return {"status": "success", "message": f"Admin đã {status_text} thành công {t_type}."}
+
+@app.get("/api/bombs")
+def get_bombs():
+    import json
+    db = sqlite3.connect(DB_PATH)
+    db.row_factory = sqlite3.Row
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM bombs ORDER BY timestamp ASC")
+    rows = cursor.fetchall()
+    db.close()
+    return [
+        {
+            "id": row["id"],
+            "lat": row["lat"],
+            "lng": row["lng"],
+            "radius": row["radius"],
+            "timestamp": row["timestamp"],
+            "affectedNodes": json.loads(row["affected_nodes"]),
+            "affectedEdges": json.loads(row["affected_edges"]),
+        }
+        for row in rows
+    ]
+
+@app.post("/api/bombs")
+def create_bomb(payload: BombRecord):
+    import json
+    db = sqlite3.connect(DB_PATH)
+    try:
+        db.execute(
+            "INSERT INTO bombs (id, lat, lng, radius, timestamp, affected_nodes, affected_edges) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (payload.id, payload.lat, payload.lng, payload.radius, payload.timestamp,
+             json.dumps(payload.affected_nodes), json.dumps(payload.affected_edges))
+        )
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db.close()
+    return {"status": "success", "id": payload.id}
+
+@app.delete("/api/bombs/{bomb_id}")
+def delete_bomb(bomb_id: str):
+    db = sqlite3.connect(DB_PATH)
+    try:
+        cursor = db.execute("DELETE FROM bombs WHERE id = ?", (bomb_id,))
+        db.commit()
+        if cursor.rowcount == 0:
+            raise HTTPException(status_code=404, detail=f"Không tìm thấy bomb '{bomb_id}'.")
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db.close()
+    return {"status": "success", "deleted": bomb_id}
+
+@app.delete("/api/bombs")
+def delete_all_bombs():
+    db = sqlite3.connect(DB_PATH)
+    try:
+        db.execute("DELETE FROM bombs")
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db.close()
+    return {"status": "success"}
 
 @app.get("/{filename}")
 def serve_static(filename: str):
