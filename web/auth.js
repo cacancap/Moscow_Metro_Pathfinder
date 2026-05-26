@@ -7,6 +7,7 @@ const API_ENDPOINTS = {
     routeStations: `${API_BASE}/api/stations`,
     edgeList: `${API_BASE}/api/edge_list`,
     findPath: `${API_BASE}/api/path/by-stations`,
+    nearestStation: "/api/nearest-station",
     adminStatus: `${API_BASE}/api/admin/network/status`
 };
 

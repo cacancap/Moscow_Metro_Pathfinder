@@ -311,6 +311,37 @@ def execute_routing(start_stop_id: str, target_stop_id: str, b_edges: list, b_no
 #                     CÁC API ENDPOINTS CHÍNH
 # =================================================================
 
+@app.get("/api/nearest-station")
+def get_nearest_station(lat: float, lon: float):
+    nearest_id = None
+    min_dist = float('inf')
+
+    for st_id, st_info in stations_full_data.items():
+        stops = st_info.get("stops", [])
+        if not stops:
+            continue
+        stop = stops_full_data.get(stops[0])
+        if not stop:
+            continue
+        dist = calculate_haversine_distance(lon, lat, stop['lon'], stop['lat'])
+        if dist < min_dist:
+            min_dist = dist
+            nearest_id = st_id
+
+    if not nearest_id:
+        raise HTTPException(status_code=404, detail="Không tìm thấy ga.")
+
+    st = stations_full_data[nearest_id]
+    stop = stops_full_data.get(st['stops'][0], {})
+    return {
+        "id": nearest_id,
+        "name": st["name"],
+        "name_en": st.get("name_en", ""),
+        "distance_meters": round(min_dist, 2),
+        "lat": stop.get("lat"),
+        "lon": stop.get("lon"),
+    }
+
 @app.post("/api/path/by-stations")
 def find_path_by_station_ids(payload: StationPathRequest):
     start_st = stations_full_data.get(payload.start_station_id)

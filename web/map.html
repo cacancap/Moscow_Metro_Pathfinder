@@ -48,6 +48,7 @@
                 <button class="btn btn-ghost" type="button" onclick="centerMap()">Về trung tâm</button>
                 <button class="btn btn-ghost" type="button" id="toggleStationsBtn" onclick="toggleStations()">Ẩn ga</button>
                 <button class="btn btn-ghost" type="button" onclick="clearAll()">Xóa lộ trình</button>
+                <button class="btn btn-ghost" type="button" id="clickStationModeBtn" onclick="toggleClickStationMode()">Click tìm ga gần nhất</button>
                 <button class="btn btn-bomb hidden" type="button" id="bombModeBtn">💣 Thả bom</button>
             </div>
 
@@ -220,6 +221,11 @@
         if (localStorage.getItem("metro_user_role") !== "admin") {
             document.getElementById("adminShortcut").style.display = "none";
         }
+    </script>
+    <script src="map_click.js"></script>
+    <script>
+        // Khởi tạo click handler sau khi map đã sẵn sàng
+        initMapClickHandler();
     </script>
 </body>
 </html>

@@ -1272,6 +1272,22 @@ function clearAllBombs() {
     setStatus(msg);
 }
 
+function setAsStart(stationId) {
+    const station = state.stationById.get(stationId);
+    if (station) {
+        document.getElementById("startStation").value = stationId;
+        setStatus(`Đã chọn ga đi: ${station.name}`);
+    }
+}
+
+function setAsEnd(stationId) {
+    const station = state.stationById.get(stationId);
+    if (station) {
+        document.getElementById("endStation").value = stationId;
+        setStatus(`Đã chọn ga đến: ${station.name}`);
+    }
+}
+
 // ===================== END BOMB SYSTEM =====================
 
 document.addEventListener("DOMContentLoaded", initMapPage);
