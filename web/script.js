@@ -948,6 +948,8 @@ function confirmBomb() {
     bombs.push(bomb);
     saveBombs(bombs);
 
+    syncBlockedToServer(bomb.affectedNodes, bomb.affectedEdges, 1);
+
     drawBombCircle(bomb);
     triggerExplosionAnimation(lat, lng);
 
@@ -1147,10 +1149,10 @@ function redrawAllBombs() {
     for (const bomb of getBombs()) drawBombCircle(bomb);
 }
 
-function countRestoredByRemoval(bombId) {
+function getExclusivelyBlockedByBomb(bombId) {
     const bombs = getBombs();
     const thisBomb = bombs.find(b => b.id === bombId);
-    if (!thisBomb) return { nodes: 0, edges: 0 };
+    if (!thisBomb) return { nodeIds: [], edgeIds: [], nodes: 0, edges: 0 };
 
     const remainingBombs = bombs.filter(b => b.id !== bombId);
     const manual = getBlockedConfig();
@@ -1164,9 +1166,40 @@ function countRestoredByRemoval(bombId) {
         ...remainingBombs.flatMap(b => b.affectedEdges || []),
     ]);
 
-    const nodes = (thisBomb.affectedNodes || []).filter(n => !stillBlockedNodes.has(n)).length;
-    const edges = (thisBomb.affectedEdges || []).filter(e => !stillBlockedEdges.has(e)).length;
+    const nodeIds = (thisBomb.affectedNodes || []).filter(n => !stillBlockedNodes.has(n));
+    const edgeIds = (thisBomb.affectedEdges || []).filter(e => !stillBlockedEdges.has(e));
+    return { nodeIds, edgeIds, nodes: nodeIds.length, edges: edgeIds.length };
+}
+
+function countRestoredByRemoval(bombId) {
+    const { nodes, edges } = getExclusivelyBlockedByBomb(bombId);
     return { nodes, edges };
+}
+
+async function syncBlockedToServer(nodeIds, edgeIds, isBlocked) {
+    const requests = [];
+
+    for (const stopId of nodeIds) {
+        requests.push(fetchJson(API_ENDPOINTS.adminStatus, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ target_type: "stop", target_id: stopId, is_blocked: isBlocked }),
+        }));
+    }
+
+    for (const edgeId of edgeIds) {
+        requests.push(fetchJson(API_ENDPOINTS.adminStatus, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ target_type: "edge", target_id: edgeId, is_blocked: isBlocked }),
+        }));
+    }
+
+    try {
+        await Promise.all(requests);
+    } catch (err) {
+        console.warn("syncBlockedToServer failed:", err.message);
+    }
 }
 
 function renderBombList() {
@@ -1174,10 +1207,14 @@ function renderBombList() {
 }
 
 function removeBomb(bombId) {
-    const { nodes: restoredNodes, edges: restoredEdges } = countRestoredByRemoval(bombId);
+    const { nodeIds, edgeIds, nodes: restoredNodes, edges: restoredEdges } = getExclusivelyBlockedByBomb(bombId);
 
     const newBombs = getBombs().filter(b => b.id !== bombId);
     saveBombs(newBombs);
+
+    if (nodeIds.length > 0 || edgeIds.length > 0) {
+        syncBlockedToServer(nodeIds, edgeIds, 0);
+    }
 
     if (bombCircles.has(bombId)) {
         bombCircles.get(bombId).remove();
@@ -1203,8 +1240,16 @@ function removeBomb(bombId) {
 
 function clearAllBombs() {
     const effectiveBefore = getEffectiveBlockedConfig();
-    const manualNodes = getBlockedConfig().blockedNodes.length;
-    const bombOnlyNodes = effectiveBefore.blockedNodes.length - manualNodes;
+    const manual = getBlockedConfig();
+    const manualNodeSet = new Set(manual.blockedNodes);
+    const manualEdgeSet = new Set(manual.blockedEdges);
+    const bombOnlyNodeIds = effectiveBefore.blockedNodes.filter(n => !manualNodeSet.has(n));
+    const bombOnlyEdgeIds = effectiveBefore.blockedEdges.filter(e => !manualEdgeSet.has(e));
+    const bombOnlyNodes = bombOnlyNodeIds.length;
+
+    if (bombOnlyNodeIds.length > 0 || bombOnlyEdgeIds.length > 0) {
+        syncBlockedToServer(bombOnlyNodeIds, bombOnlyEdgeIds, 0);
+    }
 
     saveBombs([]);
     state.bombLayer.clearLayers();
