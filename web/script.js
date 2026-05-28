@@ -302,6 +302,7 @@ function renderStationMarkers() {
             weight: 2.5,
             fillColor: color,
             fillOpacity: 0.98,
+            pane: 'markerPane'
         });
 
         marker.on("click", () => openStationPanel(station));
@@ -597,6 +598,7 @@ function renderPath(result, algorithm) {
             weight: 2,
             fillColor: "#fde68a",
             fillOpacity: 1,
+            pane: 'markerPane'
         }).addTo(state.routeLayer);
 
         const endMarker = L.circleMarker(latLngs[latLngs.length - 1], {
@@ -605,6 +607,7 @@ function renderPath(result, algorithm) {
             weight: 2,
             fillColor: "#6ee7b7",
             fillOpacity: 1,
+            pane: 'markerPane'
         }).addTo(state.routeLayer);
 
         startMarker.bindTooltip("Start", { permanent: false });
