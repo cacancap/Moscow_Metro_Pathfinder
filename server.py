@@ -20,23 +20,21 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from contextlib import asynccontextmanager
+import sqlite3
+from pathlib import Path
 
 from algorithm.astar import a_star_search
 from algorithm.dijkstra import dijkstra_search
 from algorithm.bfs import bfs_search
 
 
-app = FastAPI(title="Moscow Metro Pathfinder")
 
 BASE_DIR = Path(__file__).resolve().parent
 WEB_DIR = BASE_DIR / "web"
 DATA_OUTPUT_DIR = BASE_DIR / "data" / "processed" / "outputs"
+DB_PATH = BASE_DIR / "moscow_metro.db"
 
-STOP_DICT_COORD_PATH = DATA_OUTPUT_DIR / "stop_dict_coord.json"
-ADJACENCY_LIST_PATH = DATA_OUTPUT_DIR / "adjacency_list.json"
-STATION_DICT_PATH = DATA_OUTPUT_DIR / "station_dict.json"
-EDGE_LIST_PATH = DATA_OUTPUT_DIR / "edge_list.json"
-WAY_TO_LINE_PATH = DATA_OUTPUT_DIR / "way_to_line.json"
 
 
 class PathRequest(BaseModel):
@@ -52,47 +50,111 @@ class BombRequest(BaseModel):
     lon: float
     radius_meters: float
 
+# Biến lưu trữ in-memory cache
+DB_CACHE = {
+    "coord_data": {},
+    "station_data": {},
+    "edge_list": [],
+    "adjacency_list": {},
+    "way_to_line": {}
+}
 
-def _load_json(path: Path) -> Any:
-    if not path.exists():
-        raise FileNotFoundError(f"Missing data file: {path}")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("Đang tải mạng lưới ga tàu từ Database lên RAM...")
+    fetch_data_from_db()
+    print("Sẵn sàng!")
+    yield
 
-    with path.open("r", encoding="utf-8") as file:
-        return json.load(file)
+
+app = FastAPI(title="Moscow Metro Pathfinder", lifespan=lifespan)
+
+def fetch_data_from_db():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    try:
+        # 1. Build _coord_data (Stops)
+        cursor.execute("SELECT id, lat, lon, name FROM stops")
+        DB_CACHE["coord_data"] = {row["id"]: dict(row) for row in cursor.fetchall()}
+
+        # 2. Build _station_data
+        cursor.execute("SELECT id, name, name_en, colour, line_id FROM stations")
+        stations = {row["id"]: dict(row) for row in cursor.fetchall()}
+
+        # Query gộp stops vào station
+        cursor.execute("SELECT station_id, id AS stop_id FROM stops WHERE station_id IS NOT NULL")
+        for row in cursor.fetchall():
+            if row["station_id"] in stations:  # Thêm check để tránh lỗi KeyError nếu data lệch
+                if "stops" not in stations[row["station_id"]]:
+                    stations[row["station_id"]]["stops"] = []
+                stations[row["station_id"]]["stops"].append(row["stop_id"])
+
+        for st_id, st_info in stations.items():
+            if st_info.get("stops"):
+                first_stop_id = st_info["stops"][0]
+                if first_stop_id in DB_CACHE["coord_data"]:
+                    stop_info = DB_CACHE["coord_data"][first_stop_id]
+                    st_info["geometry"] = [stop_info["lon"], stop_info["lat"]]
+            else:
+                st_info["geometry"] = []
+
+        DB_CACHE["station_data"] = stations
+
+        # 3. Build _edge_list và gom Edge_Geometry lại (Reverse 1NF về Object cho thuật toán)
+        cursor.execute("SELECT edge_id, source_id, dest_id, line_id, weight FROM edges")
+        edges = [dict(row) for row in cursor.fetchall()]
+
+        # Gom mảng tọa độ
+        cursor.execute("SELECT edge_id, lon, lat FROM edge_geometry ORDER BY edge_id, point_order")
+        geometry_map = {}
+        for row in cursor.fetchall():
+            if row["edge_id"] not in geometry_map:
+                geometry_map[row["edge_id"]] = []
+            geometry_map[row["edge_id"]].append([row["lon"], row["lat"]])
+
+        for edge in edges:
+            edge["geometry"] = geometry_map.get(edge["edge_id"], [])
+
+        DB_CACHE["edge_list"] = edges
+
+        # 4. Tự động Build _adjacency_list từ edges
+        adjacency = {}
+        for edge in edges:
+            src = edge["source_id"]
+            if src not in adjacency:
+                adjacency[src] = {}
+            adjacency[src][edge["dest_id"]] = {"weight": edge["weight"], "edge_id": edge["edge_id"]}
+        DB_CACHE["adjacency_list"] = adjacency
+
+        # 5. Build way_to_line
+        cursor.execute("SELECT way_id, line_id FROM way_to_line")
+        DB_CACHE["way_to_line"] = {row["way_id"]: row["line_id"] for row in cursor.fetchall()}
+
+    finally:
+        conn.close()
 
 
-@lru_cache(maxsize=1)
 def _coord_data() -> dict[str, dict[str, Any]]:
-    raw = _load_json(STOP_DICT_COORD_PATH)
-    return {value["id"]: value for value in raw.values()}
+    return DB_CACHE["coord_data"]
 
-
-@lru_cache(maxsize=1)
 def _adjacency_data() -> dict[str, dict[str, Any]]:
-    return _load_json(ADJACENCY_LIST_PATH)
+    return DB_CACHE["adjacency_list"]
 
-
-@lru_cache(maxsize=1)
 def _station_data() -> dict[str, dict[str, Any]]:
-    return _load_json(STATION_DICT_PATH)
+    return DB_CACHE["station_data"]
 
-
-@lru_cache(maxsize=1)
 def _edge_data() -> list[dict[str, Any]]:
-    return _load_json(EDGE_LIST_PATH)
+    return DB_CACHE["edge_list"]
+
+def _way_to_line_data() -> dict[str, Any]:
+    return DB_CACHE["way_to_line"]
 
 
 @app.get("/", include_in_schema=False)
 def root_redirect():
     return RedirectResponse(url="/map.html")
-
-
-@lru_cache(maxsize=1)
-def _way_to_line_data() -> dict[str, Any]:
-    if not WAY_TO_LINE_PATH.exists():
-        return {}
-    return _load_json(WAY_TO_LINE_PATH)
-
 
 def _route_stations() -> list[dict[str, str]]:
     stations = [
