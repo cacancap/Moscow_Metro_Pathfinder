@@ -1127,29 +1127,98 @@ function playExplosionSound() {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const t = ctx.currentTime;
 
-        // Tiếng nổ ban đầu: noise burst
-        const bangLen = Math.floor(ctx.sampleRate * 0.4);
-        const bangBuf = ctx.createBuffer(1, bangLen, ctx.sampleRate);
-        const bangData = bangBuf.getChannelData(0);
-        for (let i = 0; i < bangLen; i++) {
-            bangData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.04));
-        }
-        const bangSrc = ctx.createBufferSource();
-        bangSrc.buffer = bangBuf;
-        const bangFilter = ctx.createBiquadFilter();
-        bangFilter.type = "bandpass";
-        bangFilter.frequency.value = 350;
-        bangFilter.Q.value = 0.6;
-        const bangGain = ctx.createGain();
-        bangGain.gain.setValueAtTime(4.0, t);
-        bangGain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
-        bangSrc.connect(bangFilter);
-        bangFilter.connect(bangGain);
-        bangGain.connect(ctx.destination);
-        bangSrc.start(t);
+        // Compressor để âm thanh nghe punchier, không bị vỡ
+        const comp = ctx.createDynamicsCompressor();
+        comp.threshold.value = -10;
+        comp.knee.value = 4;
+        comp.ratio.value = 6;
+        comp.attack.value = 0.001;
+        comp.release.value = 0.15;
+        comp.connect(ctx.destination);
 
-        // Tiếng rầm: low rumble
-        const rumbleLen = Math.floor(ctx.sampleRate * 1.8);
+        // --- Layer 1: Sub-bass THUD (oscillator quét tần số từ 140 → 18 Hz) ---
+        // Tạo cảm giác rung lắc "gut-punch"
+        const sub = ctx.createOscillator();
+        sub.type = "sine";
+        sub.frequency.setValueAtTime(140, t);
+        sub.frequency.exponentialRampToValueAtTime(18, t + 0.38);
+        const subGain = ctx.createGain();
+        subGain.gain.setValueAtTime(7.0, t);
+        subGain.gain.exponentialRampToValueAtTime(0.001, t + 0.42);
+        sub.connect(subGain);
+        subGain.connect(comp);
+        sub.start(t);
+        sub.stop(t + 0.45);
+
+        // --- Layer 2: Initial CRACK — tiếng nổ sắc ngay lập tức ---
+        // Noise burst cực ngắn qua high-pass: nghe như tiếng súng nổ
+        const crackLen = Math.floor(ctx.sampleRate * 0.07);
+        const crackBuf = ctx.createBuffer(1, crackLen, ctx.sampleRate);
+        const crackData = crackBuf.getChannelData(0);
+        for (let i = 0; i < crackLen; i++) {
+            crackData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.007));
+        }
+        const crackSrc = ctx.createBufferSource();
+        crackSrc.buffer = crackBuf;
+        const crackHp = ctx.createBiquadFilter();
+        crackHp.type = "highpass";
+        crackHp.frequency.value = 1800;
+        const crackGain = ctx.createGain();
+        crackGain.gain.setValueAtTime(6.5, t);
+        crackSrc.connect(crackHp);
+        crackHp.connect(crackGain);
+        crackGain.connect(comp);
+        crackSrc.start(t);
+
+        // --- Layer 3: Mid-range BOOM — phần thân chính của tiếng nổ ---
+        // Bandpass noise quét từ 320 Hz → 60 Hz trong 1 giây
+        const boomLen = Math.floor(ctx.sampleRate * 1.0);
+        const boomBuf = ctx.createBuffer(1, boomLen, ctx.sampleRate);
+        const boomData = boomBuf.getChannelData(0);
+        for (let i = 0; i < boomLen; i++) {
+            boomData[i] = Math.random() * 2 - 1;
+        }
+        const boomSrc = ctx.createBufferSource();
+        boomSrc.buffer = boomBuf;
+        const boomBp = ctx.createBiquadFilter();
+        boomBp.type = "bandpass";
+        boomBp.frequency.setValueAtTime(320, t);
+        boomBp.frequency.exponentialRampToValueAtTime(60, t + 1.0);
+        boomBp.Q.value = 0.7;
+        const boomGain = ctx.createGain();
+        boomGain.gain.setValueAtTime(4.5, t);
+        boomGain.gain.exponentialRampToValueAtTime(0.001, t + 1.0);
+        boomSrc.connect(boomBp);
+        boomBp.connect(boomGain);
+        boomGain.connect(comp);
+        boomSrc.start(t);
+
+        // --- Layer 4: FIREBALL whoosh — âm thanh lửa cháy phừng ---
+        // Bandpass noise ở mid-high (800 Hz), decay chậm — nghe như tiếng lửa
+        const fireLen = Math.floor(ctx.sampleRate * 1.4);
+        const fireBuf = ctx.createBuffer(1, fireLen, ctx.sampleRate);
+        const fireData = fireBuf.getChannelData(0);
+        for (let i = 0; i < fireLen; i++) {
+            fireData[i] = Math.random() * 2 - 1;
+        }
+        const fireSrc = ctx.createBufferSource();
+        fireSrc.buffer = fireBuf;
+        const fireBp = ctx.createBiquadFilter();
+        fireBp.type = "bandpass";
+        fireBp.frequency.setValueAtTime(900, t + 0.04);
+        fireBp.frequency.exponentialRampToValueAtTime(220, t + 1.4);
+        fireBp.Q.value = 1.2;
+        const fireGain = ctx.createGain();
+        fireGain.gain.setValueAtTime(0, t);
+        fireGain.gain.linearRampToValueAtTime(2.8, t + 0.06);
+        fireGain.gain.exponentialRampToValueAtTime(0.001, t + 1.4);
+        fireSrc.connect(fireBp);
+        fireBp.connect(fireGain);
+        fireGain.connect(comp);
+        fireSrc.start(t + 0.04);
+
+        // --- Layer 5: Low RUMBLE đuôi dài — tiếng rung chấn mặt đất ---
+        const rumbleLen = Math.floor(ctx.sampleRate * 2.8);
         const rumbleBuf = ctx.createBuffer(1, rumbleLen, ctx.sampleRate);
         const rumbleData = rumbleBuf.getChannelData(0);
         for (let i = 0; i < rumbleLen; i++) {
@@ -1157,19 +1226,19 @@ function playExplosionSound() {
         }
         const rumbleSrc = ctx.createBufferSource();
         rumbleSrc.buffer = rumbleBuf;
-        const rumbleFilter = ctx.createBiquadFilter();
-        rumbleFilter.type = "lowpass";
-        rumbleFilter.frequency.setValueAtTime(180, t);
-        rumbleFilter.frequency.exponentialRampToValueAtTime(35, t + 1.8);
+        const rumbleLp = ctx.createBiquadFilter();
+        rumbleLp.type = "lowpass";
+        rumbleLp.frequency.setValueAtTime(120, t + 0.08);
+        rumbleLp.frequency.exponentialRampToValueAtTime(25, t + 2.8);
         const rumbleGain = ctx.createGain();
-        rumbleGain.gain.setValueAtTime(1.8, t);
-        rumbleGain.gain.exponentialRampToValueAtTime(0.001, t + 1.8);
-        rumbleSrc.connect(rumbleFilter);
-        rumbleFilter.connect(rumbleGain);
-        rumbleGain.connect(ctx.destination);
-        rumbleSrc.start(t);
+        rumbleGain.gain.setValueAtTime(3.2, t + 0.08);
+        rumbleGain.gain.exponentialRampToValueAtTime(0.001, t + 2.8);
+        rumbleSrc.connect(rumbleLp);
+        rumbleLp.connect(rumbleGain);
+        rumbleGain.connect(comp);
+        rumbleSrc.start(t + 0.08);
 
-        setTimeout(() => ctx.close(), 2200);
+        setTimeout(() => ctx.close(), 3200);
     } catch (_) {}
 }
 
