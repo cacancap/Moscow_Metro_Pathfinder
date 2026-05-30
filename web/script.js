@@ -5,10 +5,12 @@ const state = {
     stationMarkersVisible: true,
     routeLayer: null,
     stationLayer: null,
+    bombLayer: null,
+    bombPreviewCircle: null,
+    bombMode: false,
+    bombPendingLat: null,
+    bombPendingLng: null,
     highlightedMarker: null,
-    adminBombMode: false,
-    bombOverlay: null,
-    bombCenterMarker: null,
     stationCatalog: [],
     routeStops: [],
     routeStopIds: new Set(),
@@ -22,6 +24,8 @@ const state = {
     reachableEndIds: null,
     panelCollapsed: false,
 };
+
+const bombCircles = new Map();
 
 function initMapPage() {
     if (!document.getElementById("map")) {
@@ -37,6 +41,7 @@ function initMapPage() {
     renderRouteHistory();
     updateRouteSummary();
     updateStationToggleButton();
+    initBombs();
 }
 
 function buildMap() {
@@ -50,7 +55,7 @@ function buildMap() {
     L.control.zoom({ position: "bottomright" }).addTo(state.map);
     state.routeLayer = L.layerGroup().addTo(state.map);
     state.stationLayer = L.layerGroup().addTo(state.map);
-    state.map.on("click", handleAdminBombClick);
+    state.bombLayer = L.layerGroup().addTo(state.map);
 }
 
 function bindUiEvents() {
@@ -59,127 +64,11 @@ function bindUiEvents() {
     document.getElementById("mobileDrawerHandle").addEventListener("click", togglePanel);
     document.getElementById("startStation").addEventListener("change", onStartStationChange);
     document.getElementById("endStation").addEventListener("change", updateSelectionSummary);
-
-    const bombModeBtn = document.getElementById("bombModeBtn");
-    const bombRadiusInput = document.getElementById("bombRadiusInput");
-    if (bombModeBtn && bombRadiusInput) {
-        bombModeBtn.addEventListener("click", toggleAdminBombMode);
-        updateAdminBombControls();
-    }
-}
-
-function updateAdminBombControls() {
-    const bombModeBtn = document.getElementById("bombModeBtn");
-    const bombRadiusInput = document.getElementById("bombRadiusInput");
-    if (!bombModeBtn || !bombRadiusInput) {
-        return;
-    }
-
-    const isAdmin = localStorage.getItem(STORAGE_KEYS.role) === "admin";
-    bombModeBtn.style.display = isAdmin ? "inline-flex" : "none";
-    bombRadiusInput.style.display = isAdmin ? "inline-flex" : "none";
-
-    if (!isAdmin) {
-        state.adminBombMode = false;
-        return;
-    }
-
-    bombModeBtn.innerText = state.adminBombMode ? "Tắt thả bom" : "Bật thả bom";
-}
-
-function toggleAdminBombMode() {
-    const isAdmin = localStorage.getItem(STORAGE_KEYS.role) === "admin";
-    if (!isAdmin) {
-        setStatus("Chỉ admin mới có thể thả bom.", true);
-        return;
-    }
-
-    state.adminBombMode = !state.adminBombMode;
-    updateAdminBombControls();
-    if (!state.adminBombMode) {
-        setStatus("Chế độ thả bom đã tắt.");
-    } else {
-        setStatus("Chế độ thả bom đã bật. Click vào bản đồ để chọn tâm.");
-    }
-}
-
-async function handleAdminBombClick(e) {
-    if (!state.adminBombMode) {
-        return;
-    }
-
-    const isAdmin = localStorage.getItem(STORAGE_KEYS.role) === "admin";
-    if (!isAdmin) {
-        setStatus("Chỉ admin mới có thể thả bom.", true);
-        return;
-    }
-
-    const radiusInput = document.getElementById("bombRadiusInput");
-    const radius = radiusInput ? Number(radiusInput.value) : NaN;
-    if (!Number.isFinite(radius) || radius <= 0) {
-        setStatus("Bán kính thả bom không hợp lệ.", true);
-        return;
-    }
-
-    const { lat, lng } = e.latlng;
-    await deployBombZone(lat, lng, radius);
-}
-
-async function deployBombZone(lat, lng, radius) {
-    clearBombOverlay();
-
-    state.bombCenterMarker = L.circleMarker([lat, lng], {
-        radius: 6,
-        color: "#b91c1c",
-        weight: 2,
-        fillColor: "#fca5a5",
-        fillOpacity: 1,
-    }).addTo(state.map);
-
-    state.bombOverlay = L.circle([lat, lng], {
-        radius,
-        color: "#ef4444",
-        fillColor: "#fca5a5",
-        fillOpacity: 0.18,
-        weight: 2,
-        dashArray: "6,4",
-    }).addTo(state.map);
-
-    try {
-        const payload = {
-            lat,
-            lon: lng,
-            radius_meters: radius,
-        };
-        const result = await fetchJson("/api/admin/bomb-closure", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
-
-        const existingConfig = getBlockedConfig();
-        saveBlockedConfig({
-            blockedNodes: dedupe([...(existingConfig.blockedNodes || []), ...(result.blocked_nodes || [])]),
-            blockedEdges: dedupe([...(existingConfig.blockedEdges || []), ...(result.blocked_edges || [])]),
-        });
-
-        updateStationBlockedVisuals();
-        renderClosureSummary();
-        setStatus(`Thả bom xong! Đã cấm ${result.blocked_node_count || 0} ga và ${result.blocked_edge_count || 0} cạnh.`);
-    } catch (error) {
-        setStatus(`Lỗi thả bom: ${error.message}`, true);
-    }
-}
-
-function clearBombOverlay() {
-    if (state.bombOverlay) {
-        state.map.removeLayer(state.bombOverlay);
-        state.bombOverlay = null;
-    }
-    if (state.bombCenterMarker) {
-        state.map.removeLayer(state.bombCenterMarker);
-        state.bombCenterMarker = null;
-    }
+    document.getElementById("bombModeBtn").addEventListener("click", toggleBombMode);
+    document.getElementById("cancelBombBtn").addEventListener("click", cancelBomb);
+    document.getElementById("confirmBombBtn").addEventListener("click", confirmBomb);
+    document.getElementById("bombRadiusInput").addEventListener("keydown", onBombRadiusKey);
+    document.getElementById("bombRadiusInput").addEventListener("input", previewBombCircle);
 }
 
 async function loadAppData() {
@@ -317,7 +206,7 @@ function renderStationMarkers() {
 }
 
 function updateStationBlockedVisuals() {
-    const blockedNodes = new Set(getBlockedConfig().blockedNodes);
+    const blockedNodes = new Set(getEffectiveBlockedConfig().blockedNodes);
 
     for (const station of state.stationOptions) {
         if (!station.marker) {
@@ -336,7 +225,7 @@ function updateStationBlockedVisuals() {
     }
 }
 
-function isStationFullyBlocked(station, blockedNodes = new Set(getBlockedConfig().blockedNodes)) {
+function isStationFullyBlocked(station, blockedNodes = new Set(getEffectiveBlockedConfig().blockedNodes)) {
     return station.stops.length > 0 && station.stops.every((stopId) => blockedNodes.has(stopId));
 }
 
@@ -424,6 +313,7 @@ function openStationPanel(station) {
     document.getElementById("useAsEndBtn").onclick = () => {
         document.getElementById("endStation").value = station.stationId;
         updateSelectionSummary();
+        closeStationPanel();
     };
 
     if (localStorage.getItem(STORAGE_KEYS.role) === "admin") {
@@ -471,7 +361,7 @@ async function findPath() {
     const startStationId = document.getElementById("startStation").value;
     const endStationId = document.getElementById("endStation").value;
     const algorithm = document.getElementById("algorithm").value;
-    const blockedConfig = getBlockedConfig();
+    const blockedConfig = getEffectiveBlockedConfig();
     const findButton = document.getElementById("findPathBtn");
 
     if (!startStationId || !endStationId) {
@@ -512,6 +402,7 @@ async function findPath() {
     } catch (error) {
         clearRouteLayer();
         setStatus(`Không tìm được: ${error.message}`, true);
+        showToast(`Không tìm được đường! ${error.message}`, true);
     } finally {
         findButton.disabled = false;
         findButton.innerText = "Tìm đường";
@@ -685,7 +576,9 @@ function renderRouteStations(stations) {
 
 function renderClosureSummary() {
     const container = document.getElementById("closureSummary");
-    const blockedConfig = getBlockedConfig();
+    const blockedConfig = getEffectiveBlockedConfig();
+    const bombs = getBombs();
+    const isAdmin = localStorage.getItem("metro_user_role") === "admin";
 
     const blockedStationNames = blockedConfig.blockedNodes
         .map((stopId) => state.stationByRouteStop.get(stopId)?.name || state.routeStopNameById.get(stopId) || stopId)
@@ -693,7 +586,42 @@ function renderClosureSummary() {
 
     const blockedEdgeNames = blockedConfig.blockedEdges.slice(0, 4);
 
+    let bombHtml = "";
+    if (bombs.length > 0) {
+        const cardsHtml = bombs.map((bomb, index) => {
+            const dt = new Date(bomb.timestamp);
+            const timeStr = dt.toLocaleString("vi-VN", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+            const latStr = `${Math.abs(bomb.lat).toFixed(4)}°${bomb.lat >= 0 ? "N" : "S"}`;
+            const lngStr = `${Math.abs(bomb.lng).toFixed(4)}°${bomb.lng >= 0 ? "E" : "W"}`;
+            return `
+                <div class="bomb-card" data-bomb-id="${bomb.id}">
+                    <div class="bomb-card-header">
+                        <span class="bomb-card-title">💣 #${index + 1}</span>
+                        <div class="bomb-card-actions">
+                            <button class="btn btn-ghost bomb-fly-btn" type="button" data-lat="${bomb.lat}" data-lng="${bomb.lng}" title="Tới vị trí">📍</button>
+                            ${isAdmin ? `<button class="btn btn-danger bomb-remove-btn" type="button" data-bomb-id="${bomb.id}">Xóa</button>` : ""}
+                        </div>
+                    </div>
+                    <div class="bomb-card-body">
+                        <div class="bomb-stat-row"><span class="detail-label">Tọa độ</span><strong>${latStr}, ${lngStr}</strong></div>
+                        <div class="bomb-stat-row"><span class="detail-label">Bán kính</span><strong>${bomb.radius} km</strong></div>
+                        <div class="bomb-stat-row"><span class="detail-label">Phá hủy</span><strong>${bomb.affectedNodes.length} ga · ${bomb.affectedEdges.length} cạnh</strong></div>
+                        <div class="bomb-stat-row"><span class="detail-label">Lúc</span><strong>${timeStr}</strong></div>
+                    </div>
+                </div>`;
+        }).join("");
+
+        bombHtml = `
+            <div class="closure-line">
+                <span>💣 Vụ nổ</span>
+                <strong>${bombs.length}</strong>
+                ${isAdmin ? `<button class="btn btn-ghost btn-xs closure-clear-bombs" type="button">Xóa tất cả</button>` : ""}
+            </div>
+            ${cardsHtml}`;
+    }
+
     container.innerHTML = `
+        ${bombHtml}
         <div class="closure-line">
             <span>Ga đang khóa</span>
             <strong>${blockedConfig.blockedNodes.length}</strong>
@@ -705,6 +633,17 @@ function renderClosureSummary() {
         </div>
         <div class="closure-chip-row">${blockedEdgeNames.map((item) => `<span class="chip chip-muted">${item}</span>`).join("") || '<span class="muted-text">Không có</span>'}</div>
     `;
+
+    container.querySelectorAll(".bomb-fly-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            state.map.flyTo([parseFloat(btn.dataset.lat), parseFloat(btn.dataset.lng)], 13, { duration: 0.9 });
+        });
+    });
+    container.querySelectorAll(".bomb-remove-btn").forEach(btn => {
+        btn.addEventListener("click", () => removeBomb(btn.dataset.bombId));
+    });
+    const clearAllBtn = container.querySelector(".closure-clear-bombs");
+    if (clearAllBtn) clearAllBtn.addEventListener("click", clearAllBombs);
 }
 
 function renderRouteHistory() {
@@ -874,7 +813,7 @@ function getReachableDestinations(startStationId) {
         return new Set();
     }
 
-    const blockedConfig = getBlockedConfig();
+    const blockedConfig = getEffectiveBlockedConfig();
     const blockedNodes = new Set(blockedConfig.blockedNodes);
     const blockedEdges = new Set(blockedConfig.blockedEdges);
     const visited = new Set();
@@ -964,5 +903,491 @@ function formatHistoryTime(timestamp) {
         minute: "2-digit",
     }).format(date);
 }
+
+function showToast(message, isError = false) {
+    const old = document.getElementById("appToast");
+    if (old) old.remove();
+    const el = document.createElement("div");
+    el.id = "appToast";
+    el.className = "toast" + (isError ? " toast-error" : "");
+    el.textContent = message;
+    document.body.appendChild(el);
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("toast-visible")));
+    setTimeout(() => {
+        el.classList.remove("toast-visible");
+        setTimeout(() => el.remove(), 280);
+    }, 3500);
+}
+
+// ===================== BOMB SYSTEM =====================
+
+function initBombs() {
+    redrawAllBombs();
+    renderClosureSummary();
+    if (localStorage.getItem("metro_user_role") === "admin") {
+        document.getElementById("bombModeBtn").classList.remove("hidden");
+    }
+}
+
+function toggleBombMode() {
+    state.bombMode = !state.bombMode;
+    const btn = document.getElementById("bombModeBtn");
+
+    if (state.bombMode) {
+        btn.classList.add("btn-bomb-active");
+        btn.innerText = "🎯 Đang chọn tâm...";
+        state.map.getContainer().style.cursor = "crosshair";
+        state.map.on("click", onMapClickBomb);
+    } else {
+        btn.classList.remove("btn-bomb-active");
+        btn.innerText = "💣 Thả bom";
+        state.map.getContainer().style.cursor = "";
+        state.map.off("click", onMapClickBomb);
+        clearBombPreview();
+        hideBombPopup();
+    }
+}
+
+function onMapClickBomb(e) {
+    state.bombPendingLat = e.latlng.lat;
+    state.bombPendingLng = e.latlng.lng;
+    showBombPopup(e.containerPoint);
+}
+
+function showBombPopup(containerPoint) {
+    const popup = document.getElementById("bombPopup");
+    const mapRect = document.getElementById("map").getBoundingClientRect();
+
+    let x = mapRect.left + containerPoint.x + 14;
+    let y = mapRect.top + containerPoint.y - 10;
+
+    popup.classList.remove("hidden");
+
+    const popupW = 230;
+    const popupH = 180;
+    if (x + popupW > window.innerWidth - 8) x = mapRect.left + containerPoint.x - popupW - 14;
+    if (y + popupH > window.innerHeight - 8) y = window.innerHeight - popupH - 8;
+    if (y < 60) y = 60;
+
+    popup.style.left = x + "px";
+    popup.style.top = y + "px";
+
+    document.getElementById("bombRadiusInput").value = "";
+    clearBombPreview();
+    setTimeout(() => document.getElementById("bombRadiusInput").focus(), 40);
+}
+
+function hideBombPopup() {
+    document.getElementById("bombPopup").classList.add("hidden");
+    clearBombPreview();
+}
+
+function cancelBomb() {
+    hideBombPopup();
+}
+
+function confirmBomb() {
+    const radius = parseFloat(document.getElementById("bombRadiusInput").value);
+    const input = document.getElementById("bombRadiusInput");
+
+    if (!radius || radius <= 0) {
+        input.classList.add("input-error");
+        setTimeout(() => input.classList.remove("input-error"), 700);
+        return;
+    }
+
+    const lat = state.bombPendingLat;
+    const lng = state.bombPendingLng;
+
+    clearBombPreview();
+    hideBombPopup();
+    toggleBombMode();
+
+    const { affectedNodes, affectedEdges } = calculateBombEffect(lat, lng, radius);
+
+    const bomb = {
+        id: "bomb_" + Date.now(),
+        lat,
+        lng,
+        radius,
+        timestamp: new Date().toISOString(),
+        affectedNodes: dedupe(affectedNodes),
+        affectedEdges: dedupe(affectedEdges),
+    };
+
+    const bombs = getBombs();
+    bombs.push(bomb);
+    saveBombs(bombs);
+
+    syncBlockedToServer(bomb.affectedNodes, bomb.affectedEdges, 1);
+
+    drawBombCircle(bomb);
+    triggerExplosionAnimation(lat, lng);
+
+    updateStationBlockedVisuals();
+    renderClosureSummary();
+    renderBombList();
+
+    const startStationId = document.getElementById("startStation").value;
+    if (startStationId) {
+        state.reachableEndIds = getReachableDestinations(startStationId);
+        populateStationSelects();
+    }
+    updateSelectionSummary();
+    setStatus(`💣 Vụ nổ R=${radius}km — ${affectedNodes.length} ga, ${affectedEdges.length} cạnh bị chặn.`);
+}
+
+function onBombRadiusKey(e) {
+    if (e.key === "Enter") confirmBomb();
+    if (e.key === "Escape") cancelBomb();
+}
+
+function previewBombCircle() {
+    clearBombPreview();
+    const radius = parseFloat(document.getElementById("bombRadiusInput").value);
+    if (radius > 0 && state.bombPendingLat !== null) {
+        state.bombPreviewCircle = L.circle([state.bombPendingLat, state.bombPendingLng], {
+            radius: radius * 1000,
+            color: "#ff4500",
+            weight: 1.5,
+            fillColor: "#ff4500",
+            fillOpacity: 0.07,
+            dashArray: "6 4",
+            interactive: false,
+        }).addTo(state.map);
+    }
+}
+
+function clearBombPreview() {
+    if (state.bombPreviewCircle) {
+        state.bombPreviewCircle.remove();
+        state.bombPreviewCircle = null;
+    }
+}
+
+function haversineKm(lat1, lng1, lat2, lng2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const sinLat = Math.sin(dLat / 2);
+    const sinLng = Math.sin(dLng / 2);
+    const a = sinLat * sinLat + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * sinLng * sinLng;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function calculateBombEffect(lat, lng, radiusKm) {
+    const affectedNodes = [];
+    for (const station of state.stationOptions) {
+        const [lon, stLat] = station.geometry;
+        if (!Number.isFinite(stLat) || !Number.isFinite(lon)) continue;
+        if (haversineKm(lat, lng, stLat, lon) <= radiusKm) {
+            for (const stopId of station.stops) affectedNodes.push(stopId);
+        }
+    }
+
+    const nodeSet = new Set(affectedNodes);
+    const affectedEdges = [];
+    for (const [edgeId, edge] of state.edgeById) {
+        if (nodeSet.has(edge.source_id) || nodeSet.has(edge.dest_id)) {
+            affectedEdges.push(edgeId);
+            continue;
+        }
+        // Cũng chặn cạnh đi qua vùng nổ dù hai đầu nút nằm ngoài
+        if (Array.isArray(edge.geometry) && edge.geometry.some(([eLon, eLat]) =>
+            Number.isFinite(eLat) && Number.isFinite(eLon) &&
+            haversineKm(lat, lng, eLat, eLon) <= radiusKm
+        )) {
+            affectedEdges.push(edgeId);
+        }
+    }
+    return { affectedNodes, affectedEdges };
+}
+
+function drawBombCircle(bomb) {
+    if (bombCircles.has(bomb.id)) bombCircles.get(bomb.id).remove();
+
+    const circle = L.circle([bomb.lat, bomb.lng], {
+        radius: bomb.radius * 1000,
+        color: "#ff4500",
+        weight: 2,
+        fillColor: "#ff4500",
+        fillOpacity: 0.06,
+        dashArray: "10 5",
+    });
+    circle.bindTooltip(
+        `💣 R=${bomb.radius}km<br>${bomb.affectedNodes.length} ga · ${bomb.affectedEdges.length} cạnh`,
+        { sticky: true }
+    );
+    circle.addTo(state.bombLayer);
+    bombCircles.set(bomb.id, circle);
+}
+
+function playExplosionSound() {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const t = ctx.currentTime;
+
+        // Tiếng nổ ban đầu: noise burst
+        const bangLen = Math.floor(ctx.sampleRate * 0.4);
+        const bangBuf = ctx.createBuffer(1, bangLen, ctx.sampleRate);
+        const bangData = bangBuf.getChannelData(0);
+        for (let i = 0; i < bangLen; i++) {
+            bangData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.04));
+        }
+        const bangSrc = ctx.createBufferSource();
+        bangSrc.buffer = bangBuf;
+        const bangFilter = ctx.createBiquadFilter();
+        bangFilter.type = "bandpass";
+        bangFilter.frequency.value = 350;
+        bangFilter.Q.value = 0.6;
+        const bangGain = ctx.createGain();
+        bangGain.gain.setValueAtTime(4.0, t);
+        bangGain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+        bangSrc.connect(bangFilter);
+        bangFilter.connect(bangGain);
+        bangGain.connect(ctx.destination);
+        bangSrc.start(t);
+
+        // Tiếng rầm: low rumble
+        const rumbleLen = Math.floor(ctx.sampleRate * 1.8);
+        const rumbleBuf = ctx.createBuffer(1, rumbleLen, ctx.sampleRate);
+        const rumbleData = rumbleBuf.getChannelData(0);
+        for (let i = 0; i < rumbleLen; i++) {
+            rumbleData[i] = Math.random() * 2 - 1;
+        }
+        const rumbleSrc = ctx.createBufferSource();
+        rumbleSrc.buffer = rumbleBuf;
+        const rumbleFilter = ctx.createBiquadFilter();
+        rumbleFilter.type = "lowpass";
+        rumbleFilter.frequency.setValueAtTime(180, t);
+        rumbleFilter.frequency.exponentialRampToValueAtTime(35, t + 1.8);
+        const rumbleGain = ctx.createGain();
+        rumbleGain.gain.setValueAtTime(1.8, t);
+        rumbleGain.gain.exponentialRampToValueAtTime(0.001, t + 1.8);
+        rumbleSrc.connect(rumbleFilter);
+        rumbleFilter.connect(rumbleGain);
+        rumbleGain.connect(ctx.destination);
+        rumbleSrc.start(t);
+
+        setTimeout(() => ctx.close(), 2200);
+    } catch (_) {}
+}
+
+function triggerExplosionAnimation(lat, lng) {
+    playExplosionSound();
+    const point = state.map.latLngToContainerPoint([lat, lng]);
+    const mapRect = document.getElementById("map").getBoundingClientRect();
+    const x = mapRect.left + point.x;
+    const y = mapRect.top + point.y;
+
+    const mapEl = document.getElementById("map");
+    mapEl.style.animation = "none";
+    void mapEl.offsetHeight;
+    mapEl.style.animation = "map-shake 0.45s ease-out";
+    setTimeout(() => { mapEl.style.animation = ""; }, 480);
+
+    const overlay = document.createElement("div");
+    overlay.className = "expl-shockwave-overlay";
+    const pctX = ((x / window.innerWidth) * 100).toFixed(1) + "%";
+    const pctY = ((y / window.innerHeight) * 100).toFixed(1) + "%";
+    overlay.style.setProperty("--cx", pctX);
+    overlay.style.setProperty("--cy", pctY);
+    document.body.appendChild(overlay);
+    setTimeout(() => overlay.remove(), 600);
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "bomb-explosion";
+    wrapper.style.left = x + "px";
+    wrapper.style.top = y + "px";
+
+    wrapper.innerHTML += `<div class="expl-core"></div>`;
+    wrapper.innerHTML += `<div class="expl-fireball"></div>`;
+
+    const rings = [
+        { d: "0ms",   s: "60px",  c: "#ffffff",  w: "4px",  dur: "0.7s" },
+        { d: "60ms",  s: "120px", c: "#ff4500",  w: "3px",  dur: "0.9s" },
+        { d: "130ms", s: "200px", c: "#ff8c00",  w: "2.5px",dur: "1.0s" },
+        { d: "200ms", s: "310px", c: "#ffd700",  w: "2px",  dur: "1.15s" },
+        { d: "280ms", s: "450px", c: "#ff4500",  w: "1.5px",dur: "1.3s" },
+        { d: "380ms", s: "620px", c: "#ffffff",  w: "1px",  dur: "1.5s" },
+    ];
+    for (const r of rings) {
+        const el = document.createElement("div");
+        el.className = "expl-ring";
+        el.style.cssText = `--d:${r.d};--s:${r.s};--c:${r.c};--w:${r.w};--dur:${r.dur}`;
+        wrapper.appendChild(el);
+    }
+
+    const sparkColors = ["#fff", "#ffe566", "#ffbb00", "#ff7700", "#ff4500", "#ff0000"];
+    for (let i = 0; i < 24; i++) {
+        const angle = (i / 24) * 360 + (Math.random() * 15 - 7.5);
+        const radius = 55 + Math.random() * 90;
+        const size = 4 + Math.random() * 5;
+        const color = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+        const delay = Math.random() * 80;
+        const dur = (0.6 + Math.random() * 0.4).toFixed(2) + "s";
+        const el = document.createElement("div");
+        el.className = "expl-spark";
+        el.style.cssText = `--a:${angle.toFixed(1)}deg;--r:${radius.toFixed(0)}px;--sz:${size.toFixed(1)}px;--c:${color};--d:${delay.toFixed(0)}ms;--dur:${dur}`;
+        wrapper.appendChild(el);
+    }
+
+    const debrisColors = ["#ff4500", "#cc2200", "#ff8800", "#ffcc00"];
+    for (let i = 0; i < 12; i++) {
+        const angle = (i / 12) * 360 + (Math.random() * 20 - 10);
+        const radius = 40 + Math.random() * 70;
+        const w = 6 + Math.random() * 8;
+        const h = 3 + Math.random() * 4;
+        const color = debrisColors[Math.floor(Math.random() * debrisColors.length)];
+        const delay = 30 + Math.random() * 100;
+        const dur = (0.8 + Math.random() * 0.5).toFixed(2) + "s";
+        const el = document.createElement("div");
+        el.className = "expl-debris";
+        el.style.cssText = `--a:${angle.toFixed(1)}deg;--r:${radius.toFixed(0)}px;--sw:${w.toFixed(0)}px;--sh:${h.toFixed(0)}px;--c:${color};--d:${delay.toFixed(0)}ms;--dur:${dur}`;
+        wrapper.appendChild(el);
+    }
+
+    const smokeDefs = [
+        { ox: "0px",   oy: "0px",   sz: "80px",  d: "350ms", dur: "2.0s", sf: "3.5" },
+        { ox: "-20px", oy: "-10px", sz: "60px",  d: "500ms", dur: "2.2s", sf: "2.8" },
+        { ox: "18px",  oy: "-8px",  sz: "55px",  d: "450ms", dur: "2.4s", sf: "3.0" },
+        { ox: "5px",   oy: "15px",  sz: "70px",  d: "600ms", dur: "2.6s", sf: "3.2" },
+    ];
+    for (const s of smokeDefs) {
+        const el = document.createElement("div");
+        el.className = "expl-smoke";
+        el.style.cssText = `--ox:${s.ox};--oy:${s.oy};--d:${s.d};--dur:${s.dur};--sf:${s.sf};width:${s.sz};height:${s.sz}`;
+        wrapper.appendChild(el);
+    }
+
+    document.body.appendChild(wrapper);
+    setTimeout(() => wrapper.remove(), 2800);
+}
+
+function redrawAllBombs() {
+    state.bombLayer.clearLayers();
+    bombCircles.clear();
+    for (const bomb of getBombs()) drawBombCircle(bomb);
+}
+
+function getExclusivelyBlockedByBomb(bombId) {
+    const bombs = getBombs();
+    const thisBomb = bombs.find(b => b.id === bombId);
+    if (!thisBomb) return { nodeIds: [], edgeIds: [], nodes: 0, edges: 0 };
+
+    const remainingBombs = bombs.filter(b => b.id !== bombId);
+    const manual = getBlockedConfig();
+
+    const stillBlockedNodes = new Set([
+        ...manual.blockedNodes,
+        ...remainingBombs.flatMap(b => b.affectedNodes || []),
+    ]);
+    const stillBlockedEdges = new Set([
+        ...manual.blockedEdges,
+        ...remainingBombs.flatMap(b => b.affectedEdges || []),
+    ]);
+
+    const nodeIds = (thisBomb.affectedNodes || []).filter(n => !stillBlockedNodes.has(n));
+    const edgeIds = (thisBomb.affectedEdges || []).filter(e => !stillBlockedEdges.has(e));
+    return { nodeIds, edgeIds, nodes: nodeIds.length, edges: edgeIds.length };
+}
+
+async function syncBlockedToServer(nodeIds, edgeIds, isBlocked) {
+    const requests = [];
+
+    for (const stopId of nodeIds) {
+        requests.push(fetchJson(API_ENDPOINTS.findPath.replace("/path/by-stations", "/admin/network/status"), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ target_type: "stop", target_id: stopId, is_blocked: isBlocked }),
+        }));
+    }
+
+    for (const edgeId of edgeIds) {
+        requests.push(fetchJson(API_ENDPOINTS.findPath.replace("/path/by-stations", "/admin/network/status"), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ target_type: "edge", target_id: edgeId, is_blocked: isBlocked }),
+        }));
+    }
+
+    try {
+        await Promise.all(requests);
+    } catch (err) {
+        console.warn("syncBlockedToServer failed:", err.message);
+    }
+}
+
+function renderBombList() {
+    renderClosureSummary();
+}
+
+function removeBomb(bombId) {
+    const { nodeIds, edgeIds, nodes: restoredNodes, edges: restoredEdges } = getExclusivelyBlockedByBomb(bombId);
+
+    const newBombs = getBombs().filter(b => b.id !== bombId);
+    saveBombs(newBombs);
+
+    if (nodeIds.length > 0 || edgeIds.length > 0) {
+        syncBlockedToServer(nodeIds, edgeIds, 0);
+    }
+
+    if (bombCircles.has(bombId)) {
+        bombCircles.get(bombId).remove();
+        bombCircles.delete(bombId);
+    }
+
+    updateStationBlockedVisuals();
+    renderClosureSummary();
+    renderBombList();
+
+    const startStationId = document.getElementById("startStation").value;
+    if (startStationId) {
+        state.reachableEndIds = getReachableDestinations(startStationId);
+        populateStationSelects();
+    }
+    updateSelectionSummary();
+
+    const msg = (restoredNodes > 0 || restoredEdges > 0)
+        ? `Đã gỡ bom. Khôi phục ${restoredNodes} ga, ${restoredEdges} cạnh.`
+        : "Đã gỡ bom (các ga vẫn bị chặn bởi vụ nổ khác).";
+    setStatus(msg);
+}
+
+function clearAllBombs() {
+    const effectiveBefore = getEffectiveBlockedConfig();
+    const manual = getBlockedConfig();
+    const manualNodeSet = new Set(manual.blockedNodes);
+    const manualEdgeSet = new Set(manual.blockedEdges);
+    const bombOnlyNodeIds = effectiveBefore.blockedNodes.filter(n => !manualNodeSet.has(n));
+    const bombOnlyEdgeIds = effectiveBefore.blockedEdges.filter(e => !manualEdgeSet.has(e));
+    const bombOnlyNodes = bombOnlyNodeIds.length;
+
+    if (bombOnlyNodeIds.length > 0 || bombOnlyEdgeIds.length > 0) {
+        syncBlockedToServer(bombOnlyNodeIds, bombOnlyEdgeIds, 0);
+    }
+
+    saveBombs([]);
+    state.bombLayer.clearLayers();
+    bombCircles.clear();
+
+    updateStationBlockedVisuals();
+    renderClosureSummary();
+    renderBombList();
+
+    const startStationId = document.getElementById("startStation").value;
+    if (startStationId) {
+        state.reachableEndIds = getReachableDestinations(startStationId);
+        populateStationSelects();
+    }
+    updateSelectionSummary();
+
+    const msg = bombOnlyNodes > 0
+        ? `Đã gỡ tất cả bom. Khôi phục ~${bombOnlyNodes} ga.`
+        : "Đã gỡ tất cả bom.";
+    setStatus(msg);
+}
+
+// ===================== END BOMB SYSTEM =====================
 
 document.addEventListener("DOMContentLoaded", initMapPage);

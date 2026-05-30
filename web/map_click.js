@@ -151,7 +151,7 @@ function clearNearestSearchMarkers() {
 function setAsStart(stationId) {
     const station = state.stationById.get(stationId);
     if (station) {
-        document.getElementById("startStation").value = stationId;
+        setStartStation(stationId);
         closeStationPanel();
         clearNearestSearchMarkers();
         setStatus(`Đã chọn ga đi: ${station.name}`);
@@ -167,6 +167,7 @@ function setAsEnd(stationId) {
         document.getElementById("endStation").value = stationId;
         closeStationPanel();
         clearNearestSearchMarkers();
+        updateSelectionSummary();
         setStatus(`Đã chọn ga đến: ${station.name}`);
     }
 }
