@@ -13,6 +13,7 @@ const STORAGE_KEYS = {
     blockedNodes: "metro_blocked_nodes",
     blockedEdges: "metro_blocked_edges",
     routeHistory: "metro_route_history",
+    bombs: "metro_bombs",
 };
 
 let isLoginMode = true;
@@ -103,6 +104,26 @@ function getBlockedConfig() {
 function saveBlockedConfig(config) {
     localStorage.setItem(STORAGE_KEYS.blockedNodes, JSON.stringify(config.blockedNodes || []));
     localStorage.setItem(STORAGE_KEYS.blockedEdges, JSON.stringify(config.blockedEdges || []));
+}
+
+function getBombs() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.bombs) || "[]");
+}
+
+function saveBombs(bombs) {
+    localStorage.setItem(STORAGE_KEYS.bombs, JSON.stringify(bombs));
+}
+
+function getEffectiveBlockedConfig() {
+    const manual = getBlockedConfig();
+    const bombs = getBombs();
+    const allNodes = new Set(manual.blockedNodes);
+    const allEdges = new Set(manual.blockedEdges);
+    for (const bomb of bombs) {
+        for (const nodeId of (bomb.affectedNodes || [])) allNodes.add(nodeId);
+        for (const edgeId of (bomb.affectedEdges || [])) allEdges.add(edgeId);
+    }
+    return { blockedNodes: [...allNodes], blockedEdges: [...allEdges] };
 }
 
 function saveRouteHistory(entry) {
