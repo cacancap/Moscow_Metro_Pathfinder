@@ -52,6 +52,7 @@
                 <button class="btn btn-ghost" type="button" onclick="centerMap()">⊕ Trung tâm</button>
                 <button class="btn btn-ghost" type="button" id="toggleStationsBtn" onclick="toggleStations()">Ẩn ga</button>
                 <button class="btn btn-ghost" type="button" onclick="clearAll()">Xóa</button>
+                <button class="btn btn-ghost" type="button" id="toggleEdgesBtn" onclick="toggleEdgeLayer()">🛤 Đường ray</button>
                 <button class="btn btn-bomb hidden" type="button" id="bombModeBtn">💣 Thả bom</button>
             </div>
 
@@ -117,6 +118,11 @@
 
                 <div class="inline-helper-row">
                     <span class="chip chip-muted" id="reachableCountValue">Chưa lọc</span>
+                </div>
+
+                <div id="noRouteWarning" class="no-route-warning hidden">
+                    <strong>⚠ Không có đường đi</strong>
+                    <span>Ga này bị cô lập do đường ray hoặc ga lân cận đang bị chặn.</span>
                 </div>
 
                 <label class="field">
@@ -228,13 +234,55 @@
         </div>
     </aside>
 
+    <!-- Edge detail panel -->
+    <aside class="glass-panel detail-panel hidden" id="edgeInfo">
+        <div class="panel-header">
+            <div style="display:flex;align-items:center;gap:.6rem;min-width:0;overflow:hidden">
+                <div id="edgeColorDot" class="line-dot" style="width:14px;height:14px;flex-shrink:0;background:#9ea8ba"></div>
+                <h2 id="edgePanelTitle" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Đường ray</h2>
+            </div>
+            <button class="icon-btn" type="button" onclick="closeEdgePanel()" aria-label="Đóng">×</button>
+        </div>
+
+        <div class="detail-grid">
+            <div>
+                <span class="detail-label">Edge ID</span>
+                <strong id="edgeId">-</strong>
+            </div>
+            <div>
+                <span class="detail-label">Tuyến (Line ID)</span>
+                <strong id="edgeLineId">-</strong>
+            </div>
+            <div>
+                <span class="detail-label">Từ ga</span>
+                <strong id="edgeSourceName">-</strong>
+            </div>
+            <div>
+                <span class="detail-label">Đến ga</span>
+                <strong id="edgeDestName">-</strong>
+            </div>
+            <div>
+                <span class="detail-label">Khoảng cách</span>
+                <strong id="edgeDistance">-</strong>
+            </div>
+            <div>
+                <span class="detail-label">Trạng thái</span>
+                <strong id="edgeStatus">-</strong>
+            </div>
+        </div>
+
+        <div class="button-stack detail-actions">
+            <button class="btn btn-danger hidden" type="button" id="closeEdgeBtn">Đóng đường đi</button>
+        </div>
+    </aside>
+
     <!-- Mobile handle -->
     <div class="mobile-drawer-handle" id="mobileDrawerHandle">☰ Lộ trình</div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="auth.js"></script>
-    <script src="script.js"></script>
-    <script src="map_click.js"></script>
+    <script src="auth.js?v=2"></script>
+    <script src="script.js?v=9"></script>
+    <script src="map_click.js?v=2"></script>
     <script>
         const username = getCurrentUsername();
         document.getElementById("displayUsername").innerText = username;

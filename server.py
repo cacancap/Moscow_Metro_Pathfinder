@@ -114,7 +114,19 @@ def fetch_data_from_db():
                 geometry_map[row["edge_id"]] = []
             geometry_map[row["edge_id"]].append([row["lon"], row["lat"]])
 
+        # Build stop_id → colour map từ station data để enrich edges
+        stop_to_colour: dict[str, str] = {}
+        for station in stations.values():
+            colour = station.get("colour", "")
+            for stop_id in station.get("stops", []):
+                stop_to_colour[stop_id] = colour
+
         for edge in edges:
+            edge["colour"] = (
+                stop_to_colour.get(edge["source_id"])
+                or stop_to_colour.get(edge["dest_id"])
+                or ""
+            )
             edge["geometry"] = geometry_map.get(edge["edge_id"], [])
 
         DB_CACHE["edge_list"] = edges
