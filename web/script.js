@@ -5,6 +5,9 @@ const state = {
     stationMarkersVisible: true,
     routeLayer: null,
     stationLayer: null,
+    edgeLayer: null,
+    edgeLayerVisible: false,
+    edgePolylines: new Map(),
     bombLayer: null,
     bombPreviewCircle: null,
     bombMode: false,
@@ -23,6 +26,7 @@ const state = {
     networkSummary: null,
     reachableEndIds: null,
     panelCollapsed: false,
+    stationClicked: false,
 };
 
 const bombCircles = new Map();
@@ -52,9 +56,15 @@ function buildMap() {
         maxZoom: 19,
     }).addTo(state.map);
 
+    // Pane riêng cho route path — z-index 450, nằm trên edge (400) nhưng dưới station marker (600)
+    const routePane = state.map.createPane("routePane");
+    routePane.style.zIndex = 450;
+    routePane.style.pointerEvents = "none";
+
     L.control.zoom({ position: "bottomright" }).addTo(state.map);
     state.routeLayer = L.layerGroup().addTo(state.map);
     state.stationLayer = L.layerGroup().addTo(state.map);
+    state.edgeLayer = L.layerGroup();
     state.bombLayer = L.layerGroup().addTo(state.map);
 }
 
@@ -69,6 +79,7 @@ function bindUiEvents() {
     document.getElementById("confirmBombBtn").addEventListener("click", confirmBomb);
     document.getElementById("bombRadiusInput").addEventListener("keydown", onBombRadiusKey);
     document.getElementById("bombRadiusInput").addEventListener("input", previewBombCircle);
+    state.map.on("click", onMapEdgeClick);
 }
 
 async function loadAppData() {
@@ -97,6 +108,16 @@ async function loadAppData() {
         renderNetworkSummary();
         renderClosureSummary();
         updateSelectionSummary();
+
+        renderEdgePolylines();
+        state.edgeLayer.addTo(state.map);
+        state.edgeLayerVisible = true;
+        const edgeToggleBtn = document.getElementById("toggleEdgesBtn");
+        if (edgeToggleBtn) {
+            edgeToggleBtn.innerText = "🛤 Ẩn đường ray";
+            edgeToggleBtn.classList.add("btn-edges-active");
+        }
+
         setStatus("Sẵn sàng.");
     } catch (error) {
         setStatus(`Lỗi tải: ${error.message}`, true);
@@ -151,16 +172,18 @@ function populateStationSelects() {
     startSelect.add(new Option("Chọn ga đi", ""));
     endSelect.add(new Option("Chọn ga đến", ""));
 
-    let reachableCount = 0;
+    const blockedNodes = new Set(getEffectiveBlockedConfig().blockedNodes);
 
     for (const station of state.stationOptions) {
+        const isBlocked = isStationFullyBlocked(station, blockedNodes);
+        if (isBlocked) continue;
+
         const label = `[${station.lineId}] ${station.name}${station.nameEn ? ` / ${station.nameEn}` : ""}`;
         startSelect.add(new Option(label, station.stationId));
-        if (!state.reachableEndIds || state.reachableEndIds.has(station.stationId)) {
+
+        // Hiển thị tất cả ga không bị chặn ở dropdown đích, trừ ga xuất phát đang chọn
+        if (station.stationId !== currentStart) {
             endSelect.add(new Option(label, station.stationId));
-            if (state.reachableEndIds) {
-                reachableCount += 1;
-            }
         }
     }
 
@@ -171,7 +194,25 @@ function populateStationSelects() {
     if (!state.reachableEndIds) {
         reachableLabel.innerText = "Chưa lọc";
     } else {
-        reachableLabel.innerText = `${Math.max(reachableCount - 1, 0)} ga đích`;
+        reachableLabel.innerText = `${state.reachableEndIds.size} ga có thể đến`;
+    }
+
+    updateReachabilityWarning(startSelect.value, endSelect.value);
+}
+
+function updateReachabilityWarning(startStationId, endStationId) {
+    const noRouteWarning = document.getElementById("noRouteWarning");
+    if (!noRouteWarning) return;
+
+    if (!startStationId || !endStationId || !state.reachableEndIds) {
+        noRouteWarning.classList.add("hidden");
+        return;
+    }
+
+    if (!state.reachableEndIds.has(endStationId)) {
+        noRouteWarning.classList.remove("hidden");
+    } else {
+        noRouteWarning.classList.add("hidden");
     }
 }
 
@@ -194,7 +235,11 @@ function renderStationMarkers() {
             pane: 'markerPane'
         });
 
-        marker.on("click", () => openStationPanel(station));
+        marker.on("click", () => {
+            state.stationClicked = true;
+            setTimeout(() => { state.stationClicked = false; }, 0);
+            openStationPanel(station);
+        });
         marker.bindTooltip(
             station.nameEn ? `${station.name} / ${station.nameEn}` : station.name,
             { direction: "top", opacity: 0.95 }
@@ -283,6 +328,22 @@ function onSearchInput(event) {
     }
 }
 
+function focusEdge(edge) {
+    if (!Array.isArray(edge.geometry) || edge.geometry.length === 0) return;
+
+    const latLngs = edge.geometry.map(([lon, lat]) => [lat, lon]);
+    state.map.fitBounds(L.latLngBounds(latLngs), { padding: [100, 100], maxZoom: 15, duration: 0.8 });
+
+    // Highlight polyline nếu edge layer đang hiển thị
+    const polyline = state.edgePolylines.get(edge.edge_id);
+    if (polyline) {
+        const origColor = polyline.options.color;
+        const origWeight = polyline.options.weight;
+        polyline.setStyle({ color: "#ff9900", weight: 7, opacity: 1.0 });
+        setTimeout(() => polyline.setStyle({ color: origColor, weight: origWeight, opacity: polyline.options.dashArray ? 0.75 : 0.85 }), 2000);
+    }
+}
+
 function focusStation(station) {
     const [lon, lat] = station.geometry;
     state.map.flyTo([lat, lon], 13, { duration: 0.8 });
@@ -298,6 +359,7 @@ function focusStation(station) {
 }
 
 function openStationPanel(station) {
+    closeEdgePanel();
     const panel = document.getElementById("stationInfo");
     const closeStationButton = document.getElementById("closeStationBtn");
     panel.classList.remove("hidden");
@@ -318,10 +380,15 @@ function openStationPanel(station) {
     };
 
     if (localStorage.getItem(STORAGE_KEYS.role) === "admin") {
+        const isEffectivelyBlocked = isStationFullyBlocked(station);
+        const isManuallyBlocked = isStationFullyBlocked(station, new Set(getBlockedConfig().blockedNodes));
+        const isBombBlocked = isEffectivelyBlocked && !isManuallyBlocked;
         closeStationButton.classList.remove("hidden");
-        closeStationButton.innerText = isStationFullyBlocked(station) ? "Ga đã đóng" : "Đóng ga";
-        closeStationButton.disabled = isStationFullyBlocked(station);
-        closeStationButton.onclick = () => closeStationFromPanel(station);
+        closeStationButton.innerText = isEffectivelyBlocked ? "Mở ga" : "Đóng ga";
+        closeStationButton.className = isEffectivelyBlocked ? "btn btn-primary" : "btn btn-danger";
+        closeStationButton.disabled = isBombBlocked;
+        closeStationButton.title = isBombBlocked ? "Ga bị chặn bởi bom — không thể mở thủ công" : "";
+        closeStationButton.onclick = isBombBlocked ? null : () => toggleStationBlockFromPanel(station);
     } else {
         closeStationButton.classList.add("hidden");
         closeStationButton.onclick = null;
@@ -332,17 +399,32 @@ function closeStationPanel() {
     document.getElementById("stationInfo").classList.add("hidden");
 }
 
-function closeStationFromPanel(station) {
+function toggleStationBlockFromPanel(station) {
     const blockedConfig = getBlockedConfig();
-    const blockedNodes = dedupe([...blockedConfig.blockedNodes, ...station.stops]);
+    const effectiveConfig = getEffectiveBlockedConfig();
+    const isManuallyBlocked = isStationFullyBlocked(station, new Set(blockedConfig.blockedNodes));
+    const isEffectivelyBlocked = isStationFullyBlocked(station, new Set(effectiveConfig.blockedNodes));
+
+    if (isEffectivelyBlocked && !isManuallyBlocked) {
+        setStatus("Ga này đang bị chặn bởi bom, không thể mở thủ công.", true);
+        return;
+    }
+
+    const blockedNodes = new Set(blockedConfig.blockedNodes);
+    const isBlocked = isManuallyBlocked;
+
+    const newBlockedNodes = isBlocked
+        ? blockedConfig.blockedNodes.filter((stopId) => !station.stops.includes(stopId))
+        : dedupe([...blockedConfig.blockedNodes, ...station.stops]);
 
     saveBlockedConfig({
-        blockedNodes,
+        blockedNodes: newBlockedNodes,
         blockedEdges: dedupe(blockedConfig.blockedEdges),
     });
 
     renderClosureSummary();
     updateStationBlockedVisuals();
+    refreshEdgeVisuals();
 
     const startStationId = document.getElementById("startStation").value;
     if (startStationId) {
@@ -351,11 +433,12 @@ function closeStationFromPanel(station) {
     }
     updateSelectionSummary();
 
+    const nowBlocked = !isBlocked;
     const closeStationButton = document.getElementById("closeStationBtn");
-    closeStationButton.innerText = "Ga đã đóng";
-    closeStationButton.disabled = true;
+    closeStationButton.innerText = nowBlocked ? "Mở ga" : "Đóng ga";
+    closeStationButton.className = nowBlocked ? "btn btn-primary" : "btn btn-danger";
 
-    setStatus(`Đã đóng ${station.name}.`);
+    setStatus(nowBlocked ? `Đã đóng ${station.name}.` : `Đã mở lại ${station.name}.`);
 }
 
 async function findPath() {
@@ -389,6 +472,21 @@ async function findPath() {
 
     if (startCandidates.length === 0 || endCandidates.length === 0) {
         setStatus("Ga đang bị đóng.", true);
+        return;
+    }
+
+    // Kiểm tra nhanh bằng BFS local — không gọi API khi biết chắc không thể đến
+    if (state.reachableEndIds && !state.reachableEndIds.has(endStationId)) {
+        clearRouteLayer();
+        setStatus(
+            `<strong>Không có đường đi.</strong><br>` +
+            `Không thể đến <strong>${endStation.name}</strong> từ <strong>${startStation.name}</strong>.<br>` +
+            `Các ga hoặc đường ray trung gian đang bị chặn.`,
+            true
+        );
+        document.getElementById("routeSummaryTitle").innerText = "Không có đường đi";
+        document.getElementById("routeSummaryMeta").innerText = `${startStation.name} → ${endStation.name}`;
+        document.getElementById("noRouteWarning").classList.remove("hidden");
         return;
     }
 
@@ -457,54 +555,51 @@ async function findBestPath(startCandidates, endCandidates, blockedConfig, algor
 function renderPath(result, algorithm) {
     clearRouteLayer();
 
-    const latLngs = [];
+    const allPoints = [];
+
     for (const edgeId of result.path_edges || []) {
         const edge = state.edgeById.get(edgeId);
-        if (!edge || !Array.isArray(edge.geometry)) {
-            continue;
-        }
+        if (!edge || !Array.isArray(edge.geometry) || edge.geometry.length < 2) continue;
 
-        const segment = edge.geometry.map(([lon, lat]) => [lat, lon]);
-        if (latLngs.length > 0 && segment.length > 0) {
-            const [prevLat, prevLng] = latLngs[latLngs.length - 1];
-            const [nextLat, nextLng] = segment[0];
-            if (prevLat === nextLat && prevLng === nextLng) {
-                segment.shift();
-            }
-        }
-        latLngs.push(...segment);
+        const segLatLngs = edge.geometry.map(([lon, lat]) => [lat, lon]);
+
+        // Màu cố định khác hoàn toàn màu tuyến metro, nằm trên cạnh nhờ routePane (z=450)
+        L.polyline(segLatLngs, {
+            color: "#e91e63",
+            weight: 9,
+            opacity: 1.0,
+            lineJoin: "round",
+            lineCap: "round",
+            interactive: false,
+            pane: "routePane",
+        }).addTo(state.routeLayer);
+
+        allPoints.push(...segLatLngs);
     }
 
-    if (latLngs.length > 1) {
-        const polyline = L.polyline(latLngs, {
-            color: "#f97316",
-            weight: 6,
-            opacity: 0.92,
-            lineJoin: "round",
-        }).addTo(state.routeLayer);
+    if (allPoints.length > 1) {
+        const startPoint = allPoints[0];
+        const endPoint = allPoints[allPoints.length - 1];
 
-        const startMarker = L.circleMarker(latLngs[0], {
-            radius: 8,
-            color: "#fde68a",
-            weight: 2,
-            fillColor: "#fde68a",
+        L.circleMarker(startPoint, {
+            radius: 9,
+            color: "#ffffff",
+            weight: 3,
+            fillColor: "#22c55e",
             fillOpacity: 1,
-            pane: 'markerPane'
-        }).addTo(state.routeLayer);
+            pane: "markerPane",
+        }).bindTooltip("Xuất phát", { permanent: false }).addTo(state.routeLayer);
 
-        const endMarker = L.circleMarker(latLngs[latLngs.length - 1], {
-            radius: 8,
-            color: "#6ee7b7",
-            weight: 2,
-            fillColor: "#6ee7b7",
+        L.circleMarker(endPoint, {
+            radius: 9,
+            color: "#ffffff",
+            weight: 3,
+            fillColor: "#c8102e",
             fillOpacity: 1,
-            pane: 'markerPane'
-        }).addTo(state.routeLayer);
+            pane: "markerPane",
+        }).bindTooltip("Điểm đến", { permanent: false }).addTo(state.routeLayer);
 
-        startMarker.bindTooltip("Start", { permanent: false });
-        endMarker.bindTooltip("End", { permanent: false });
-        
-        state.map.fitBounds(polyline.getBounds(), { padding: [64, 64] });
+        state.map.fitBounds(L.latLngBounds(allPoints), { padding: [64, 64] });
     }
 
     const stationNames = extractRouteStationNames(result.path_nodes || []);
@@ -583,11 +678,22 @@ function renderClosureSummary() {
     const bombs = getBombs();
     const isAdmin = localStorage.getItem("metro_user_role") === "admin";
 
-    const blockedStationNames = blockedConfig.blockedNodes
-        .map((stopId) => state.stationByRouteStop.get(stopId)?.name || state.routeStopNameById.get(stopId) || stopId)
-        .slice(0, 4);
+    const blockedStationChips = blockedConfig.blockedNodes
+        .slice(0, 6)
+        .map((stopId) => {
+            const station = state.stationByRouteStop.get(stopId);
+            const name = station?.name || state.routeStopNameById.get(stopId) || stopId;
+            const sid = station?.stationId || "";
+            return `<button class="chip chip-muted chip-clickable" type="button" data-clicktype="station" data-stationid="${sid}" data-stopid="${stopId}">${name}</button>`;
+        })
+        .join("") || '<span class="muted-text">Không có</span>';
 
-    const blockedEdgeNames = blockedConfig.blockedEdges.slice(0, 4);
+    const blockedEdgeChips = blockedConfig.blockedEdges
+        .slice(0, 6)
+        .map((edgeId) =>
+            `<button class="chip chip-muted chip-clickable" type="button" data-clicktype="edge" data-edgeid="${edgeId}">${edgeId}</button>`
+        )
+        .join("") || '<span class="muted-text">Không có</span>';
 
     let bombHtml = "";
     if (bombs.length > 0) {
@@ -629,13 +735,38 @@ function renderClosureSummary() {
             <span>Ga đang khóa</span>
             <strong>${blockedConfig.blockedNodes.length}</strong>
         </div>
-        <div class="closure-chip-row">${blockedStationNames.map((item) => `<span class="chip chip-muted">${item}</span>`).join("") || '<span class="muted-text">Không có</span>'}</div>
+        <div class="closure-chip-row">${blockedStationChips}</div>
         <div class="closure-line">
             <span>Cạnh đang khóa</span>
             <strong>${blockedConfig.blockedEdges.length}</strong>
         </div>
-        <div class="closure-chip-row">${blockedEdgeNames.map((item) => `<span class="chip chip-muted">${item}</span>`).join("") || '<span class="muted-text">Không có</span>'}</div>
+        <div class="closure-chip-row">${blockedEdgeChips}</div>
     `;
+
+    container.querySelectorAll('[data-clicktype="station"]').forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const stationId = btn.dataset.stationid;
+            const stopId = btn.dataset.stopid;
+            const station = state.stationById.get(stationId) || state.stationByRouteStop.get(stopId);
+            if (station) {
+                focusStation(station);
+                openStationPanel(station);
+            }
+        });
+    });
+
+    container.querySelectorAll('[data-clicktype="edge"]').forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const edge = state.edgeById.get(btn.dataset.edgeid);
+            if (edge) {
+                focusEdge(edge);
+                openEdgePanel(edge);
+                if (!state.edgeLayerVisible) {
+                    setStatus(`Cạnh ${edge.edge_id}: Bật "🛤 Đường ray" để xem trên bản đồ.`);
+                }
+            }
+        });
+    });
 
     container.querySelectorAll(".bomb-fly-btn").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -864,6 +995,7 @@ function updateSelectionSummary() {
     const endStationId = document.getElementById("endStation").value;
     document.getElementById("activeStartValue").innerText = getStationLabelById(startStationId) || "Chưa chọn";
     document.getElementById("activeEndValue").innerText = getStationLabelById(endStationId) || "Chưa chọn";
+    updateReachabilityWarning(startStationId, endStationId);
 }
 
 function updateRouteSummary() {
@@ -921,6 +1053,207 @@ function showToast(message, isError = false) {
         setTimeout(() => el.remove(), 280);
     }, 3500);
 }
+
+// ===================== EDGE LAYER =====================
+
+function resolveEdgeColor(edge) {
+    if (edge.colour) return resolveLineColor(edge.colour);
+    const src = state.stationByRouteStop.get(edge.source_id);
+    if (src?.colour) return resolveLineColor(src.colour);
+    const dst = state.stationByRouteStop.get(edge.dest_id);
+    if (dst?.colour) return resolveLineColor(dst.colour);
+    return "#9ea8ba";
+}
+
+function renderEdgePolylines() {
+    state.edgeLayer.clearLayers();
+    state.edgePolylines.clear();
+
+    const blockedEdges = new Set(getEffectiveBlockedConfig().blockedEdges);
+
+    for (const [edgeId, edge] of state.edgeById) {
+        if (!Array.isArray(edge.geometry) || edge.geometry.length < 2) continue;
+
+        const latLngs = edge.geometry.map(([lon, lat]) => [lat, lon]);
+        const color = resolveEdgeColor(edge);
+        const isBlocked = blockedEdges.has(edgeId);
+
+        const sourceName = state.stationByRouteStop.get(edge.source_id)?.name
+            || state.routeStopNameById.get(edge.source_id)
+            || edge.source_id;
+        const destName = state.stationByRouteStop.get(edge.dest_id)?.name
+            || state.routeStopNameById.get(edge.dest_id)
+            || edge.dest_id;
+        const polyline = L.polyline(latLngs, {
+            color: isBlocked ? "#9f2440" : color,
+            weight: isBlocked ? 3 : 4,
+            opacity: isBlocked ? 0.75 : 0.85,
+            dashArray: isBlocked ? "8 5" : null,
+            interactive: false,
+        });
+        polyline.addTo(state.edgeLayer);
+        state.edgePolylines.set(edgeId, polyline);
+    }
+}
+
+function toggleEdgeLayer() {
+    state.edgeLayerVisible = !state.edgeLayerVisible;
+
+    if (state.edgeLayerVisible) {
+        renderEdgePolylines();
+        state.edgeLayer.addTo(state.map);
+    } else {
+        state.edgeLayer.remove();
+        closeEdgePanel();
+    }
+
+    const btn = document.getElementById("toggleEdgesBtn");
+    if (btn) {
+        btn.innerText = state.edgeLayerVisible ? "🛤 Ẩn đường ray" : "🛤 Đường ray";
+        btn.classList.toggle("btn-edges-active", state.edgeLayerVisible);
+    }
+}
+
+function refreshEdgeVisuals() {
+    if (state.edgeLayerVisible) {
+        renderEdgePolylines();
+    }
+}
+
+function onMapEdgeClick(e) {
+    if (state.bombMode) return;
+    if (typeof clickSearchMode !== "undefined" && clickSearchMode) return;
+    if (!state.edgeLayerVisible) return;
+    if (state.stationClicked) return;
+
+    const clickPt = e.containerPoint;
+    const TOLERANCE_PX = 8;
+    let bestEdge = null;
+    let bestDist = TOLERANCE_PX;
+
+    for (const [, edge] of state.edgeById) {
+        if (!Array.isArray(edge.geometry) || edge.geometry.length < 2) continue;
+        for (let i = 0; i < edge.geometry.length - 1; i++) {
+            const [lon1, lat1] = edge.geometry[i];
+            const [lon2, lat2] = edge.geometry[i + 1];
+            const p1 = state.map.latLngToContainerPoint([lat1, lon1]);
+            const p2 = state.map.latLngToContainerPoint([lat2, lon2]);
+            const d = ptSegDistPx(clickPt, p1, p2);
+            if (d < bestDist) { bestDist = d; bestEdge = edge; }
+        }
+    }
+
+    if (bestEdge) openEdgePanel(bestEdge);
+}
+
+function ptSegDistPx(p, a, b) {
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const lenSq = dx * dx + dy * dy;
+    if (lenSq === 0) return Math.hypot(p.x - a.x, p.y - a.y);
+    const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / lenSq));
+    return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy));
+}
+
+function openEdgePanel(edge) {
+    closeStationPanel();
+
+    const panel = document.getElementById("edgeInfo");
+    panel.classList.remove("hidden");
+
+    const colorDot = document.getElementById("edgeColorDot");
+    if (colorDot) colorDot.style.background = resolveLineColor(edge.colour);
+
+    document.getElementById("edgePanelTitle").innerText = edge.edge_id;
+    document.getElementById("edgeId").innerText = edge.edge_id;
+    document.getElementById("edgeLineId").innerText = edge.line_id || "-";
+
+    const sourceName = state.stationByRouteStop.get(edge.source_id)?.name
+        || state.routeStopNameById.get(edge.source_id)
+        || edge.source_id;
+    const destName = state.stationByRouteStop.get(edge.dest_id)?.name
+        || state.routeStopNameById.get(edge.dest_id)
+        || edge.dest_id;
+
+    document.getElementById("edgeSourceName").innerText = sourceName;
+    document.getElementById("edgeDestName").innerText = destName;
+    document.getElementById("edgeDistance").innerText = formatDistance(edge.distance != null ? edge.distance : edge.weight);
+
+    const isEffectivelyBlocked = getEffectiveBlockedConfig().blockedEdges.includes(edge.edge_id);
+    const isManuallyBlocked = getBlockedConfig().blockedEdges.includes(edge.edge_id);
+    const isBombBlocked = isEffectivelyBlocked && !isManuallyBlocked;
+
+    const edgeStatusEl = document.getElementById("edgeStatus");
+    if (edgeStatusEl) {
+        edgeStatusEl.innerHTML = isEffectivelyBlocked
+            ? '<span style="color:var(--danger)">⛔ Đóng</span>'
+            : '<span style="color:var(--success)">✓ Hoạt động</span>';
+    }
+
+    const closeEdgeBtn = document.getElementById("closeEdgeBtn");
+    if (localStorage.getItem(STORAGE_KEYS.role) === "admin") {
+        closeEdgeBtn.classList.remove("hidden");
+        closeEdgeBtn.innerText = isEffectivelyBlocked ? "Mở đường đi" : "Đóng đường đi";
+        closeEdgeBtn.className = isEffectivelyBlocked ? "btn btn-primary" : "btn btn-danger";
+        closeEdgeBtn.disabled = isBombBlocked;
+        closeEdgeBtn.title = isBombBlocked ? "Cạnh bị chặn bởi bom — không thể mở thủ công" : "";
+        closeEdgeBtn.onclick = isBombBlocked ? null : () => toggleEdgeBlockFromPanel(edge);
+    } else {
+        closeEdgeBtn.classList.add("hidden");
+        closeEdgeBtn.onclick = null;
+    }
+}
+
+function closeEdgePanel() {
+    document.getElementById("edgeInfo").classList.add("hidden");
+}
+
+function toggleEdgeBlockFromPanel(edge) {
+    const blockedConfig = getBlockedConfig();
+    const isManuallyBlocked = blockedConfig.blockedEdges.includes(edge.edge_id);
+    const isEffectivelyBlocked = getEffectiveBlockedConfig().blockedEdges.includes(edge.edge_id);
+
+    if (isEffectivelyBlocked && !isManuallyBlocked) {
+        setStatus("Cạnh này đang bị chặn bởi bom, không thể mở thủ công.", true);
+        return;
+    }
+
+    const isBlocked = isManuallyBlocked;
+
+    const newBlockedEdges = isBlocked
+        ? blockedConfig.blockedEdges.filter((id) => id !== edge.edge_id)
+        : dedupe([...blockedConfig.blockedEdges, edge.edge_id]);
+
+    saveBlockedConfig({
+        blockedNodes: blockedConfig.blockedNodes,
+        blockedEdges: newBlockedEdges,
+    });
+
+    const nowBlocked = !isBlocked;
+    const closeEdgeBtn = document.getElementById("closeEdgeBtn");
+    closeEdgeBtn.innerText = nowBlocked ? "Mở đường đi" : "Đóng đường đi";
+    closeEdgeBtn.className = nowBlocked ? "btn btn-primary" : "btn btn-danger";
+
+    const edgeStatusEl = document.getElementById("edgeStatus");
+    if (edgeStatusEl) {
+        edgeStatusEl.innerHTML = nowBlocked
+            ? '<span style="color:var(--danger)">⛔ Đóng</span>'
+            : '<span style="color:var(--success)">✓ Hoạt động</span>';
+    }
+
+    refreshEdgeVisuals();
+    renderClosureSummary();
+
+    const startStationId = document.getElementById("startStation").value;
+    if (startStationId) {
+        state.reachableEndIds = getReachableDestinations(startStationId);
+        populateStationSelects();
+    }
+    updateSelectionSummary();
+
+    setStatus(nowBlocked ? `Đã đóng ${edge.edge_id}.` : `Đã mở lại ${edge.edge_id}.`);
+}
+
+// ===================== END EDGE LAYER =====================
 
 // ===================== BOMB SYSTEM =====================
 
@@ -1028,6 +1361,7 @@ function confirmBomb() {
     triggerExplosionAnimation(lat, lng);
 
     updateStationBlockedVisuals();
+    refreshEdgeVisuals();
     renderClosureSummary();
     renderBombList();
 
@@ -1410,6 +1744,7 @@ function removeBomb(bombId) {
     }
 
     updateStationBlockedVisuals();
+    refreshEdgeVisuals();
     renderClosureSummary();
     renderBombList();
 
@@ -1444,6 +1779,7 @@ function clearAllBombs() {
     bombCircles.clear();
 
     updateStationBlockedVisuals();
+    refreshEdgeVisuals();
     renderClosureSummary();
     renderBombList();
 

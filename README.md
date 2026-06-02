@@ -1,88 +1,98 @@
-# Hướng dẫn cài đặt và chạy dự án
+# Moscow Metro Pathfinder
 
+Hệ thống tìm đường và mô phỏng sự cố mạng lưới Tàu điện ngầm Moscow.
 
-**Bước 1:** Clone dự án về máy
-git clone https://github.com/cacancap/Moscow_Metro_Pathfinder.git  
+---
+
+## Cài đặt
+
+**Bước 1:** Clone dự án
+
+```bash
+git clone https://github.com/cacancap/Moscow_Metro_Pathfinder.git
 cd Moscow_Metro_Pathfinder
+```
 
+**Bước 2:** Tạo môi trường ảo
 
-**Bước 2:** Tạo và kích hoạt môi trường ảo  
+```bash
+# Không dùng Anaconda
+python -m venv venv
+venv\Scripts\activate        # Windows
+source venv/Scripts/activate # Git Bash / Linux / Mac
 
-## Cách 1: Không dùng Anaconda
-**Bước 3:** Mở Terminal trong thư mục dự án  
-python -m venv venv  
-venv\Scripts\activate   # (Dùng source venv/Scripts/activate nếu dùng Git Bash)
+# Hoặc dùng Conda
+conda create -n Moscow_Metro_Pathfinder python=3.13
+conda activate Moscow_Metro_Pathfinder
+```
 
-**Bước 4:** Cài đặt toàn bộ thư viện cần thiết chỉ với 1 lệnh   
+**Bước 3:** Cài thư viện
+
+```bash
 pip install -r requirements.txt
+```
 
-**Bước 5:** Chạy file tuỳ ý   
-python *file_path*.py
+---
 
-## Cách 2: Dùng Anaconda  
-**Bước 3:**  Mở Terminal, kích hoạt base.    
-Gõ đường dẫn trỏ đến file Scripts\activate.bat trong Miniconda3/Anaconda3.    
-- VD: D:\Python_SourceCodes\Miniconda3\Scripts\activate.bat
+## Chạy ứng dụng
 
-**Bước 4:** Tạo & kích hoạt môi trường ảo cho riêng thư mục dự án.    
-conda create -n Moscow_Metro_Pathfinder python=3.13.12  
-conda activate Moscow_Metro_Pathfinder  
-  ***Lưu ý:*** Nhớ check bằng lệnh "conda env list" trước, kẻo trùng tên môi trường.  
-
-**Bước 5:** Tải các gói tài nguyên cần thiết.  
-1. Di chuyển vào thư mục dự án:  
-   cd *directory_path*\Moscow_Metro_Pathfinder  
-2. pip install -r requirements.txt
-
-**Bước 6:** Chạy ứng dụng Moscow Metro Pathfinder
-
-## Cách chạy đơn giản (Khuyến nghị)
-Chỉ cần chạy 1 lệnh duy nhất để khởi động web app và các endpoint `/api`:
-
-### Windows:
 ```bash
 python run.py
 ```
-hoặc double-click file `run.bat`
 
-### Linux/Mac:
-```bash
-python run.py
-```
-hoặc
-```bash
-chmod +x run.sh
-./run.sh
-```
+Hoặc double-click `run.bat` (Windows) / `./run.sh` (Linux/Mac).
 
-Ứng dụng sẽ đọc dữ liệu trực tiếp từ `data/processed/outputs`.
+| URL | Mô tả |
+|---|---|
+| http://localhost:5000 | Web App |
+| http://localhost:5000/docs | Swagger API Docs |
 
-## Cách chạy riêng lẻ (Advanced)
-Nếu muốn chạy FastAPI trực tiếp:
-```bash
-uvicorn server:app --host 127.0.0.1 --port 5000 --reload
-```
-
-Hoặc chạy Flask fallback:
-```bash
-python web/app.py
-```
-
-## Truy cập ứng dụng
-- **Web App**: http://localhost:5000
-- **API Docs**: http://localhost:5000/docs nếu đang chạy bằng FastAPI/uvicorn
+---
 
 ## Tài khoản mặc định
+
 | Username | Password | Quyền |
 |---|---|---|
-| `admin` | `admin12321` | Admin — đóng ga, chặn cạnh |
-| bất kỳ | bất kỳ | User — chỉ tìm đường |
+| `admin` | `admin12321` | Admin — đóng/mở ga và cạnh, thả bom |
+| bất kỳ | bất kỳ | User — tìm đường |
+
+---
+
+## Tính năng
+
+- **Tìm đường** — A\*, Dijkstra, BFS; đường đi hiển thị **màu theo từng tuyến metro** (viền trắng nổi bật)
+- **Bản đồ tương tác** — marker ga màu theo tuyến, click để xem chi tiết
+- **Hiển thị đường ray** — bật mặc định khi load; toggle ẩn/hiện; click cạnh → xem trạng thái, admin đóng/mở
+- **Dropdown ga đích thông minh** — hiển thị tất cả ga chưa bị chặn; cảnh báo khi ga đích không thể đến được
+- **Mô phỏng sự cố** — admin đóng/mở ga và cạnh trực tiếp trên bản đồ
+- **Bomb system** — admin thả bom với bán kính tùy chọn, tự động block ga và đường trong vùng nổ
+- **Closure summary** — chip ga/cạnh bị đóng có thể click để mở panel chi tiết ngay
+
+---
+
+## Kiến trúc
+
+```
+python run.py
+  └─> uvicorn server:app --port 5000
+        ├── /                  → map.html (redirect)
+        ├── /api/stations      → danh sách stop nodes
+        ├── /api/station_list  → catalog ga đầy đủ
+        ├── /api/edge_list     → danh sách cạnh
+        ├── /api/find-path     → tìm đường (POST)
+        ├── /api/nearest-station → ga gần nhất (GET)
+        └── /api/admin/bomb-closure → tính vùng nổ (POST)
+```
+
+Dữ liệu load từ `moscow_metro.db` (SQLite) vào RAM khi startup.
+
+---
 
 ## Tài liệu kỹ thuật
+
 | File | Nội dung |
 |---|---|
-| `docs/frontend.md` | Cấu trúc UI, design system, API calls |
-| `docs/api_contracts.md` | Hợp đồng API giữa nhóm Algorithm ↔ Web |
-| `docs/algorithm_summary.md` | Tóm tắt thuật toán A*, Dijkstra, BFS |
-| `CLAUDE.md` | Hướng dẫn cho AI assistant |
-
+| `docs/standards/api_contracts.md` | Hợp đồng API — endpoints, request/response |
+| `docs/standards/data_contracts.md` | Schema dữ liệu — edge_list, station_dict… |
+| `docs/standards/AGENTS.md` | Quy tắc làm việc cho AI agent |
+| `.claude/CLAUDE.md` | Hướng dẫn chi tiết cho AI assistant |

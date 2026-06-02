@@ -1398,3 +1398,41 @@ a { color: inherit; }
 }
 /* ===================== END TOAST ===================== */
 
+/* ===================== EDGE LAYER / NO-ROUTE ===================== */
+
+/* Clickable chips in closure summary */
+.chip-clickable {
+    cursor: pointer;
+    transition: background var(--t), transform var(--t), border-color var(--t);
+}
+.chip-clickable:hover {
+    background: rgba(200, 16, 46, .12);
+    border-color: rgba(200, 16, 46, .3);
+    transform: translateY(-1px);
+}
+
+/* Active edge toggle button */
+.btn-edges-active {
+    background: var(--red-dim) !important;
+    border-color: rgba(200, 16, 46, .35) !important;
+    color: var(--red) !important;
+}
+
+/* No-route warning */
+.no-route-warning {
+    padding: .72rem .9rem;
+    border-radius: var(--r-sm);
+    background: rgba(200, 16, 46, .06);
+    border: 1px solid rgba(200, 16, 46, .22);
+    font-size: .84rem;
+    line-height: 1.55;
+}
+.no-route-warning strong {
+    display: block;
+    font-size: .88rem;
+    color: var(--red);
+    margin-bottom: .18rem;
+}
+.no-route-warning span { color: var(--text-2); }
+
+/* ===================== END EDGE LAYER ===================== */
