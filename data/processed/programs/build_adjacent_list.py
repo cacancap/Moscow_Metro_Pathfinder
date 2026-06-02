@@ -34,11 +34,11 @@ def build_adjacency_map():
     nodes = (list(stop_dict_coord.values()))
     edges = edge_list
 
-    # Khởi tạo Từ điển kề (Adjacency Map)
+    # Initialize adjacency map
     adj_map = {}
 
     # ==========================================
-    # BƯỚC 1: TẠO TẬP KEY NGUỒN 
+    # Step 1: Create a set of source keys
     # ==========================================
     for node in nodes:
         node_id = node.get('id')
@@ -46,7 +46,7 @@ def build_adjacency_map():
             adj_map[node_id] = {}
 
     # ==========================================
-    # BƯỚC 2: DUYỆT EDGES VÀ XÂY DỰNG KEY ĐÍCH
+    # Step 2: Traverse edges and build destination key
     # ==========================================
     missing_nodes = set() 
 
@@ -69,7 +69,7 @@ def build_adjacency_map():
             missing_nodes.add(source)
 
     if missing_nodes:
-        print(f"[CẢNH BÁO] Có {len(missing_nodes)} node_id làm source nhưng không tồn tại trong Bảng 1.")
+        print(f"[WARNING] There are {len(missing_nodes)} node_id is source_node but not exists in adj_list")
 
     return adj_map
 

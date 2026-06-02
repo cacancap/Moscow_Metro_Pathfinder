@@ -296,9 +296,6 @@ def build_station_dict():
                 normalized_stop_colour = HEX_TO_NAME.get(raw_stop_colour, raw_stop_colour)
                 normalized_station_colour = HEX_TO_NAME.get(raw_station_colour, raw_station_colour)
                 
-                # if (name == 'Селигерская' and stop_data.get('name') == 'Селигерская'):
-                #     print('found2: ', stop_id, normalized_stop_colour, '=>', normalized_station_colour)
-                
                 if str(stop_data.get('name', '')).lower() == str(name).lower() and normalized_stop_colour == normalized_station_colour:
                     matched_stops.append(stop_id)
                     
