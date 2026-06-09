@@ -102,8 +102,39 @@ function getBlockedConfig() {
 }
 
 function saveBlockedConfig(config) {
+    const prev = getBlockedConfig();
+    const newNodes = new Set(config.blockedNodes || []);
+    const newEdges = new Set(config.blockedEdges || []);
+
+    // Tính diff để biết cái nào vừa bị block, cái nào vừa được unblock
+    const blocked_nodes   = (config.blockedNodes || []).filter(id => !prev.blockedNodes.includes(id));
+    const blocked_edges   = (config.blockedEdges || []).filter(id => !prev.blockedEdges.includes(id));
+    const unblocked_nodes = prev.blockedNodes.filter(id => !newNodes.has(id));
+    const unblocked_edges = prev.blockedEdges.filter(id => !newEdges.has(id));
+
     localStorage.setItem(STORAGE_KEYS.blockedNodes, JSON.stringify(config.blockedNodes || []));
     localStorage.setItem(STORAGE_KEYS.blockedEdges, JSON.stringify(config.blockedEdges || []));
+
+    // Đồng bộ xuống DB (fire-and-forget, không block UI)
+    syncBlockedToDB(blocked_nodes, blocked_edges, unblocked_nodes, unblocked_edges);
+}
+
+async function syncBlockedToDB(blockedNodes = [], blockedEdges = [], unblockedNodes = [], unblockedEdges = []) {
+    if (!blockedNodes.length && !blockedEdges.length && !unblockedNodes.length && !unblockedEdges.length) return;
+    try {
+        await fetch("/api/admin/set-blocked", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                blocked_nodes:   blockedNodes,
+                blocked_edges:   blockedEdges,
+                unblocked_nodes: unblockedNodes,
+                unblocked_edges: unblockedEdges,
+            }),
+        });
+    } catch (err) {
+        console.warn("syncBlockedToDB failed:", err.message);
+    }
 }
 
 function getBombs() {
