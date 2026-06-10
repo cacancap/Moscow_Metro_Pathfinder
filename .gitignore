@@ -19,3 +19,6 @@ data/processed/raw.geojson
 data/processed/bla.py
 
 visualization_output.html
+
+moscow_metro.db-shm
+moscow_metro.db-wal

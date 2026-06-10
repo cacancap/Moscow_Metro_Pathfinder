@@ -201,16 +201,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Moscow Metro Pathfinder", lifespan=lifespan)
 
-from fastapi import Request
-from fastapi.responses import JSONResponse
-
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    import traceback
-    traceback.print_exc()
-    return JSONResponse({"error": str(exc)}, status_code=500)
-
-
 def _route_stations() -> list[dict[str, str]]:
     stations = [
         {"id": info["id"], "name": info.get("name", info["id"])}
